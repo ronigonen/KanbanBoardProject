@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using IntroSE.ForumSystem.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.ServiceLayer;
@@ -20,7 +21,7 @@ namespace BackendTest
 
         public void runTests()
         {
-            Response res1a = userService.Register("hadas12@gmail.com", "Aa012345");
+            Response res1a = JsonSerializer.Deserialize<Response>(userService.Register("hadas12@gmail.com", "Aa012345"));
             if (res1a.ErrorOccured)
             {
                 Console.WriteLine(res1a.ErrorMessage);
@@ -29,7 +30,7 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com registered successfully.");
             }
-            Response res1b = userService.Register("roni12@gmail.com", "0123");
+            Response res1b = JsonSerializer.Deserialize<Response>(userService.Register("roni12@gmail.com", "0123"));
             if (res1b.ErrorOccured)
             {
                 Console.WriteLine(res1b.ErrorMessage);
@@ -41,7 +42,7 @@ namespace BackendTest
 
 
 
-            Response res2a = userService.Login("hadas12@gmail.com", "Aa012345");
+            Response res2a = JsonSerializer.Deserialize<Response>(userService.Login("hadas12@gmail.com", "Aa012345"));
             if (res2a.ErrorOccured)
             {
                 Console.WriteLine(res2a.ErrorMessage);
@@ -50,7 +51,7 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com loggedIn successfully.");
             }
-            Response res2b = userService.Login("hadas12@gmail.com", "Aa012");
+            Response res2b = JsonSerializer.Deserialize<Response>(userService.Login("hadas12@gmail.com", "Aa012"));
             if (res2b.ErrorOccured)
             {
                 Console.WriteLine(res2b.ErrorMessage);
@@ -62,7 +63,7 @@ namespace BackendTest
 
 
 
-            Response res3a = userService.Logout("hadas12@gmail.com");
+            Response res3a = JsonSerializer.Deserialize<Response>(userService.Logout("hadas12@gmail.com"));
             if (res3a.ErrorOccured)
             {
                 Console.WriteLine(res3a.ErrorMessage);
@@ -71,7 +72,7 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com loggedOut successfully.");
             }
-            Response res3b = userService.Logout("noga@gmail.com");
+            Response res3b = JsonSerializer.Deserialize<Response>(userService.Logout("noga@gmail.com"));
             if (res3b.ErrorOccured)
             {
                 Console.WriteLine(res3b.ErrorMessage);

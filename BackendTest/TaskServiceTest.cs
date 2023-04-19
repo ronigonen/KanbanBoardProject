@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BackendTest
@@ -19,7 +20,7 @@ namespace BackendTest
 
         public void runTests()
         {
-            Response respo1a = taskService.UpdateTaskDueDate("hadas12@gmail.com", "Assignment", 1, 123, new DateTime(2023, 04, 30));
+            Response respo1a = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("hadas12@gmail.com", "Assignment", 1, 123, new DateTime(2023, 04, 30)));
             if (respo1a.ErrorOccured)
             {
                 Console.WriteLine(respo1a.ErrorMessage);
@@ -28,7 +29,7 @@ namespace BackendTest
             {
                 Console.WriteLine("Due Date updated successfully.");
             }
-            Response respo1b = taskService.UpdateTaskDueDate("hadas12@gmail.com", "Assignment", 1, 123, new DateTime(2013, 04, 30));
+            Response respo1b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("hadas12@gmail.com", "Assignment", 1, 123, new DateTime(2013, 04, 30)));
             if (respo1b.ErrorOccured)
             {
                 Console.WriteLine(respo1b.ErrorMessage);
@@ -41,7 +42,7 @@ namespace BackendTest
 
 
 
-            Response respo2a = taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 123, "Mission2");
+            Response respo2a = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 123, "Mission2"));
             if (respo2a.ErrorOccured)
             {
                 Console.WriteLine(respo2a.ErrorMessage);
@@ -50,7 +51,7 @@ namespace BackendTest
             {
                 Console.WriteLine("Title updated successfully.");
             }
-            Response respo2b = taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 111, "Mission3");
+            Response respo2b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 111, "Mission3"));
             if (respo2b.ErrorOccured)
             {
                 Console.WriteLine(respo2b.ErrorMessage);
@@ -63,7 +64,7 @@ namespace BackendTest
 
 
 
-            Response respo3a = taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 123, "Mission2");
+            Response respo3a = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 123, "Mission2"));
             if (respo3a.ErrorOccured)
             {
                 Console.WriteLine(respo3a.ErrorMessage);
@@ -72,7 +73,7 @@ namespace BackendTest
             {
                 Console.WriteLine("Title updated successfully.");
             }
-            Response respo3b = taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 111, "Mission3");
+            Response respo3b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas12@gmail.com", "Assignment", 1, 111, "Mission3"));
             if (respo3b.ErrorOccured)
             {
                 Console.WriteLine(respo3b.ErrorMessage);
@@ -85,7 +86,7 @@ namespace BackendTest
 
 
 
-            Response respo4a = taskService.AdvanceTask("hadas12@gmail.com", "Assignment", 1, 123);
+            Response respo4a = JsonSerializer.Deserialize<Response>(taskService.AdvanceTask("hadas12@gmail.com", "Assignment", 1, 123));
             if (respo4a.ErrorOccured)
             {
                 Console.WriteLine(respo4a.ErrorMessage);
@@ -94,8 +95,8 @@ namespace BackendTest
             {
                 Console.WriteLine("Task advanced successfully.");
             }
-            respo4a=taskService.AdvanceTask("hadas12@gmail.com", "Assignment", 2, 123);
-            Response respo4b = taskService.AdvanceTask("hadas12@gmail.com", "Assignment", 3, 123);
+            respo4a= JsonSerializer.Deserialize<Response>(taskService.AdvanceTask("hadas12@gmail.com", "Assignment", 2, 123));
+            Response respo4b = JsonSerializer.Deserialize<Response>(taskService.AdvanceTask("hadas12@gmail.com", "Assignment", 3, 123));
             if (respo4b.ErrorOccured)
             {
                 Console.WriteLine(respo4b.ErrorMessage);

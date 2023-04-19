@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BackendTest
@@ -19,7 +20,7 @@ namespace BackendTest
 
         public void runTests()
         {
-            Response resp1a = boardService.CreateBoard("hadas12@gmail.com", "Assignment");
+            Response resp1a = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas12@gmail.com", "Assignment"));
             if (resp1a.ErrorOccured)
             {
                 Console.WriteLine(resp1a.ErrorMessage);
@@ -28,7 +29,7 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com created board successfully.");
             }
-            Response resp1b = boardService.CreateBoard("roni12@gmail.com", "Assignment");
+            Response resp1b = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("roni12@gmail.com", "Assignment"));
             if (resp1b.ErrorOccured)
             {
                 Console.WriteLine(resp1b.ErrorMessage);
@@ -40,7 +41,7 @@ namespace BackendTest
 
 
 
-            Response resp2a = boardService.LimitColumn("hadas12@gmail.com", "Assignment", 3, 2);
+            Response resp2a = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas12@gmail.com", "Assignment", 3, 2));
             if (resp2a.ErrorOccured)
             {
                 Console.WriteLine(resp2a.ErrorMessage);
@@ -49,7 +50,7 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com limited column 3 successfully.");
             }
-            Response resp2b = boardService.LimitColumn("hadas12@gmail.com", "Ass", 3, 2);
+            Response resp2b = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas12@gmail.com", "Ass", 3, 2));
             if (resp2b.ErrorOccured)
             {
                 Console.WriteLine(resp2b.ErrorMessage);
@@ -61,7 +62,7 @@ namespace BackendTest
 
 
 
-            Response resp3a = boardService.GetColumnLimit("hadas12@gmail.com", "Assignment", 3);
+            Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas12@gmail.com", "Assignment", 3));
             if (resp3a.ErrorOccured)
             {
                 Console.WriteLine(resp3a.ErrorMessage);
@@ -70,7 +71,7 @@ namespace BackendTest
             {
                 Console.WriteLine("On board assignment in column number 3 the limit is 3 and we got" + resp3a);
             }
-            Response resp3b = boardService.GetColumnLimit("hadas12@gmail.com", "Assignment", 2);
+            Response resp3b = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas12@gmail.com", "Assignment", 2));
             if (resp3b.ErrorOccured)
             {
                 Console.WriteLine(resp3b.ErrorMessage);
@@ -82,7 +83,7 @@ namespace BackendTest
 
 
 
-            Response resp4a = boardService.GetColumnName("hadas12@gmail.com", "Assignment", 1);
+            Response resp4a = JsonSerializer.Deserialize<Response>(boardService.GetColumnName("hadas12@gmail.com", "Assignment", 1));
             if (resp4a.ErrorOccured)
             {
                 Console.WriteLine(resp4a.ErrorMessage);
@@ -91,7 +92,7 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com got the first column's name successfully.");
             }
-            Response resp4b = boardService.GetColumnName("hadas12@gmail.com", "Assignment", 5);
+            Response resp4b = JsonSerializer.Deserialize<Response>(boardService.GetColumnName("hadas12@gmail.com", "Assignment", 5));
             if (resp4b.ErrorOccured)
             {
                 Console.WriteLine(resp4b.ErrorMessage);
@@ -103,7 +104,7 @@ namespace BackendTest
 
 
 
-            Response resp5a = boardService.AddTask("hadas12@gmail.com", "Assignment", "Mission1", "your first mission", new DateTime(2023, 04, 20));
+            Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AddTask("hadas12@gmail.com", "Assignment", "Mission1", "your first mission", new DateTime(2023, 04, 20)));
             if (resp5a.ErrorOccured)
             {
                 Console.WriteLine(resp5a.ErrorMessage);
@@ -112,7 +113,7 @@ namespace BackendTest
             {
                 Console.WriteLine("The task 'Mission1' was added successfully.");
             }
-            Response resp5b = boardService.AddTask("hadas12@gmail.com", "Ass", "Mission1", "your first mission", new DateTime(2023, 04, 20));
+            Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AddTask("hadas12@gmail.com", "Ass", "Mission1", "your first mission", new DateTime(2023, 04, 20)));
             if (resp5b.ErrorOccured)
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -124,7 +125,7 @@ namespace BackendTest
 
 
 
-            Response resp6a = boardService.GetColumn("hadas12@gmail.com", "Assignment", 1);
+            Response resp6a = JsonSerializer.Deserialize<Response>(boardService.GetColumn("hadas12@gmail.com", "Assignment", 1));
             if (resp6a.ErrorOccured)
             {
                 Console.WriteLine(resp6a.ErrorMessage);
@@ -133,7 +134,7 @@ namespace BackendTest
             {
                 Console.WriteLine("The Task that is supposed to return is 'Mission1' and we got"+resp6a);
             }
-            Response resp6b = boardService.GetColumn("hadas12@gmail.com", "Assignment", 5);
+            Response resp6b = JsonSerializer.Deserialize<Response>(boardService.GetColumn("hadas12@gmail.com", "Assignment", 5));
             if (resp6b.ErrorOccured)
             {
                 Console.WriteLine(resp6b.ErrorMessage);
@@ -146,7 +147,7 @@ namespace BackendTest
 
 
 
-            Response resp7a = boardService.DeleteBoard("hadas12@gmail.com", "Assignment");
+            Response resp7a = JsonSerializer.Deserialize<Response>(boardService.DeleteBoard("hadas12@gmail.com", "Assignment"));
             if (resp7a.ErrorOccured)
             {
                 Console.WriteLine(resp7a.ErrorMessage);
@@ -155,7 +156,7 @@ namespace BackendTest
             {
                 Console.WriteLine("Board 'Assignment' deleted successfully");
             }
-            Response resp7b = boardService.DeleteBoard("hadas12@gmail.com", "Assignment");
+            Response resp7b = JsonSerializer.Deserialize<Response>(boardService.DeleteBoard("hadas12@gmail.com", "Assignment"));
             if (resp7b.ErrorOccured)
             {
                 Console.WriteLine(resp7b.ErrorMessage);
@@ -164,13 +165,13 @@ namespace BackendTest
             {
                 Console.WriteLine("Same board was deleted twice - test failed.");
             }
-            Response resp = boardService.CreateBoard("hadas12@gmail.com", "Assignment");
+            Response resp = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas12@gmail.com", "Assignment"));
 
 
 
 
 
-            Response resp8a = boardService.InProgressTasks("hadas12@gmail.com");
+            Response resp8a = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas12@gmail.com"));
             if (resp8a.ErrorOccured)
             {
                 Console.WriteLine(resp8a.ErrorMessage);
@@ -179,7 +180,7 @@ namespace BackendTest
             {
                 Console.WriteLine("The In Progress tasks column is empty and we got: ");
             }
-            Response resp8b = boardService.InProgressTasks("hadas@gmail.com");
+            Response resp8b = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas@gmail.com"));
             if (resp8b.ErrorOccured)
             {
                 Console.WriteLine(resp8b.ErrorMessage);

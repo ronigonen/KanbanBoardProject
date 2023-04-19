@@ -3,50 +3,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardService
     {
-        public Response CreateBoard(string email, string name)
+        public string CreateBoard(string email, string name)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response LimitColumn(string email, string boardName, int columnOrdinal, int limit)
+        public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response GetColumnLimit(string email, string boardName, int columnOrdinal)
+        public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response GetColumnName(string email, string boardName, int columnOrdinal)
+        public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response GetColumn(string email, string boardName, int columnOrdinal)
+        public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response DeleteBoard(string email, string name)
+        public string DeleteBoard(string email, string name)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response InProgressTasks(string email)
+        public string InProgressTasks(string email)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
-        public Response AddTask(string email, string boardName, string title, string description, DateTime dueDate)
+        public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            return new Response("functuion isn't implemented yet");
+            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
         }
 
     }
