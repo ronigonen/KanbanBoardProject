@@ -3,17 +3,16 @@ using System.Collections.Generic;
 
 public class User
 {
-	public User()
-	{
 	private string password;
 	private string email;
 	private bool loggedIn;
+
 
 	public User(string password, string email)
 	{
 		this.password = password;
 		this.email = email;
-		this.loggedIn = false;
+		this.loggedIn = true;
 	}
 
 	public bool Login(string password){
@@ -34,5 +33,5 @@ public class User
 	{
 		loggedIn = false;
 	}
-	}
+	
 }
