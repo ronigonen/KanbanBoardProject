@@ -15,7 +15,11 @@ public class User
 		this.loggedIn = true;
 	}
 
-	public bool Login(string password){
+	public string GetEmail() { 
+		return email; 
+	}
+
+	public bool LogIn(string password){
 		if (User.password == password){
 			User.loggedIn = true;
 			return true;
