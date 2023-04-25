@@ -13,7 +13,7 @@ public class User
 	{
 		this.password = password;
 		this.email = email;
-		this.loggedIn = true;
+		this.loggedIn = false;
 	}
 
 	public bool Login(string password){
