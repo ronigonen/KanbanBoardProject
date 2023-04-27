@@ -7,7 +7,7 @@ public class BoardFacade
 {
 	private Dictionary<string, Board> boards;
 	private UserFacade uf;
-	private List<UserInProgressTasks> userInProgressTaskList;
+	private Dictionary<string,UserInProgressTasks> userInProgressTaskList;
 
 	public BoardFacade()
 	{
@@ -92,7 +92,6 @@ public class BoardFacade
             throw new Exception("This board name does not exists");
         }
         Task advancedTask = board.AdvanceTask(taskId);
-		return advancedTask;
 	}
 	public void LimitColumn(string email, string boardName, string columnName, int limit)
 	{
@@ -145,7 +144,7 @@ public class BoardFacade
         {
             throw new Exception("User is not logged in");
         }
-        List<Task> userList = userInProgressTaskList.get(email).GetList();
+        List<Task> userList = userInProgressTaskList[email].GetList();
 		return userList;
 	}
 }
