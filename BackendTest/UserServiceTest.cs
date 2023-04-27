@@ -119,6 +119,15 @@ namespace BackendTest
             {
                 Console.WriteLine("LogIn test failed- this isn't the right password.");
             }
+            Response res3c = JsonSerializer.Deserialize<Response>(userService.Login("roni12@gmail.com", "R012356r"));
+            if (res3c.ErrorOccured)
+            {
+                Console.WriteLine(res3c.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("roni12@gmail.com loggedIn successfully.");
+            }
         }
     }
 }

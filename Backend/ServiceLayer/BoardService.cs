@@ -14,6 +14,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardService
     {
         private BoardFacade bF;
+
+        public BoardService()
+        {
+            bF = new BoardFacade();
+        }
         public string CreateBoard(string email, string name)
         {
             try

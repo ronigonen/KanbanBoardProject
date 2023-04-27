@@ -20,7 +20,9 @@ namespace BackendTest
 
         public void runTests()
         {
-            Response resp1a = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas12@gmail.com", "Assignment"));
+            User user1 = new User("hadas12@gmail.com", "Aa012345");
+            User user2 = new User("roni12@gmail.com", "R012356r");
+            Response resp1a = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas12@gmail.com", "AssignmentHadas"));
             if (resp1a.ErrorOccured)
             {
                 Console.WriteLine(resp1a.ErrorMessage);
@@ -29,26 +31,44 @@ namespace BackendTest
             {
                 Console.WriteLine("hadas12@gmail.com created board successfully.");
             }
-            Response resp1b = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("roni12@gmail.com", "Assignment"));
+            Response resp1b = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas12@gmail.com", "AssignmentHadas"));
             if (resp1b.ErrorOccured)
             {
                 Console.WriteLine(resp1b.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("Create board test failed.");
+                Console.WriteLine("Create board test failed- can't be two boards with the same name.");
+            }
+            Response resp1c = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("roni12@gmail.com", "Assignment1"));
+            if (resp1c.ErrorOccured)
+            {
+                Console.WriteLine(resp1c.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("roni12@gmail.com created board successfully.");
+            }
+            Response resp1d = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("roni12@gmail.com", "Assignment2"));
+            if (resp1d.ErrorOccured)
+            {
+                Console.WriteLine(resp1d.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("roni12@gmail.com created board successfully.");
             }
 
 
 
-            Response resp2a = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas12@gmail.com", "Assignment", 3, 2));
+            Response resp2a = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas12@gmail.com", "AssignmentHadas", "done", 2));
             if (resp2a.ErrorOccured)
             {
                 Console.WriteLine(resp2a.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("hadas12@gmail.com limited column 3 successfully.");
+                Console.WriteLine("hadas12@gmail.com limited column done successfully.");
             }
             Response resp2b = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas12@gmail.com", "Ass", 3, 2));
             if (resp2b.ErrorOccured)
@@ -57,8 +77,18 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("Limit column test failed.");
+                Console.WriteLine("Limit column test failed- there isn't Ass board.");
             }
+            Response resp2c = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("roni12@gmail.com", "Assignment1", "InProgress", 3));
+            if (resp2b.ErrorOccured)
+            {
+                Console.WriteLine(resp2c.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("roni12@gmail.com limited column in progress successfully.");
+            }
+
 
 
 
