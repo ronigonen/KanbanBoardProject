@@ -31,11 +31,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        public string LimitColumn(string email, string boardName, string columnName, int limit)
+        public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
             try
             {
-                bF.LimitColumn(email, boardName, columnName, limit);
+                bF.LimitColumn(email, boardName, columnOrdinal, limit);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -48,11 +48,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        public string GetColumnLimit(string email, string boardName, string columnName)
+        public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
             try
             {
-                bF.GetColumnLimit(email, boardName, columnName);
+                bF.GetColumnLimit(email, boardName, columnOrdinal);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
+        public string GetColumnName(string email, string boardName, int columnOrdinal)
+        {
+            try
+            {
+                bF.GetColumnName(email, boardName, columnOrdinal);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -66,11 +82,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         }
 
   
-        public string GetColumn(string email, string boardName, string columnName)
+        public string GetColumn(string email, string boardName, int columnOrdinal)
         {
             try
             {
-                bF.GetColumn(email, boardName, columnName);
+                bF.GetColumn(email, boardName, columnOrdinal);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)

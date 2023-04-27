@@ -113,7 +113,7 @@ public class BoardFacade
         }
         board.UpdateTaskDescription(taskId, description);
 	}
-	public void AdvanceTask(string email, string boardName, int taskId)
+	public void AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
@@ -129,9 +129,9 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.AdvanceTask(email, taskId);
+        board.AdvanceTask(email, columnOrdinal, taskId);
 	}
-	public void LimitColumn(string email, string boardName, string columnName, int limit)
+	public void LimitColumn(string email, string boardName, int columnOrdinal, int limit)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
@@ -147,9 +147,9 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.LimitColumn(columnName, limit);
+        board.LimitColumn(columnOrdinal, limit);
     }
-    public int GetColumnLimit(string email, string boardName, string columnName)
+    public int GetColumnLimit(string email, string boardName, int columnOrdinal)
     {
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
@@ -165,10 +165,29 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        int lim = board.GetColumnLimit(columnName);
+        int lim = board.GetColumnLimit(columnOrdinal);
 		return lim;
     }
-	public List<Task> GetColumn(string email, string boardName, string columnName)
+    public string GetColumnName(string email, string boardName, int columnOrdinal)
+    {
+        User user = uf.GetUser(email);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("User is not logged in");
+        }
+        Board board = boards[boardName];
+        if (board == null)
+        {
+            throw new KanbanException("This board name does not exists");
+        }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new KanbanException("The user is not a member of this board");
+        }
+        string name = board.GetColumnName(columnOrdinal);
+        return name;
+    }
+	public List<Task> GetColumn(string email, string boardName, int columnOrdinal)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
@@ -184,7 +203,7 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        List<Task> tasks = board.GetColumn(columnName);
+        List<Task> tasks = board.GetColumn(columnOrdinal);
 		return tasks;
     }
 	public List<Task> GetInProgress(string email)
