@@ -1,4 +1,5 @@
 ﻿using IntroSE.ForumSystem.Backend.ServiceLayer;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.CreateBoard(email, name);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -37,7 +38,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.LimitColumn(email, boardName, columnName, limit);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -54,7 +55,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.GetColumnLimit(email, boardName, columnName);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -72,7 +73,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.GetColumn(email, boardName, columnName);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -89,7 +90,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.DeleteBoard(email, boardName);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -106,7 +107,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.GetInProgress(email);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -123,7 +124,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.AddTask(email, boardName, title, description, dueDate, creationTime);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }

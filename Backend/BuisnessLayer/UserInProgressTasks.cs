@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 
 public class UserInProgressTasks
@@ -18,7 +19,7 @@ public class UserInProgressTasks
 	{
 		if (task == null)
 		{
-			throw new Exception("Task in null");
+			throw new KanbanException("Task in null");
 		}
 		userTasks[email].Add(task);
 	}
@@ -26,7 +27,7 @@ public class UserInProgressTasks
 	{
 		if (task == null)
 		{
-            throw new Exception("Task in null");
+            throw new KanbanException("Task in null");
         }
         userTasks[email].Remove(task);
     }
@@ -34,7 +35,7 @@ public class UserInProgressTasks
 	{
 		if (userTasks[email] == null | userTasks[email].Count==0)
 		{
-			throw new Exception("No Tasks in progress");
+			throw new KanbanException("No Tasks in progress");
 		}
 		return userTasks[email];
 	}
