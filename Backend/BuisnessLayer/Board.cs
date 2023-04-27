@@ -207,12 +207,16 @@ public class Board
             Task task = doneTasks[taskId];
             inProgressUser.RemoveTasks(email, task);
         }
-        else {
+        else if(columnOrdinal==3) {
             if (!doneTasks.ContainsKey(taskId))
             {
                 throw new KanbanException("Invalid taskId");
             }
             doneTasks.Remove(taskId);
+        }
+        else
+        { 
+            throw new KanbanException()
         }
     }
 }
