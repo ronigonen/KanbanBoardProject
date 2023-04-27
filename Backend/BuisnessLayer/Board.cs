@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Reflection;
 using log4net;
@@ -14,140 +17,180 @@ public class Board
     private Dictionary<int, Task> inProgressTasks;
     private Dictionary<int, Task> doneTasks;
     private int TaskId;
-
+    private int backLogMax;
+    private int inProgressMax;
+    private int doneMax;
 
 
     public Board(string name, User user)
-	{
-        this.Name = name;
+    {
+        this.name = name;
         members = new List<User>();
         members.Add(user);
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
         doneTasks = new Dictionary<int, Task>();
         TaskId = 0;
+        backLogMax = -1;
+        inProgressMax = -1;
+        doneMax = -1;
 
     }
 
-    public Task AddTask(User user, DateTime dueDate, string title, string description, string creationTime)
+    public Task getTask(int taskId)
+    {
+        return backLogTasks[taskId];
+    }
+
+    public void AddTask(User user, DateTime dueDate, string title, string description, DateTime creationTime)
     {
         backLogTasks.Add(TaskId, new Task(user, TaskId, creationTime, dueDate, title, description));
-        TaskId = TaskId++;
+        TaskId = TaskId++; //uniqe id
     }
-    
+
     public void LimitColumn(string columnName, int max)
     {
-        if (columnName == backLog)
+        if (columnName.Equals("backLog"))
         {
             backLogTasks.EnsureCapacity(max);
+            backLogMax = max;
         }
-        else if (columnName == inProgress)
+        else if (columnName.Equals("inProgress"))
         {
             inProgressTasks.EnsureCapacity(max);
+            inProgressMax = max;
         }
-        else (columnName == done)
+        else if (columnName.Equals("done"))
         {
             doneTasks.EnsureCapacity(max);
+            doneMax = max;
+        }
+        else
+        {
+            throw new Exception("Invalid column name");
         }
     }
 
     public int GetColumnLimit(string columnName)
     {
-        if (columnName == backLog)
+        if (columnName.Equals("backLog"))
         {
-            return backLogTasks.EnsureCapacity;
+            return backLogMax;
         }
-        else if (columnName == inProgress)
+        else if (columnName.Equals("inProgress"))
         {
-            return inProgressTasks.EnsureCapacity;
+            return inProgressMax;
         }
-        else (columnName == done)
+        else if (columnName.Equals("done"))
         {
-            return doneTasks.EnsureCapacity;
+            return doneMax;
         }
-    }
-
-    public List GetColumn(string columnName)
-    {
-        if (columnName == backLog)
+        else
         {
-            return backLogTasks.Values;
-        }
-        else if (columnName == inProgress)
-        {
-            return inProgressTasks.Values;
-        }
-        else (columnName == done)
-        {
-            return doneTasks.Values;
+            throw new Exception("Invalid column name");
         }
     }
 
 
-    public Task UpdateTaskDueDate(User user, int taskId, DateTime dueDate)
+    public List<Task> GetColumn(string columnName)
     {
-        if (backLogTasks.ContainsKey(taskId){
-            return backLogTasks[taskId].UpdateTaskDueDate(dueDate);
+        if (columnName.Equals("backLog"))
+        {
+            return new List<Task>(backLogTasks.Values.ToList());
         }
-        
-        else if (inProgressTasks.ContainsKey(taskId){
-            return inProgressTasks[taskId].UpdateTaskDueDate(dueDate);
+        else if (columnName.Equals("inProgress"))
+        {
+            return new List<Task>(inProgressTasks.Values.ToList());
         }
-
-        else (doneTasks.ContainsKey(taskId){
-            return doneTasks[taskId].UpdateTaskDueDate(dueDate);
+        else if (columnName.Equals("done"))
+        {
+            return new List<Task>(doneTasks.Values.ToList());
+        }
+        else
+        {
+            throw new Exception("Invalid column name");
         }
     }
 
-    public Task UpdateTaskTitle(User user, int taskId, string title)
+
+    public void UpdateTaskDueDate(User user, int taskId, DateTime dueDate)
     {
-        if (backLogTasks.ContainsKey(taskId){
-            return backLogTasks[taskId].UpdateTaskTitle(title);
+        if (backLogTasks.ContainsKey(taskId)) {
+            backLogTasks[taskId].UpdateTimeDueDate(dueDate);
         }
 
-        else if (inProgressTasks.ContainsKey(taskId){
-            return inProgressTasks[taskId].UpdateTaskTitle(title);
+        else if (inProgressTasks.ContainsKey(taskId)) {
+            inProgressTasks[taskId].UpdateTimeDueDate(dueDate);
         }
 
-        else (doneTasks.ContainsKey(taskId){
-            return doneTasks[taskId].UpdateTaskTitle(title);
+        else if (doneTasks.ContainsKey(taskId)) {
+            doneTasks[taskId].UpdateTimeDueDate(dueDate);
+        }
+        else
+        {
+            throw new Exception("Invalid taskId");
         }
     }
 
-    public Task UpdateTaskDescription(User user, int taskId, string description)
+    public void UpdateTaskTitle(User user, int taskId, string title)
     {
-        if (backLogTasks.ContainsKey(taskId){
-            return backLogTasks[taskId].UpdateTaskDescription(description);
+        if (backLogTasks.ContainsKey(taskId)) {
+            backLogTasks[taskId].UpdateTaskTitle(title);
         }
 
-        else if (inProgressTasks.ContainsKey(taskId){
-            return inProgressTasks[taskId].UpdateTaskDescription(description);
+        else if (inProgressTasks.ContainsKey(taskId)) {
+            inProgressTasks[taskId].UpdateTaskTitle(title);
         }
 
-        else (doneTasks.ContainsKey(taskId){
-            return doneTasks[taskId].UpdateTaskDescription(description);
+        else if (doneTasks.ContainsKey(taskId)) {
+            doneTasks[taskId].UpdateTaskTitle(title);
+        }
+        else
+        {
+            throw new Exception("Invalid taskId");
         }
     }
 
-    public Task AdvanceTask (int taskId)
+    public void UpdateTaskDescription(User user, int taskId, string description)
     {
-        if (backLogTasks.ContainsKey(taskId){
+        if (backLogTasks.ContainsKey(taskId)) {
+            backLogTasks[taskId].UpdateTaskDescription(description);
+        }
+
+        else if (inProgressTasks.ContainsKey(taskId)) {
+            inProgressTasks[taskId].UpdateTaskDescription(description);
+        }
+
+        else if (doneTasks.ContainsKey(taskId)) {
+            doneTasks[taskId].UpdateTaskDescription(description);
+        }
+        else
+        {
+            throw new Exception("Invalid taskId");
+        }
+    }
+
+    public void AdvanceTask(int taskId)
+    {
+        if (backLogTasks.ContainsKey(taskId)) {
             inProgressTasks.Add(taskId, backLogTasks[taskId]);
             backLogTasks.Remove(taskId);
-            return inProgressTasks[taskId]
         }
 
-        else if (inProgressTasks.ContainsKey(taskId){
+        else if (inProgressTasks.ContainsKey(taskId)) {
             doneTasks.Add(taskId, inProgressTasks[taskId]);
             inProgressTasks.Remove(taskId);
-            return doneTasks[taskId]
         }
 
-        else (doneTasks.ContainsKey(taskId){
+        else if (doneTasks.ContainsKey(taskId)) {
             doneTasks.Remove(taskId);
-            return null;
+        }
+        else
+        {
+            throw new Exception("Invalid taskId");
         }
     }
+}
 
 
 
