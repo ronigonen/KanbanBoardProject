@@ -23,6 +23,7 @@ public class BoardFacade
             throw new Exception("User is not logged in");
         }
         Board board = new Board(boardName, user);
+        user.AddBoard(boardName, board);
     }
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
@@ -35,6 +36,10 @@ public class BoardFacade
         if (board == null)
         {
             throw new Exception("This board name does not exists");
+        }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
         }
         board.AddTask(user, dueDate, title, description, creationTime);
 	}
@@ -49,8 +54,12 @@ public class BoardFacade
 		if (board == null)
 		{
 			throw new Exception("This board name does not exists");
-		}		
-		board.UpdateTaskDueDate(taskId, dueDate);
+		}
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
+        }
+        board.UpdateTaskDueDate(taskId, dueDate);
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, string title)
     {
@@ -63,6 +72,10 @@ public class BoardFacade
         if (board == null)
         {
             throw new Exception("This board name does not exists");
+        }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
         }
         board.UpdateTaskTitle(taskId, title);
     }
@@ -78,6 +91,10 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
+        }
         board.UpdateTaskDescription(taskId, description);
 	}
 	public void AdvanceTask(string email, string boardName, int taskId)
@@ -91,6 +108,10 @@ public class BoardFacade
         if (board == null)
         {
             throw new Exception("This board name does not exists");
+        }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
         }
         board.AdvanceTask(taskId);
 	}
@@ -106,6 +127,10 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
+        }
         board.LimitColumn(columnName, limit);
     }
     public int GetColumnLimit(string email, string boardName, string columnName)
@@ -119,6 +144,10 @@ public class BoardFacade
         if (board == null)
         {
             throw new Exception("This board name does not exists");
+        }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
         }
         int lim = board.GetColumnLimit(columnName);
 		return lim;
@@ -134,6 +163,10 @@ public class BoardFacade
         if (board == null)
         {
             throw new Exception("This board name does not exists");
+        }
+        if (!user.GetBoards().ContainsKey(boardName))
+        {
+            throw new Exception("The user is not a member of this board");
         }
         List<Task> tasks = board.GetColumn(columnName);
 		return tasks;
