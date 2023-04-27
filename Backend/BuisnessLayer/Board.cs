@@ -113,7 +113,7 @@ public class Board
     }
 
 
-    public void UpdateTaskDueDate(User user, int taskId, DateTime dueDate)
+    public void UpdateTaskDueDate(int taskId, DateTime dueDate)
     {
         if (backLogTasks.ContainsKey(taskId)) {
             backLogTasks[taskId].UpdateTimeDueDate(dueDate);
@@ -132,7 +132,7 @@ public class Board
         }
     }
 
-    public void UpdateTaskTitle(User user, int taskId, string title)
+    public void UpdateTaskTitle(int taskId, string title)
     {
         if (backLogTasks.ContainsKey(taskId)) {
             backLogTasks[taskId].UpdateTaskTitle(title);
@@ -151,7 +151,7 @@ public class Board
         }
     }
 
-    public void UpdateTaskDescription(User user, int taskId, string description)
+    public void UpdateTaskDescription(int taskId, string description)
     {
         if (backLogTasks.ContainsKey(taskId)) {
             backLogTasks[taskId].UpdateTaskDescription(description);
