@@ -55,7 +55,11 @@ public class UserFacade
 
 	public void LogOut(string email)
 	{
-		this.users[email].LogOut();
+		if (!this.users.ContainsKey(email))
+		{
+            throw new InvalidOperationException("there isn't user with this email, you can't log out.");
+        }
+        this.users[email].LogOut();
 	}
 
 	public User GetUser(string email)

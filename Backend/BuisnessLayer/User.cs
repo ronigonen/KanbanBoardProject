@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 public class User
 {
@@ -22,11 +23,19 @@ public class User
 	}
 
 	public void LogIn(string password) {
-		if (this.password == password) {
-			this.loggedIn = true;
-		}
-		else {
+		if (this.password != password) {
 			throw new InvalidOperationException("password is wrong.");
+		}
+		else 
+		{ 
+            if (this.loggedIn)
+			{
+				throw new InvalidOperationException("user already logged in.");
+			}
+			else
+			{
+				this.loggedIn = true;
+			}
 		}
 	}
 
@@ -36,7 +45,11 @@ public class User
 
 	public void LogOut()
 	{
-		this.loggedIn = false;
+		if (!this.loggedIn)
+		{
+            throw new InvalidOperationException("user already logged out.");
+        }
+        this.loggedIn = false;
     }
 
 	public Dictionary<string, Board> GetBoards()

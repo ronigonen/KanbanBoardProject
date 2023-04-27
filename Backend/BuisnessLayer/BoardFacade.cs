@@ -8,12 +8,13 @@ public class BoardFacade
 {
 	private Dictionary<string, Board> boards;
 	private UserFacade uf;
-	private Dictionary<string,UserInProgressTasks> userInProgressTaskList;
+	private UserInProgressTasks inProgressUser;
 
 	public BoardFacade()
 	{
 		this.boards = new Dictionary<string, Board>(null, null);
 		this.uf = null;
+        this.inProgressUser = new UserInProgressTasks();
 	}
 	public void CreateBoard(string email, string boardName)
 	{
@@ -113,7 +114,7 @@ public class BoardFacade
         {
             throw new Exception("The user is not a member of this board");
         }
-        board.AdvanceTask(taskId);
+        board.AdvanceTask(email, taskId);
 	}
 	public void LimitColumn(string email, string boardName, string columnName, int limit)
 	{
@@ -178,7 +179,6 @@ public class BoardFacade
         {
             throw new Exception("User is not logged in");
         }
-        List<Task> userList = userInProgressTaskList[email].GetList();
-		return userList;
+        return inProgressUser.GetList(email);
 	}
 }

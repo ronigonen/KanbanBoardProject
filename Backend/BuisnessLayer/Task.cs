@@ -23,7 +23,7 @@ public class Task
         return id; 
     }
 
-    public void UpdateTimeDueDate(DateTime dueDate)
+    public void UpdateTaskDueDate(DateTime dueDate)
     {
         this.dueDate= dueDate;
     }

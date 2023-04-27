@@ -3,36 +3,39 @@ using System.Collections.Generic;
 
 public class UserInProgressTasks
 {
-	private string email;
-	private List<Task> inProgressTasks;
+	Dictionary<string, List<Task>> userTasks;
 
+	public UserInProgressTasks() { 
+	userTasks = new Dictionary<string, List<Task>>();
+	}
+	
 	public UserInProgressTasks(string email)
 	{
-		this.email = email;	
-		this.inProgressTasks= new List<Task>();
+		this.userTasks = new Dictionary<string, List<Task>>();
+		this.userTasks.Add(email, new List<Task>());
 	}
-	public void AddTasks(Task task)
+	public void AddTasks(string email, Task task)
 	{
 		if (task == null)
 		{
 			throw new Exception("Task in null");
 		}
-		inProgressTasks.Add(task);
+		userTasks[email].Add(task);
 	}
-	public void RemoveTasks(Task task)
+	public void RemoveTasks(string email, Task task)
 	{
 		if (task == null)
 		{
             throw new Exception("Task in null");
         }
-		inProgressTasks.Remove(task);
+        userTasks[email].Remove(task);
     }
-	public List<Task> GetList() 
+    public List<Task> GetList(string email) 
 	{
-		if (inProgressTasks == null)
+		if (userTasks[email] == null | userTasks[email].Count==0)
 		{
 			throw new Exception("No Tasks in progress");
 		}
-		return inProgressTasks;
+		return userTasks[email];
 	}
 }
