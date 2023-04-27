@@ -70,11 +70,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        public string AdvanceTask(string email, string boardName, int taskId)
+        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
             try
             {
-                bF.AdvanceTask(email, boardName, taskId);
+                bF.AdvanceTask(email, boardName, columnOrdinal, taskId);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)

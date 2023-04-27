@@ -146,7 +146,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            return boardSer.AddTask(email, boardName, title, description, dueDate);
+            return boardSer.AddTask(email, boardName, title, description, dueDate, DateTime.Now);
         }
 
 
@@ -255,5 +255,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return boardSer.InProgressTasks(email);
         }
+            
     }
 }

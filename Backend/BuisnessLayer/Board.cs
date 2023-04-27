@@ -46,19 +46,19 @@ public class Board
         TaskId = TaskId++; //uniqe id
     }
 
-    public void LimitColumn(string columnName, int max)
+    public void LimitColumn(int columnOrdinal, int max)
     {
-        if (columnName.Equals("backLog"))
+        if (columnOrdinal==1)
         {
             backLogTasks.EnsureCapacity(max);
             backLogMax = max;
         }
-        else if (columnName.Equals("inProgress"))
+        else if (columnOrdinal == 2)
         {
             inProgressTasks.EnsureCapacity(max);
             inProgressMax = max;
         }
-        else if (columnName.Equals("done"))
+        else if (columnOrdinal == 3)
         {
             doneTasks.EnsureCapacity(max);
             doneMax = max;
@@ -69,17 +69,17 @@ public class Board
         }
     }
 
-    public int GetColumnLimit(string columnName)
+    public int GetColumnLimit(int columnOrdinal)
     {
-        if (columnName.Equals("backLog"))
+        if (columnOrdinal == 1)
         {
             return backLogMax;
         }
-        else if (columnName.Equals("inProgress"))
+        else if (columnOrdinal == 2)
         {
             return inProgressMax;
         }
-        else if (columnName.Equals("done"))
+        else if (columnOrdinal == 3)
         {
             return doneMax;
         }
@@ -88,19 +88,35 @@ public class Board
             throw new KanbanException("Invalid column name");
         }
     }
-
-
-    public List<Task> GetColumn(string columnName)
+     
+    public string GetColumnName(int columnOrdinal)
     {
-        if (columnName.Equals("backLog"))
+        if (columnOrdinal == 1)
+        {
+            return "Back Log";
+        }
+        else if (columnOrdinal == 2)
+        {
+            return "In Progress";
+        }
+        else
+        {
+            return "Done";
+        }
+
+    }
+
+    public List<Task> GetColumn(int columnOrdinal)
+    {
+        if (columnOrdinal == 1)
         {
             return new List<Task>(backLogTasks.Values.ToList());
         }
-        else if (columnName.Equals("inProgress"))
+        else if (columnOrdinal == 2)
         {
             return new List<Task>(inProgressTasks.Values.ToList());
         }
-        else if (columnName.Equals("done"))
+        else if (columnOrdinal == 3)
         {
             return new List<Task>(doneTasks.Values.ToList());
         }
@@ -168,28 +184,35 @@ public class Board
         }
     }
 
-    public void AdvanceTask(string email, int taskId)
+    public void AdvanceTask(string email, int columnOrdinal, int taskId)
     {
-        if (backLogTasks.ContainsKey(taskId)) {
+        if (columnOrdinal == 1)
+        {
+            if (!backLogTasks.ContainsKey(taskId))
+            {
+                throw new KanbanException("Invalid taskId");
+            }
             inProgressTasks.Add(taskId, backLogTasks[taskId]);
             backLogTasks.Remove(taskId);
             Task task = inProgressTasks[taskId];
             inProgressUser.AddTasks(email, task);
         }
-
-        else if (inProgressTasks.ContainsKey(taskId)) {
+        else if (columnOrdinal == 2) {
+            if (!inProgressTasks.ContainsKey(taskId))
+            {
+                throw new KanbanException("Invalid taskId");
+            }
             doneTasks.Add(taskId, inProgressTasks[taskId]);
             inProgressTasks.Remove(taskId);
             Task task = doneTasks[taskId];
             inProgressUser.RemoveTasks(email, task);
         }
-
-        else if (doneTasks.ContainsKey(taskId)) {
+        else {
+            if (!doneTasks.ContainsKey(taskId))
+            {
+                throw new KanbanException("Invalid taskId");
+            }
             doneTasks.Remove(taskId);
-        }
-        else
-        {
-            throw new KanbanException("Invalid taskId");
         }
     }
 }
