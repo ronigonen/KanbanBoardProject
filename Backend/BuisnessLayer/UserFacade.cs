@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Numerics;
 
 public class UserFacade
 {
-	private Dictionary<string, User> users;
-	
 	public UserFacade()
 	{
 		this.users = new Dictionary<string, User>;
@@ -11,6 +10,7 @@ public class UserFacade
 
 	public User Register(string email, string password)
 	{
+
 		if (this.users.ContainsKey(email))
 		{
             throw new InvalidOperationException("email already exists.");
