@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 public class BoardFacade
 {
@@ -11,7 +12,7 @@ public class BoardFacade
 
 	public BoardFacade()
 	{
-		this.boards = new Dictionary<string, Board>)(null, null);
+		this.boards = new Dictionary<string, Board>(null, null);
 		this.uf = null;
 	}
 	public void CreateBoard(string email, string boardName)
@@ -35,7 +36,7 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
-        Task addedTask =board.AddTask(user, dueDate, title, description, creationTime);
+        board.AddTask(user, dueDate, title, description, creationTime);
 	}
 	public void UpdateTaskDueDate(string email, string boardName, int taskId, DateTime dueDate)
 	{
@@ -49,7 +50,7 @@ public class BoardFacade
 		{
 			throw new Exception("This board name does not exists");
 		}		
-		Task updatedTask = board.UpdateTaskDueDate(user, taskId, dueDate);
+		board.UpdateTaskDueDate(user, taskId, dueDate);
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, string title)
     {
@@ -63,7 +64,7 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
-        Task updatedTask = board.UpdateTaskTitle(user, taskId, title);
+        board.UpdateTaskTitle(user, taskId, title);
     }
 	public void UpdateTaskDescription(string email, string boardName, int taskId, string description)
 	{
@@ -77,7 +78,7 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
-        Task updatedTask = board.UpdateTaskDescription(user, taskId, description);
+        board.UpdateTaskDescription(user, taskId, description);
 	}
 	public void AdvanceTask(string email, string boardName, int taskId)
 	{
@@ -91,7 +92,7 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
-        Task advancedTask = board.AdvanceTask(taskId);
+        board.AdvanceTask(taskId);
 	}
 	public void LimitColumn(string email, string boardName, string columnName, int limit)
 	{
