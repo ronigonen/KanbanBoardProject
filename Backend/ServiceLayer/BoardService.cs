@@ -1,53 +1,136 @@
 ﻿using IntroSE.ForumSystem.Backend.ServiceLayer;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardService
     {
+        private BoardFacade bF;
         public string CreateBoard(string email, string name)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.CreateBoard(email, name);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
-        public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
+        public string LimitColumn(string email, string boardName, string columnName, int limit)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.LimitColumn(email, boardName, columnName, limit);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
-        public string GetColumnLimit(string email, string boardName, int columnOrdinal)
+        public string GetColumnLimit(string email, string boardName, string columnName)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.GetColumnLimit(email, boardName, columnName);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
-        public string GetColumnName(string email, string boardName, int columnOrdinal)
+  
+        public string GetColumn(string email, string boardName, string columnName)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.GetColumn(email, boardName, columnName);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
-        public string GetColumn(string email, string boardName, int columnOrdinal)
+        public string DeleteBoard(string email, string boardName)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
-        }
-
-        public string DeleteBoard(string email, string name)
-        {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.DeleteBoard(email, boardName);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
         public string InProgressTasks(string email)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.GetInProgress(email);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
-        public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
+        public string AddTask(string email, string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                bF.AddTask(email, boardName, title, description, dueDate, creationTime);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
     }
