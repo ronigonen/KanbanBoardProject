@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Reflection;
+using log4net;
+using log4net.Config;
+
 
 public class Board
 {

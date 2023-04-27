@@ -15,27 +15,25 @@ public class User
 		this.loggedIn = true;
 	}
 
-	public string GetEmail() { 
-		return email; 
+	public string GetEmail() {
+		return email;
 	}
 
-	public bool LogIn(string password){
-		if (User.password == password){
-			User.loggedIn = true;
-			return true;
+	public void LogIn(string password) {
+		if (this.password == password) {
+			this.loggedIn = true;
 		}
-		else{
-			return false;
+		else {
+			throw new InvalidOperationException("password is wrong.");
 		}
 	}
 
-	public bool IsLoggedIn(){
-		return loggedIn;
+	public bool IsLoggedIn() {
+		return this.loggedIn;
 	}
 
 	public void LogOut()
 	{
-		loggedIn = false;
-	}
-	
+		this.loggedIn = false;
+    }
 }
