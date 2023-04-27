@@ -50,7 +50,7 @@ public class BoardFacade
 		{
 			throw new Exception("This board name does not exists");
 		}		
-		board.UpdateTaskDueDate(user, taskId, dueDate);
+		board.UpdateTaskDueDate(taskId, dueDate);
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, string title)
     {
@@ -64,7 +64,7 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
-        board.UpdateTaskTitle(user, taskId, title);
+        board.UpdateTaskTitle(taskId, title);
     }
 	public void UpdateTaskDescription(string email, string boardName, int taskId, string description)
 	{
@@ -78,7 +78,7 @@ public class BoardFacade
         {
             throw new Exception("This board name does not exists");
         }
-        board.UpdateTaskDescription(user, taskId, description);
+        board.UpdateTaskDescription(taskId, description);
 	}
 	public void AdvanceTask(string email, string boardName, int taskId)
 	{
