@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class UserFacade
 {
+	private Dictionary<string, User> users;
 	public UserFacade()
 	{
 		this.users = new Dictionary<string, User>();
