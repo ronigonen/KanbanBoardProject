@@ -12,7 +12,6 @@ using log4net.Config;
 public class Board
 {
     private string name;
-    private List<User> members;
     private Dictionary<int, Task> backLogTasks;
     private Dictionary<int, Task> inProgressTasks;
     private Dictionary<int, Task> doneTasks;
@@ -20,13 +19,12 @@ public class Board
     private int backLogMax;
     private int inProgressMax;
     private int doneMax;
+    private UserInProgressTasks inProgressUser;
 
 
     public Board(string name, User user)
     {
         this.name = name;
-        members = new List<User>();
-        members.Add(user);
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
         doneTasks = new Dictionary<int, Task>();
@@ -34,7 +32,7 @@ public class Board
         backLogMax = -1;
         inProgressMax = -1;
         doneMax = -1;
-
+        inProgressUser=new UserInProgressTasks(user.GetEmail());
     }
 
     public Task getTask(int taskId)
@@ -116,15 +114,15 @@ public class Board
     public void UpdateTaskDueDate(int taskId, DateTime dueDate)
     {
         if (backLogTasks.ContainsKey(taskId)) {
-            backLogTasks[taskId].UpdateTimeDueDate(dueDate);
+            backLogTasks[taskId].UpdateTaskDueDate(dueDate);
         }
 
         else if (inProgressTasks.ContainsKey(taskId)) {
-            inProgressTasks[taskId].UpdateTimeDueDate(dueDate);
+            inProgressTasks[taskId].UpdateTaskDueDate(dueDate);
         }
 
         else if (doneTasks.ContainsKey(taskId)) {
-            doneTasks[taskId].UpdateTimeDueDate(dueDate);
+            doneTasks[taskId].UpdateTaskDueDate(dueDate);
         }
         else
         {
@@ -170,16 +168,20 @@ public class Board
         }
     }
 
-    public void AdvanceTask(int taskId)
+    public void AdvanceTask(string email, int taskId)
     {
         if (backLogTasks.ContainsKey(taskId)) {
             inProgressTasks.Add(taskId, backLogTasks[taskId]);
             backLogTasks.Remove(taskId);
+            Task task = inProgressTasks[taskId];
+            inProgressUser.AddTasks(email, task);
         }
 
         else if (inProgressTasks.ContainsKey(taskId)) {
             doneTasks.Add(taskId, inProgressTasks[taskId]);
             inProgressTasks.Remove(taskId);
+            Task task = doneTasks[taskId];
+            inProgressUser.RemoveTasks(email, task);
         }
 
         else if (doneTasks.ContainsKey(taskId)) {

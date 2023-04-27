@@ -57,51 +57,68 @@ namespace BackendTest
             {
                 Console.WriteLine("Register test failed- email can't be null.");
             }
+            Response res1e = JsonSerializer.Deserialize<Response>(userService.Register("roni12@gmail.com", "R012356r"));
+            if (res1e.ErrorOccured)
+            {
+                Console.WriteLine(res1e.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("roni12@gmail.com registered successfully.");
+            }
 
 
 
 
-            Response res2a = JsonSerializer.Deserialize<Response>(userService.Login("hadas12@gmail.com", "Aa012345"));
+            Response res2a = JsonSerializer.Deserialize<Response>(userService.Logout("hadas12@gmail.com"));
             if (res2a.ErrorOccured)
             {
                 Console.WriteLine(res2a.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("hadas12@gmail.com loggedIn successfully.");
+                Console.WriteLine("hadas12@gmail.com loggedOut successfully.");
             }
-            Response res2b = JsonSerializer.Deserialize<Response>(userService.Login("hadas12@gmail.com", "Aa012"));
+            Response res2b = JsonSerializer.Deserialize<Response>(userService.Logout("noga@gmail.com"));
             if (res2b.ErrorOccured)
             {
                 Console.WriteLine(res2b.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("LogIn test failed.");
+                Console.WriteLine("LogOut test failed- noga@gmail.com doesn't have a user.");
+            }
+            Response res2c = JsonSerializer.Deserialize<Response>(userService.Logout("roni12@gmail.com"));
+            if (res2c.ErrorOccured)
+            {
+                Console.WriteLine(res2c.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("roni12@gmail.com loggedOut successfully.");
             }
 
 
 
-            Response res3a = JsonSerializer.Deserialize<Response>(userService.Logout("hadas12@gmail.com"));
+
+            Response res3a = JsonSerializer.Deserialize<Response>(userService.Login("hadas12@gmail.com", "Aa012345"));
             if (res3a.ErrorOccured)
             {
                 Console.WriteLine(res3a.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("hadas12@gmail.com loggedOut successfully.");
+                Console.WriteLine("hadas12@gmail.com loggedIn successfully.");
             }
-            Response res3b = JsonSerializer.Deserialize<Response>(userService.Logout("noga@gmail.com"));
+            Response res3b = JsonSerializer.Deserialize<Response>(userService.Login("roni12@gmail.com", "R012356rvc"));
             if (res3b.ErrorOccured)
             {
                 Console.WriteLine(res3b.ErrorMessage);
             }
             else
             {
-                Console.WriteLine("LogOut test failed.");
+                Console.WriteLine("LogIn test failed- this isn't the right password.");
             }
-
-
         }
     }
 }
