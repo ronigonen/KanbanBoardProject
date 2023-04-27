@@ -37,8 +37,27 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("Register test failed.");
+                Console.WriteLine("Register test failed- the password invalid.");
             }
+            Response res1c = JsonSerializer.Deserialize<Response>(userService.Register("hadas12@gmail.com", "Ab01234567"));
+            if (res1c.ErrorOccured)
+            {
+                Console.WriteLine(res1c.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("Register test failed- email has been used.");
+            }
+            Response res1d = JsonSerializer.Deserialize<Response>(userService.Register(null, "Ab01234567"));
+            if (res1d.ErrorOccured)
+            {
+                Console.WriteLine(res1d.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("Register test failed- email can't be null.");
+            }
+
 
 
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Random;
 
 public class Task
 {
@@ -9,7 +8,6 @@ public class Task
     private DateTime dueDate;
     private string title;
     private string description;
-    private string state;
 
     public Task(User user, int id, DateTime creationTime, DateTime dueDate, string title, string description)
 	{
@@ -19,29 +17,24 @@ public class Task
         this.dueDate = dueDate;
         this.title = title;
         this.description = description;
-        this.state = "backLog";
-
 	}
 
     public int GetId() { 
         return id; 
     }
 
-    public Task UpdateTimeDueDate(DateTime dueDate)
+    public void UpdateTimeDueDate(DateTime dueDate)
     {
         this.dueDate= dueDate;
-        return this;
     }
 
-    public Task UpdateTaskTitle(string title)
+    public void UpdateTaskTitle(string title)
     {
         this.title = title;
-        return this;
     }
 
-    public Task UpdateTaskDescription(string description)
+    public void UpdateTaskDescription(string description)
     {
         this.description= description;
-        return this;
     }
 }

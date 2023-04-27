@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class UserFacade
 {
@@ -6,16 +7,21 @@ public class UserFacade
 	
 	public UserFacade()
 	{
-		this.users = new Dictionary<string, User>;
+		this.users = new Dictionary<string, User>();
 	}
 
-	public User Register(string email, string password)
+	public void Register(string email, string password)
 	{
-		if (this.users.ContainsKey(email))
+		if (email == null)
+		{
+            throw new InvalidOperationException("email can't be null.");
+
+        }
+        if (this.users.ContainsKey(email))
 		{
             throw new InvalidOperationException("email already exists.");
         }
-        if (password.Length>20) 
+        if (password.Length>20 | password.Length<6) 
 		{
 			throw new InvalidOperationException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
 		}
@@ -24,9 +30,10 @@ public class UserFacade
 		int countNumbers = 0;
 		for (int i=0; i<password.Length; i++)
 		{
-			if (password[i].IsUpper)
+			char temp = password[i];
+			if (char.IsUpper(temp))
 				counterBigger++;
-			else if (password[i].IsLower)
+			else if (char.IsLower(temp))
 				counterSmaller++;
 			else 
 				countNumbers++;
@@ -35,24 +42,27 @@ public class UserFacade
             throw new InvalidOperationException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
         }
 		User newOne = new User(password, email);
-		this.users.add(email, newOne);
-		this.users[email].LogIn(password);
-		return newOne;
+		this.users.Add(email, newOne);
     }
 
-	public User LogIn(string email, string password)
+	public void LogIn(string email, string password)
 	{
 		if (!this.users.ContainsKey(email))
 		{
             throw new InvalidOperationException("you need to register.");
         }
 		this.users[email].LogIn(password);
-		return this.users[email];
     }
 
 	public void LogOut(string email)
 	{
-		this.users[email].Logout();
+		this.users[email].LogOut();
+	}
+
+	public User GetUser(string email)
+	{
+		if (this.users.ContainsKey(email))
+			throw new InvalidOperationException("user doesn't exist");
 		return this.users[email];
 	}
 
