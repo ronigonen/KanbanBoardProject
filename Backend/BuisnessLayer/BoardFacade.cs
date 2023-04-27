@@ -7,7 +7,7 @@ public class BoardFacade
 {
 	private Dictionary<string, Board> boards;
 	private UserFacade uf;
-	private list<UserInProgressTaskList> userInProgressTaskList;
+	private List<UserInProgressTasks> userInProgressTaskList;
 
 	public BoardFacade()
 	{
