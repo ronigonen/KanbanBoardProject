@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Reflection;
 using log4net;
 using log4net.Config;
-
+using IntroSE.Kanban.Backend.BuisnessLayer;
 
 public class Board
 {
@@ -65,7 +65,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid column name");
+            throw new KanbanException("Invalid column name");
         }
     }
 
@@ -85,7 +85,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid column name");
+            throw new KanbanException("Invalid column name");
         }
     }
 
@@ -106,7 +106,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid column name");
+            throw new KanbanException("Invalid column name");
         }
     }
 
@@ -126,7 +126,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid taskId");
+            throw new KanbanException("Invalid taskId");
         }
     }
 
@@ -145,7 +145,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid taskId");
+            throw new KanbanException("Invalid taskId");
         }
     }
 
@@ -164,7 +164,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid taskId");
+            throw new KanbanException("Invalid taskId");
         }
     }
 
@@ -189,7 +189,7 @@ public class Board
         }
         else
         {
-            throw new Exception("Invalid taskId");
+            throw new KanbanException("Invalid taskId");
         }
     }
 }

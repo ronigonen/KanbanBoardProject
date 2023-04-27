@@ -1,4 +1,5 @@
 ﻿using IntroSE.ForumSystem.Backend.ServiceLayer;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 uF.Register(email, password);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -35,7 +36,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 uF.LogIn(email, password);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -51,7 +52,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 uF.LogOut(email);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
@@ -67,7 +68,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 uF.GetUser(email);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }

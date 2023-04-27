@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 
 public class UserFacade
@@ -13,16 +14,16 @@ public class UserFacade
 	{
 		if (email == null)
 		{
-            throw new InvalidOperationException("email can't be null.");
+            throw new KanbanException("email can't be null.");
 
         }
         if (this.users.ContainsKey(email))
 		{
-            throw new InvalidOperationException("email already exists.");
+            throw new KanbanException("email already exists.");
         }
         if (password.Length>20 | password.Length<6) 
 		{
-			throw new InvalidOperationException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
+			throw new KanbanException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
 		}
 		int counterBigger = 0;
 		int counterSmaller = 0;
@@ -38,7 +39,7 @@ public class UserFacade
 				countNumbers++;
 		}
 		if (counterBigger < 1 | counterSmaller < 1  | countNumbers < 1) {
-            throw new InvalidOperationException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
+            throw new KanbanException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
         }
 		User newOne = new User(password, email);
 		this.users.Add(email, newOne);
@@ -48,7 +49,7 @@ public class UserFacade
 	{
 		if (!this.users.ContainsKey(email))
 		{
-            throw new InvalidOperationException("you need to register.");
+            throw new KanbanException("you need to register.");
         }
 		this.users[email].LogIn(password);
     }
@@ -57,7 +58,7 @@ public class UserFacade
 	{
 		if (!this.users.ContainsKey(email))
 		{
-            throw new InvalidOperationException("there isn't user with this email, you can't log out.");
+            throw new KanbanException("there isn't user with this email, you can't log out.");
         }
         this.users[email].LogOut();
 	}
@@ -65,7 +66,7 @@ public class UserFacade
 	public User GetUser(string email)
 	{
 		if (this.users.ContainsKey(email))
-			throw new InvalidOperationException("user doesn't exist");
+			throw new KanbanException("user doesn't exist");
 		return this.users[email];
 	}
 

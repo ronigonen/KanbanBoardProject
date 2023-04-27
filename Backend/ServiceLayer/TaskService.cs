@@ -1,4 +1,5 @@
 ﻿using IntroSE.ForumSystem.Backend.ServiceLayer;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 bF.AdvanceTask(email, boardName, taskId);
                 return JsonSerializer.Serialize(new Response());
             }
-            catch (KanbanExeption ex)
+            catch (KanbanException ex)
             {
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }

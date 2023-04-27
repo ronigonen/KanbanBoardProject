@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 
@@ -24,13 +25,13 @@ public class User
 
 	public void LogIn(string password) {
 		if (this.password != password) {
-			throw new InvalidOperationException("password is wrong.");
+			throw new KanbanException("password is wrong.");
 		}
 		else 
 		{ 
             if (this.loggedIn)
 			{
-				throw new InvalidOperationException("user already logged in.");
+				throw new KanbanException("user already logged in.");
 			}
 			else
 			{
@@ -47,7 +48,7 @@ public class User
 	{
 		if (!this.loggedIn)
 		{
-            throw new InvalidOperationException("user already logged out.");
+            throw new KanbanException("user already logged out.");
         }
         this.loggedIn = false;
     }
@@ -61,4 +62,8 @@ public class User
 	{
 		this.boards.Add(boardName, board);
 	}
+    public void DeleteBoard(string boardName)
+    {
+        this.boards.Remove(boardName);
+    }
 }

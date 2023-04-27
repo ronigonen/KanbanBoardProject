@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
@@ -21,26 +22,40 @@ public class BoardFacade
 		User user = uf.GetUser(email);
 		if (!user.IsLoggedIn()) 
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = new Board(boardName, user);
         user.AddBoard(boardName, board);
+    }
+    public void DeleteBoard(string email, string boardName)
+    {
+        User user = uf.GetUser(email);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("User is not logged in");
+        }
+        if (!boards.ContainsKey(boardName))
+        {
+            throw new KanbanException("This board name does not exists");
+        }
+        boards.Remove(boardName);
+        user.DeleteBoard(boardName);
     }
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         board.AddTask(user, dueDate, title, description, creationTime);
 	}
@@ -49,16 +64,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
 		if(!user.IsLoggedIn())
 		{
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board= boards[boardName];
 		if (board == null)
 		{
-			throw new Exception("This board name does not exists");
+			throw new KanbanException("This board name does not exists");
 		}
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         board.UpdateTaskDueDate(taskId, dueDate);
 	}
@@ -67,16 +82,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         board.UpdateTaskTitle(taskId, title);
     }
@@ -85,16 +100,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         board.UpdateTaskDescription(taskId, description);
 	}
@@ -103,16 +118,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         board.AdvanceTask(email, taskId);
 	}
@@ -121,16 +136,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         board.LimitColumn(columnName, limit);
     }
@@ -139,16 +154,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         int lim = board.GetColumnLimit(columnName);
 		return lim;
@@ -158,16 +173,16 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         Board board = boards[boardName];
         if (board == null)
         {
-            throw new Exception("This board name does not exists");
+            throw new KanbanException("This board name does not exists");
         }
         if (!user.GetBoards().ContainsKey(boardName))
         {
-            throw new Exception("The user is not a member of this board");
+            throw new KanbanException("The user is not a member of this board");
         }
         List<Task> tasks = board.GetColumn(columnName);
 		return tasks;
@@ -177,7 +192,7 @@ public class BoardFacade
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
-            throw new Exception("User is not logged in");
+            throw new KanbanException("User is not logged in");
         }
         return inProgressUser.GetList(email);
 	}
