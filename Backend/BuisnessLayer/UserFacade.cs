@@ -40,4 +40,20 @@ public class UserFacade
 		return newOne;
     }
 
+	public User LogIn(string email, string password)
+	{
+		if (!this.users.ContainsKey(email))
+		{
+            throw new InvalidOperationException("you need to register.");
+        }
+		this.users[email].LogIn(password);
+		return this.users[email];
+    }
+
+	public void LogOut(string email)
+	{
+		this.users[email].Logout();
+		return this.users[email];
+	}
+
 }
