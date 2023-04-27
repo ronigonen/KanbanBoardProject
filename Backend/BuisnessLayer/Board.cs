@@ -12,7 +12,6 @@ using log4net.Config;
 public class Board
 {
     private string name;
-    private List<User> members;
     private Dictionary<int, Task> backLogTasks;
     private Dictionary<int, Task> inProgressTasks;
     private Dictionary<int, Task> doneTasks;
@@ -25,8 +24,6 @@ public class Board
     public Board(string name, User user)
     {
         this.name = name;
-        members = new List<User>();
-        members.Add(user);
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
         doneTasks = new Dictionary<int, Task>();
