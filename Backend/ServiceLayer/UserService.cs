@@ -10,17 +10,71 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class UserService
     {
+        private UserFacade uF;
+        
         public string Register(string email, string password)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                uF.Register(email, password);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex){
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+            
         }
         public string Login(string email, string password)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                uF.LogIn(email, password);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
         public string Logout(string email)
         {
-            return JsonSerializer.Serialize(new Response("functuion isn't implemented yet"));
+            try
+            {
+                uF.LogOut(email);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
+        public string GetUser(string email)
+        {
+            try
+            {
+                uF.GetUser(email);
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanExeption ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
     }
 }
