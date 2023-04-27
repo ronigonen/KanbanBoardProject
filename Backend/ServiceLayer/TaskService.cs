@@ -13,6 +13,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class TaskService
     {
         private BoardFacade bF;
+
+        public TaskService()
+        {
+            bF = new BoardFacade();
+        }
      
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
