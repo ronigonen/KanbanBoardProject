@@ -105,7 +105,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// This method finding the user with the matches email. 
         /// </summary>
         /// <param name="email">The email of the user to find</param>
-        /// <returns>A response with a User, unless an error occurs (see <see cref="GradingService"/>)</returns>
+        /// <returns>A response with a User, unless an error occurs (see <see cref="UserService"/>)</returns>
         public string GetUser(string email)
         {
             try

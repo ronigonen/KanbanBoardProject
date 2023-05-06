@@ -30,6 +30,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             bF = new BoardFacade(uF);
 
         }
+
+        /// <summary>
+        /// This method creates a board for the given user.
+        /// </summary>
+        /// <param name="email">Email of the user, must be logged in</param>
+        /// <param name="name">The name of the new board</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string CreateBoard(string email, string name)
         {
             try
@@ -124,7 +131,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-  
+        /// <summary>
+        /// This method returns a column given it's name
+        /// </summary>
+        /// <param name="email">Email of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <returns>A response with a list of the column's tasks, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
             try
@@ -141,6 +154,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+        /// <summary>
+        /// This method deletes a board.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in and an owner of the board.</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string DeleteBoard(string email, string boardName)
         {
             try
@@ -160,6 +180,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        /// <summary>
+        /// This method returns all in-progress tasks of a user.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <returns>A response with a list of the in-progress tasks of the user, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string InProgressTasks(string email)
         {
             try
@@ -177,6 +202,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+        /// <summary>
+        /// This method adds a new task.
+        /// </summary>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="title">Title of the new task</param>
+        /// <param name="description">Description of the new task</param>
+        /// <param name="dueDate">The due date if the new task</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
         {
             try
@@ -196,6 +231,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+        /// <summary>
+        /// This method advances a task to the next column
+        /// </summary>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
             try
