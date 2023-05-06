@@ -1,13 +1,19 @@
 ﻿using IntroSE.ForumSystem.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.BuisnessLayer;
+using log4net;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Reflection;
+using log4net.Config;
+using System.IO;
+using log4net.Repository.Hierarchy;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -15,15 +21,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
         private BoardFacade bF;
 
+
         public BoardService()
         {
             bF = new BoardFacade();
+
+
         }
         public string CreateBoard(string email, string name)
         {
             try
             {
                 bF.CreateBoard(email, name);
+                LoggerService.log.Debug("Board created");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -32,6 +42,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
+                LoggerService.log.Fatal("the board wasn't created because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
@@ -41,6 +52,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.LimitColumn(email, boardName, columnOrdinal, limit);
+                LoggerService.log.Debug("column limited");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -109,6 +121,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.DeleteBoard(email, boardName);
+                LoggerService.log.Debug("Board deleted");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -117,6 +130,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
+                LoggerService.log.Fatal("the board wasn't deleted because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
@@ -143,6 +157,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.AddTask(email, boardName, title, description, dueDate, creationTime);
+                LoggerService.log.Debug("Task added");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -151,6 +166,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
+                LoggerService.log.Warn("Task wasn't added because of an unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
