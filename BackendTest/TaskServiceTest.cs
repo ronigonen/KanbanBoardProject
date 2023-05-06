@@ -25,9 +25,12 @@ namespace BackendTest
             runTestSuccessfullUpdateTaskDescription();
         }
 
+        /// <summary>
+        /// This function tests Requirement 16
+        /// </summary>
         public void runTestSuccessfullUpdateTaskDueDate()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("hadas@gmail.com", "AssignmentHadas", 2, 1, new DateTime(2023, 05, 30)));
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("hadas@gmail.com", "AssignmentHadas", 1, 1, new DateTime(2023, 05, 30)));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -38,9 +41,12 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 16
+        /// </summary>
         public void runTestSuccessfullUpdateTaskTitle()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas@gmail.com", "AssignmentHadas", 2, 1, "changed"));
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas@gmail.com", "AssignmentHadas", 1, 1, "changed"));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -51,9 +57,12 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 16
+        /// </summary>
         public void runTestSuccessfullUpdateTaskDescription()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("hadas@gmail.com", "AssignmentHadas", 2, 1, "mission 2 description changed."));
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("hadas@gmail.com", "AssignmentHadas", 1, 1, "mission 2 description changed."));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
