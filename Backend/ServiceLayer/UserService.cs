@@ -15,7 +15,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class UserService
     {
-        private UserFacade uF;
+        internal UserFacade uF;
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
