@@ -42,30 +42,31 @@ public class Board
 
     public void AddTask(User user, DateTime dueDate, string title, string description, DateTime creationTime)
     {
-        backLogTasks.Add(TaskId, new Task(user, TaskId, creationTime, dueDate, title, description));
-        TaskId = TaskId++; //uniqe id
+        if (backLogTasks.Count() = backLogMax)
+        {
+            throw new KanbanException("The Back Log column is full");
+        }
+        else
+        {
+            backLogTasks.Add(TaskId, new Task(user, TaskId, creationTime, dueDate, title, description));
+            TaskId = TaskId++; //uniqe id
+        }
+
     }
 
     public void LimitColumn(int columnOrdinal, int max)
     {
         if (columnOrdinal==1)
         {
-            backLogTasks.EnsureCapacity(max);
             backLogMax = max;
         }
         else if (columnOrdinal == 2)
         {
-            inProgressTasks.EnsureCapacity(max);
             inProgressMax = max;
         }
-        else if (columnOrdinal == 3)
+        else 
         {
-            doneTasks.EnsureCapacity(max);
             doneMax = max;
-        }
-        else
-        {
-            throw new KanbanException("Invalid column name");
         }
     }
 
@@ -79,13 +80,9 @@ public class Board
         {
             return inProgressMax;
         }
-        else if (columnOrdinal == 3)
-        {
-            return doneMax;
-        }
         else
         {
-            throw new KanbanException("Invalid column name");
+            return doneMax;
         }
     }
      
@@ -122,65 +119,71 @@ public class Board
         }
         else
         {
-            throw new KanbanException("Invalid column name");
+            throw new KanbanException("Invalid column ordinal");
         }
     }
 
 
-    public void UpdateTaskDueDate(int taskId, DateTime dueDate)
+    public void UpdateTaskDueDate(int taskId, int columnOrdinal, DateTime dueDate)
     {
-        if (backLogTasks.ContainsKey(taskId)) {
+        if (columnOrdinal==1) {
+            if(!backLogTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
             backLogTasks[taskId].UpdateTaskDueDate(dueDate);
         }
-
-        else if (inProgressTasks.ContainsKey(taskId)) {
+        else if (columnOrdinal==2) {
+            if(!inProgressTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
             inProgressTasks[taskId].UpdateTaskDueDate(dueDate);
         }
-
-        else if (doneTasks.ContainsKey(taskId)) {
+        else {
+            if (!doneTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
             doneTasks[taskId].UpdateTaskDueDate(dueDate);
         }
+    }
+
+    public void UpdateTaskTitle(int taskId, int columnOrdinal, string title)
+    {
+        if (columnOrdinal == 1)
+        {
+            if (!backLogTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
+            backLogTasks[taskId].UpdateTaskTitle(dueDate);
+        }
+        else if (columnOrdinal == 2)
+        {
+            if (!inProgressTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
+            inProgressTasks[taskId].UpdateTaskTitle(dueDate);
+        }
         else
         {
-            throw new KanbanException("Invalid taskId");
+            if (!doneTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
+            doneTasks[taskId].UpdateTaskDueTitle(dueDate);
         }
     }
 
-    public void UpdateTaskTitle(int taskId, string title)
+    public void UpdateTaskDescription(int taskId, int columnOrdinal, string description)
     {
-        if (backLogTasks.ContainsKey(taskId)) {
-            backLogTasks[taskId].UpdateTaskTitle(title);
+        if (columnOrdinal == 1)
+        {
+            if (!backLogTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
+            backLogTasks[taskId].UpdateTaskDescription(dueDate);
         }
-
-        else if (inProgressTasks.ContainsKey(taskId)) {
-            inProgressTasks[taskId].UpdateTaskTitle(title);
-        }
-
-        else if (doneTasks.ContainsKey(taskId)) {
-            doneTasks[taskId].UpdateTaskTitle(title);
+        else if (columnOrdinal == 2)
+        {
+            if (!inProgressTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
+            inProgressTasks[taskId].UpdateTaskDescription(dueDate);
         }
         else
         {
-            throw new KanbanException("Invalid taskId");
-        }
-    }
-
-    public void UpdateTaskDescription(int taskId, string description)
-    {
-        if (backLogTasks.ContainsKey(taskId)) {
-            backLogTasks[taskId].UpdateTaskDescription(description);
-        }
-
-        else if (inProgressTasks.ContainsKey(taskId)) {
-            inProgressTasks[taskId].UpdateTaskDescription(description);
-        }
-
-        else if (doneTasks.ContainsKey(taskId)) {
-            doneTasks[taskId].UpdateTaskDescription(description);
-        }
-        else
-        {
-            throw new KanbanException("Invalid taskId");
+            if (!doneTasks.ContainsKey(taskId))
+                throw new KanbanException("Invalid taskId");
+            doneTasks[taskId].UpdateTaskDescription(dueDate);
         }
     }
 
@@ -192,20 +195,34 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            inProgressTasks.Add(taskId, backLogTasks[taskId]);
-            backLogTasks.Remove(taskId);
-            Task task = inProgressTasks[taskId];
-            inProgressUser.AddTasks(email, task);
+            if (inProgressTasks.Count() = inProgressMax)
+            {
+                throw new KanbanException("'In progress' column is full");
+            }
+            else
+            {
+                inProgressTasks.Add(taskId, backLogTasks[taskId]);
+                backLogTasks.Remove(taskId);
+                Task task = inProgressTasks[taskId];
+                inProgressUser.AddTasks(email, task);
+            }
         }
         else if (columnOrdinal == 2) {
             if (!inProgressTasks.ContainsKey(taskId))
             {
                 throw new KanbanException("Invalid taskId");
             }
-            doneTasks.Add(taskId, inProgressTasks[taskId]);
-            inProgressTasks.Remove(taskId);
-            Task task = doneTasks[taskId];
-            inProgressUser.RemoveTasks(email, task);
+            if (doneTasks.Count() = doneMax)
+            {
+                throw new KanbanException("'Done' column is full");
+            }
+            else
+            {
+                doneTasks.Add(taskId, inProgressTasks[taskId]);
+                inProgressTasks.Remove(taskId);
+                Task task = doneTasks[taskId];
+                inProgressUser.RemoveTasks(email, task);
+            }
         }
         else if(columnOrdinal==3) {
             if (!doneTasks.ContainsKey(taskId))
@@ -213,10 +230,6 @@ public class Board
                 throw new KanbanException("Invalid taskId");
             }
             doneTasks.Remove(taskId);
-        }
-        else
-        { 
-            throw new KanbanException()
         }
     }
 }
