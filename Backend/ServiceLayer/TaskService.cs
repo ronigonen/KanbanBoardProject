@@ -20,9 +20,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         private BoardFacade bF;
 
 
-        public TaskService()
+        public TaskService(BoardFacade bF)
         {
-            bF = new BoardFacade();
+            this.bF = bF;
 
         }
      
@@ -66,7 +66,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskTitle(email, boardName, taskId, columnOrdinal, description);
+                bF.UpdateTaskDescription(email, boardName, taskId, columnOrdinal, description);
                 UserService.log.Debug("task description update completed");
                 return JsonSerializer.Serialize(new Response());
             }

@@ -11,10 +11,10 @@ public class BoardFacade
 	private UserFacade uf;
 	private UserInProgressTasks inProgressUser;
 
-	public BoardFacade()
+	public BoardFacade(UserFacade uF)
 	{
 		this.boards = new Dictionary<string, Board>(null, null);
-		this.uf = null;
+		this.uf = uF;
         this.inProgressUser = new UserInProgressTasks();
 	}
 	public void CreateBoard(string email, string boardName)
