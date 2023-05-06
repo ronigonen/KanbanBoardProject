@@ -25,6 +25,7 @@ public class BoardFacade
             throw new KanbanException("User is not logged in");
         }
         Board board = new Board(boardName, user);
+        boards.Add(boardName, board);
         user.AddBoard(boardName, board);
     }
     public void DeleteBoard(string email, string boardName)

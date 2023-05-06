@@ -79,26 +79,5 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
-
-        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
-        {
-            try
-            {
-                bF.AdvanceTask(email, boardName, columnOrdinal, taskId);
-                UserService.log.Debug("Advanced Task completed");
-                return JsonSerializer.Serialize(new Response());
-            }
-            catch (KanbanException ex)
-            {
-                return JsonSerializer.Serialize(new Response(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                UserService.log.Warn("the task wasn't advanced because of unexpected error");
-                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
-            }
-        }
-
-
     }
 }
