@@ -59,7 +59,7 @@ public class BoardFacade
         }
         board.AddTask(user, dueDate, title, description, creationTime);
 	}
-	public void UpdateTaskDueDate(string email, string boardName, int taskId, DateTime dueDate)
+	public void UpdateTaskDueDate(string email, string boardName, int taskId, int columnOrdinal, DateTime dueDate)
 	{
         User user = uf.GetUser(email);
 		if(!user.IsLoggedIn())
@@ -75,9 +75,9 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.UpdateTaskDueDate(taskId, dueDate);
+        board.UpdateTaskDueDate(taskId, columnOrdinal, dueDate);
 	}
-    public void UpdateTaskTitle(string email, string boardName, int taskId, string title)
+    public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
@@ -93,9 +93,9 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.UpdateTaskTitle(taskId, title);
+        board.UpdateTaskTitle(taskId, columnOrdinal, title);
     }
-	public void UpdateTaskDescription(string email, string boardName, int taskId, string description)
+	public void UpdateTaskDescription(string email, string boardName, int taskId, int columnOrdinal, string description)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
@@ -111,7 +111,7 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.UpdateTaskDescription(taskId, description);
+        board.UpdateTaskDescription(taskId, columnOrdinal, description);
 	}
 	public void AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
 	{

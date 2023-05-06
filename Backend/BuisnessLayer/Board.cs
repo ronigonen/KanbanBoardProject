@@ -207,7 +207,8 @@ public class Board
                 inProgressUser.AddTasks(email, task);
             }
         }
-        else if (columnOrdinal == 2) {
+        else if (columnOrdinal == 2)
+        {
             if (!inProgressTasks.ContainsKey(taskId))
             {
                 throw new KanbanException("Invalid taskId");
@@ -224,12 +225,8 @@ public class Board
                 inProgressUser.RemoveTasks(email, task);
             }
         }
-        else if(columnOrdinal==3) {
-            if (!doneTasks.ContainsKey(taskId))
-            {
-                throw new KanbanException("Invalid taskId");
-            }
-            doneTasks.Remove(taskId);
+        else
+            throw new KanbanException("Not possible");
         }
     }
 }
