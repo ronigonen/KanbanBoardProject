@@ -30,7 +30,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskDueDate(email, boardName, taskId, dueDate);
+                bF.UpdateTaskDueDate(email, boardName, taskId, columnOrdinal, dueDate);
                 LoggerService.log.Debug("task due date update completed");
                 return JsonSerializer.Serialize(new Response());
             }
@@ -48,7 +48,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskTitle(email, boardName, taskId, title);
+                bF.UpdateTaskTitle(email, boardName, taskId, columnOrdinal, title);
                 LoggerService.log.Debug("task title update completed");
                 return JsonSerializer.Serialize(new Response());
             }
@@ -66,7 +66,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskTitle(email, boardName, taskId, description);
+                bF.UpdateTaskTitle(email, boardName, taskId, columnOrdinal, description);
                 LoggerService.log.Debug("task description update completed");
                 return JsonSerializer.Serialize(new Response());
             }
