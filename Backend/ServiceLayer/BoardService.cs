@@ -33,7 +33,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.CreateBoard(email, name);
-                LoggerService.log.Debug("Board created");
+                UserService.log.Debug("Board created");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -42,7 +42,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
-                LoggerService.log.Fatal("the board wasn't created because of unexpected error");
+                UserService.log.Fatal("the board wasn't created because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
@@ -52,7 +52,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.LimitColumn(email, boardName, columnOrdinal, limit);
-                LoggerService.log.Debug("column limited");
+                UserService.log.Debug("column limited");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -121,7 +121,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.DeleteBoard(email, boardName);
-                LoggerService.log.Debug("Board deleted");
+                UserService.log.Debug("Board deleted");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -130,7 +130,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
-                LoggerService.log.Fatal("the board wasn't deleted because of unexpected error");
+                UserService.log.Fatal("the board wasn't deleted because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
@@ -157,7 +157,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.AddTask(email, boardName, title, description, dueDate, creationTime);
-                LoggerService.log.Debug("Task added");
+                UserService.log.Debug("Task added");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -166,7 +166,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
-                LoggerService.log.Warn("Task wasn't added because of an unexpected error");
+                UserService.log.Warn("Task wasn't added because of an unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }

@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.UpdateTaskDueDate(email, boardName, taskId, dueDate);
-                LoggerService.log.Debug("task due date update completed");
+                UserService.log.Debug("task due date update completed");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -49,7 +49,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.UpdateTaskTitle(email, boardName, taskId, title);
-                LoggerService.log.Debug("task title update completed");
+                UserService.log.Debug("task title update completed");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -67,7 +67,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.UpdateTaskTitle(email, boardName, taskId, description);
-                LoggerService.log.Debug("task description update completed");
+                UserService.log.Debug("task description update completed");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -85,7 +85,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 bF.AdvanceTask(email, boardName, columnOrdinal, taskId);
-                LoggerService.log.Debug("Advanced Task completed");
+                UserService.log.Debug("Advanced Task completed");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -94,7 +94,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
-                LoggerService.log.Warn("the task wasn't advanced because of unexpected error");
+                UserService.log.Warn("the task wasn't advanced because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }

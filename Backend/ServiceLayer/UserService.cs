@@ -16,11 +16,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class UserService
     {
         private UserFacade uF;
+        internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public UserService()
         {
             uF = new UserFacade();
-
+            var logRespository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRespository, new FileInfo("log4net.config"));
+            log.Info("starting log!");
         }
         
         public string Register(string email, string password)
@@ -28,7 +32,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 uF.Register(email, password);
-                LoggerService.log.Debug("Register complete");
+                UserService.log.Debug("Register complete");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -36,7 +40,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonSerializer.Serialize(new Response(ex.Message));
             }
             catch (Exception ex){
-                LoggerService.log.Error("the register wasn't completed because of unexpected error");
+                UserService.log.Error("the register wasn't completed because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
             
@@ -46,7 +50,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 uF.LogIn(email, password);
-                LoggerService.log.Debug("login complete");
+                UserService.log.Debug("login complete");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -55,7 +59,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
-                LoggerService.log.Warn("the login wasn't completed because of unexpected error");
+                UserService.log.Warn("the login wasn't completed because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
@@ -64,7 +68,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 uF.LogOut(email);
-                LoggerService.log.Debug("logout complete");
+                UserService.log.Debug("logout complete");
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -73,7 +77,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (Exception ex)
             {
-                LoggerService.log.Error("the logout wasn't completed because of unexpected error");
+                UserService.log.Error("the logout wasn't completed because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
