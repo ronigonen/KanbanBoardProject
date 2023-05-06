@@ -11,12 +11,19 @@ public class Task
 
     public Task(User user, int id, DateTime creationTime, DateTime dueDate, string title, string description)
 	{
-        this.user = user;
-        this.id = id;
-        this.creationTime = creationTime;
-        this.dueDate = dueDate;
-        this.title = title;
-        this.description = description;
+        if (title == null || title.Length > 50)
+            throw new KanbanException("Title is empty or has more than 50 characters");
+        if (description.Length > 300)
+            throw new KanbanException("Description is too long");
+        else
+        {
+            this.user = user;
+            this.id = id;
+            this.creationTime = creationTime;
+            this.dueDate = dueDate;
+            this.title = title;
+            this.description = description;
+        }
 	}
 
     public int GetId() { 

@@ -5,12 +5,32 @@
     ///Otherwise, <c>ErrorOccured = false</c> and <c>ErrorMessage = null</c>.</summary>
     public class Response
     {
-        public readonly string ErrorMessage;
-        public bool ErrorOccured { get => ErrorMessage != null; }
-        internal Response() { }
-        internal Response(string msg)
+        public string ErrorMessage { get; set; }
+        public object ReturnValue { get; set; }
+
+        //call when success
+        public Response() { }
+        public Response(object res)
         {
-            this.ErrorMessage = msg;
+            ReturnValue = res;
+        }
+
+        //call when error
+        public Response(string msg)
+        {
+            ErrorMessage = msg;
+        }
+
+        //call for desirialize
+        public Response(string msg, object res)
+        {
+            ErrorMessage = msg;
+            ReturnValue = res;
+        }
+
+        public bool ErrorOccured()
+        {
+            => ErrorMessage! != null;
         }
     }
 }
