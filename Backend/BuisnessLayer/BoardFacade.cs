@@ -75,7 +75,12 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.UpdateTaskDueDate(taskId, columnOrdinal, dueDate);
+        if (columnOrdinal == 3)
+        {
+            throw new KanbanException("Tasks that are 'Done' can not be changed");
+        }
+        else
+            board.UpdateTaskDueDate(taskId, columnOrdinal, dueDate);
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
@@ -93,7 +98,12 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.UpdateTaskTitle(taskId, columnOrdinal, title);
+        if (columnOrdinal == 3)
+        {
+            throw new KanbanException("Tasks that are 'Done' can not be changed");
+        }
+        else
+            board.UpdateTaskTitle(taskId, columnOrdinal, title);
     }
 	public void UpdateTaskDescription(string email, string boardName, int taskId, int columnOrdinal, string description)
 	{
@@ -111,7 +121,12 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.UpdateTaskDescription(taskId, columnOrdinal, description);
+        if (columnOrdinal == 3)
+        {
+            throw new KanbanException("Tasks that are 'Done' can not be changed");
+        }
+        else
+            board.UpdateTaskDescription(taskId, columnOrdinal, description);
 	}
 	public void AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
 	{
@@ -129,7 +144,12 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        board.AdvanceTask(email, columnOrdinal, taskId);
+        if (columnOrdinal == 3)
+        {
+            throw new KanbanException("Tasks that are 'Done' can not be changed");
+        }
+        else
+            board.AdvanceTask(email, columnOrdinal, taskId);
 	}
 	public void LimitColumn(string email, string boardName, int columnOrdinal, int limit)
 	{

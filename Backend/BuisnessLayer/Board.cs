@@ -137,9 +137,7 @@ public class Board
             inProgressTasks[taskId].UpdateTaskDueDate(dueDate);
         }
         else {
-            if (!doneTasks.ContainsKey(taskId))
-                throw new KanbanException("Invalid taskId");
-            doneTasks[taskId].UpdateTaskDueDate(dueDate);
+            throw new KanbanException("Invalid taskId");
         }
     }
 
@@ -159,9 +157,7 @@ public class Board
         }
         else
         {
-            if (!doneTasks.ContainsKey(taskId))
-                throw new KanbanException("Invalid taskId");
-            doneTasks[taskId].UpdateTaskTitle(title);
+            throw new KanbanException("Invalid taskId");
         }
     }
 
@@ -181,9 +177,7 @@ public class Board
         }
         else
         {
-            if (!doneTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            doneTasks[taskId].UpdateTaskDescription(description);
         }
     }
 
@@ -229,7 +223,7 @@ public class Board
             throw new KanbanException("Not possible");
         }
     }
-}
+
 
 
 
