@@ -33,6 +33,9 @@ namespace BackendTest
             runTestFailedLogInByNotRegisteredEmail();
         }
 
+        /// <summary>
+        /// This function tests Requirement 2 and Requirement 7
+        /// </summary>
         public void runTestSuccessfullRegister()
         {
             Response res1e = JsonSerializer.Deserialize<Response>(userService.Register("roni12@gmail.com", "R012356r"));
@@ -64,6 +67,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 3
+        /// </summary>
         public void runTestfailedRegisterByEmailNull()
         {
             Response res1d = JsonSerializer.Deserialize<Response>(userService.Register(null, "Ab015234567"));
@@ -77,6 +83,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 2
+        /// </summary>
         public void runTestfailedRegisterByInvalidPassword() 
         {
             Response res1b = JsonSerializer.Deserialize<Response>(userService.Register("noga1542@gmail.com", "0123"));
@@ -90,6 +99,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 3
+        /// </summary>
         public void runTestFailedlRegisterByUsedEmail()
         {
             Response res1c = JsonSerializer.Deserialize<Response>(userService.Register("hadas12@gmail.com", "Ab01234567"));
@@ -104,7 +116,9 @@ namespace BackendTest
         }
 
 
-
+        /// <summary>
+        /// This function tests Requirement 8
+        /// </summary>
         public void runTestSuccessfullLogOut()
         {
             Response res2a = JsonSerializer.Deserialize<Response>(userService.Logout("hadas12@gmail.com"));
@@ -127,7 +141,9 @@ namespace BackendTest
             }
         }
 
-
+        /// <summary>
+        /// This function tests Requirement 8
+        /// </summary>
         public void runTestFailedLogOutByNotLogInEmail()
         {
             Response res2b = JsonSerializer.Deserialize<Response>(userService.Logout("noga@gmail.com"));
@@ -141,7 +157,9 @@ namespace BackendTest
             }
         }
 
-        
+        /// <summary>
+        /// This function tests Requirement 8 and Requirement 1
+        /// </summary>
         public void runTestSuccessfullLogIn()
         {
             Response res3a = JsonSerializer.Deserialize<Response>(userService.Login("hadas12@gmail.com", "Aa012345"));
@@ -155,6 +173,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 8 and Requirement 1
+        /// </summary>
         public void runTestFailedLogInByIncorrectPassword()
         {
             Response res3b = JsonSerializer.Deserialize<Response>(userService.Login("roni12@gmail.com", "R012356rvc"));
@@ -168,6 +189,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 8 and Requirement 1
+        /// </summary>
         public void runTestFailedLogInByNotRegisteredEmail()
         {
             Response res3c = JsonSerializer.Deserialize<Response>(userService.Login("noga@gmail.com", "R01279rvc"));

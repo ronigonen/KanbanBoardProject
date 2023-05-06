@@ -45,6 +45,9 @@ namespace BackendTest
             //runTestSuccessfullGetInProgress();
         }
 
+        /// <summary>
+        /// This function tests Requirement 9
+        /// </summary>
         public void runTestSuccessfullCreateBoard()
         {
             Response resp1a = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas@gmail.com", "AssignmentHadas"));
@@ -85,6 +88,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 6
+        /// </summary>
         public void runTestFailedCreateBoardBySameNameBoardToSameUser()
         {
             Response resp1b = JsonSerializer.Deserialize<Response>(boardService.CreateBoard("hadas@gmail.com", "AssignmentHadas"));
@@ -99,9 +105,12 @@ namespace BackendTest
         }
 
 
+        /// <summary>
+        /// This function tests Requirement 11
+        /// </summary>
         public void runTestSuccessfullLimitColumn()
         {
-            Response resp2a = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas@gmail.com", "AssignmentHadas", 1, 2));
+            Response resp2a = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("hadas@gmail.com", "AssignmentHadas", 0, 2));
             if (resp2a.ErrorOccured())
             {
                 Console.WriteLine(resp2a.ErrorMessage);
@@ -110,7 +119,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullLimitColumn- succeeded.");
             }
-            Response resp2c = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("roni@gmail.com", "Assignment1", 2, 3));
+            Response resp2c = JsonSerializer.Deserialize<Response>(boardService.LimitColumn("roni@gmail.com", "Assignment1", 1, 3));
             if (resp2c.ErrorOccured())
             {
                 Console.WriteLine(resp2c.ErrorMessage);
@@ -121,9 +130,12 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 12
+        /// </summary>
         public void runTestSucceessGetLimitColumn()
         {
-            Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas@gmail.com", "AssignmentHadas", 1));
+            Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas@gmail.com", "AssignmentHadas", 0));
             Object o = resp3a.ReturnValue;
             if (o.ToString().Equals("2"))
                 Console.WriteLine("runTestSucceessGetLimitColumn- succeeded.");
@@ -131,9 +143,13 @@ namespace BackendTest
                 Console.WriteLine("runTestSucceessGetLimitColumn- failed.");
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 5
+        /// </summary>
         public void runTestSucceessGetNameColumn()
         {
-            Response resp3b = JsonSerializer.Deserialize<Response>(boardService.GetColumnName("roni@gmail.com", "Assignment1", 2));
+            Response resp3b = JsonSerializer.Deserialize<Response>(boardService.GetColumnName("roni@gmail.com", "Assignment1", 1));
             Object o1 = resp3b.ReturnValue;
             if (o1.ToString().Equals("In Progress"))
                 Console.WriteLine("runTestSucceessGetNameColumn- succeeded.");
@@ -142,6 +158,9 @@ namespace BackendTest
         }
 
 
+        /// <summary>
+        /// This function tests Requirement 4
+        /// </summary>
         public void runTestSuccessfullAddTask()
         {
             Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AddTask("hadas@gmail.com", "AssignmentHadas", "Mission1", "your first mission", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
@@ -164,6 +183,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 4
+        /// </summary>
         public void runTestFailedAddTaskByLimitColumn()
         {
             Response resp5c = JsonSerializer.Deserialize<Response>(boardService.AddTask("hadas@gmail.com", "AssignmentHadas", "Mission3", "your third mission", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
@@ -177,9 +200,12 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 14
+        /// </summary>
         public void runTestSuccessfullGetColumn()
         {
-            Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumn("hadas@gmail.com", "AssignmentHadas", 1));
+            Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumn("hadas@gmail.com", "AssignmentHadas", 0));
             Object o1 = resp3a.ReturnValue;
             Console.WriteLine(o1);
             if (o1.ToString().Equals("In Progress"))
@@ -188,6 +214,10 @@ namespace BackendTest
                 Console.WriteLine("runTestSucceessGetColumn- failed.");
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 9
+        /// </summary>
         public void runTestSuccessfullDeleteBoard()
         {
             Response resp5d = JsonSerializer.Deserialize<Response>(boardService.DeleteBoard("roni@gmail.com", "Assignment1"));
@@ -201,6 +231,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 9
+        /// </summary>
         public void runTestSuccessfullAddTaskAfterDeleteBoard()
         {
             Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AddTask("roni@gmail.com", "Assignment1", "Mission2", "your first mission", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
@@ -214,9 +248,12 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 14
+        /// </summary>
         public void runTestSuccessfullAdvanceTask()
         {
-            Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 1, 0));
+            Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 0, 0));
             if (resp5a.ErrorOccured())
             {
                 Console.WriteLine(resp5a.ErrorMessage);
@@ -225,7 +262,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullAdvanceTask- succeeded.");
             }
-            Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 2, 0));
+            Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 1, 0));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -234,7 +271,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullAdvanceTask- succeeded.");
             }
-            Response resp5c = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 1, 1));
+            Response resp5c = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 0, 1));
             if (resp5c.ErrorOccured())
             {
                 Console.WriteLine(resp5c.ErrorMessage);
@@ -245,9 +282,12 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 14
+        /// </summary>
         public void runTestFailedAdvanceTask()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 3, 0));
+            Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 2, 0));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine("runTestFailedAdvanceTask- succeeded.");
@@ -258,6 +298,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 17
+        /// </summary>
         public void runTestSuccessfullGetInProgress()
         {
             Response resp3a = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas@gmail.com"));
