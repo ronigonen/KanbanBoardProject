@@ -48,8 +48,8 @@ public class Board
         }
         else
         {
-            backLogTasks.Add(TaskId, new Task(user, TaskId, creationTime, dueDate, title, description));
-            TaskId = TaskId++; //uniqe id
+            backLogTasks.Add(TaskId, new Task(TaskId, creationTime, dueDate, title, description));
+            TaskId = TaskId+1; //uniqe id
         }
 
     }

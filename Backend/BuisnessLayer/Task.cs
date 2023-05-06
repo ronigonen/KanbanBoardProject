@@ -3,14 +3,13 @@ using System;
 
 public class Task
 {
-    User user;
     private int id;
     private DateTime creationTime;
     private DateTime dueDate;
     private string title;
     private string description;
 
-    public Task(User user, int id, DateTime creationTime, DateTime dueDate, string title, string description)
+    public Task(int id, DateTime creationTime, DateTime dueDate, string title, string description)
 	{
         if (title == null || title.Length > 50)
             throw new KanbanException("Title is empty or has more than 50 characters");
@@ -18,7 +17,6 @@ public class Task
             throw new KanbanException("Description is too long");
         else
         {
-            this.user = user;
             this.id = id;
             this.creationTime = creationTime;
             this.dueDate = dueDate;

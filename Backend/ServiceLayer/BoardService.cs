@@ -71,8 +71,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.GetColumnLimit(email, boardName, columnOrdinal);
-                return JsonSerializer.Serialize(new Response());
+                return JsonSerializer.Serialize(new Response(bF.GetColumnLimit(email, boardName, columnOrdinal)));
             }
             catch (KanbanException ex)
             {
@@ -87,8 +86,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.GetColumnName(email, boardName, columnOrdinal);
-                return JsonSerializer.Serialize(new Response());
+                return JsonSerializer.Serialize(new Response((Object) bF.GetColumnName(email, boardName, columnOrdinal)));
             }
             catch (KanbanException ex)
             {
@@ -105,8 +103,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.GetColumn(email, boardName, columnOrdinal);
-                return JsonSerializer.Serialize(new Response());
+                return JsonSerializer.Serialize(new Response(bF.GetColumn(email, boardName, columnOrdinal)));
             }
             catch (KanbanException ex)
             {
@@ -169,6 +166,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             catch (Exception ex)
             {
                 UserService.log.Warn("Task wasn't added because of an unexpected error");
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
+
+        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
+        {
+            try
+            {
+                bF.AdvanceTask(email, boardName, columnOrdinal, taskId);
+                UserService.log.Debug("Advanced Task completed");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                UserService.log.Warn("the task wasn't advanced because of unexpected error");
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }

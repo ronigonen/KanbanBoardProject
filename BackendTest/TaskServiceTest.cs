@@ -18,12 +18,50 @@ namespace BackendTest
             this.taskService = w.TaskService;
         }
 
-        public void createUsersAndBoardsInTask()
+        public void runTests()
         {
+            runTestSuccessfullUpdateTaskDueDate();
+            runTestSuccessfullUpdateTaskTitle();
+            runTestSuccessfullUpdateTaskDescription();
         }
 
-        public void runTestSuccessfullAdvanceTask()
+        public void runTestSuccessfullUpdateTaskDueDate()
         {
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("hadas@gmail.com", "AssignmentHadas", 2, 1, new DateTime(2023, 05, 30)));
+            if (resp5b.ErrorOccured())
+            {
+                Console.WriteLine(resp5b.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("runTestSuccessfullUpdateTaskDueDate- succeeded.");
+            }
+        }
+
+        public void runTestSuccessfullUpdateTaskTitle()
+        {
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas@gmail.com", "AssignmentHadas", 2, 1, "changed"));
+            if (resp5b.ErrorOccured())
+            {
+                Console.WriteLine(resp5b.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("runTestSuccessfullUpdateTaskTitle- succeeded.");
+            }
+        }
+
+        public void runTestSuccessfullUpdateTaskDescription()
+        {
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("hadas@gmail.com", "AssignmentHadas", 2, 1, "mission 2 description changed."));
+            if (resp5b.ErrorOccured())
+            {
+                Console.WriteLine(resp5b.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("runTestSuccessfullUpdateTaskDescription- succeeded.");
+            }
         }
 
     }

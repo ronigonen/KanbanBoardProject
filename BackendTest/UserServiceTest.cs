@@ -53,7 +53,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullRegister- succeeded.");
             }
-            Response res1c = JsonSerializer.Deserialize<Response>(userService.Register("noga12@gmail.com", "A2345a"));
+            Response res1c = JsonSerializer.Deserialize<Response>(userService.Register("noga12@gmail.com", "A2345789a"));
             if (res1c.ErrorOccured())
             {
                 Console.WriteLine(res1c.ErrorMessage);
