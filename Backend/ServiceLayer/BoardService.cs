@@ -14,18 +14,20 @@ using System.Reflection;
 using log4net.Config;
 using System.IO;
 using log4net.Repository.Hierarchy;
+using System.Security.Permissions;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardService
     {
-        private BoardFacade bF;
+        public BoardFacade bF;
+        public UserFacade uF;
 
 
-        public BoardService()
+        public BoardService(UserFacade uF)
         {
-            bF = new BoardFacade();
-
+            this.uF = uF;
+            bF = new BoardFacade(uF);
 
         }
         public string CreateBoard(string email, string name)
