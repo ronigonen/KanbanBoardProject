@@ -4,17 +4,18 @@ using System.Collections.Generic;
 
 public class UserInProgressTasks
 {
-	Dictionary<string, List<Task>> userTasks;
+	private Dictionary<string, List<Task>> userTasks;
 
 	public UserInProgressTasks() { 
 	userTasks = new Dictionary<string, List<Task>>();
 	}
-	
-	public UserInProgressTasks(string email)
+	public void AddUser(string email)
 	{
-		this.userTasks = new Dictionary<string, List<Task>>();
-		this.userTasks.Add(email, new List<Task>());
-	}
+        if (!userTasks.ContainsKey(email))
+		{
+            this.userTasks.Add(email, new List<Task>());
+        }
+    }
 	public void AddTasks(string email, Task task)
 	{
 		if (task == null)

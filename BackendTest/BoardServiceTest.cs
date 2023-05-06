@@ -250,11 +250,11 @@ namespace BackendTest
             Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 3, 0));
             if (resp5b.ErrorOccured())
             {
-                Console.WriteLine("runTestSuccessfullAdvanceTask- succeeded.");
+                Console.WriteLine("runTestFailedAdvanceTask- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullAdvanceTask- failed.");
+                Console.WriteLine("runTestFailedAdvanceTask- failed.");
             }
         }
 
