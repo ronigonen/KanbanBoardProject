@@ -26,7 +26,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             XmlConfigurator.Configure(logRespository, new FileInfo("log4net.config"));
             log.Info("starting log!");
         }
-        
+
+        /// <summary>
+        /// This method registers a new user to the system.
+        /// </summary>
+        /// <param name="email">The user email address, used as the username for logging the system.</param>
+        /// <param name="password">The user password.</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="UserService"/>)</returns>
         public string Register(string email, string password)
         {
             try
@@ -45,13 +51,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             
         }
+
+
+        /// <summary>
+        ///  This method logs in an existing user.
+        /// </summary>
+        /// <param name="email">The email address of the user to login</param>
+        /// <param name="password">The password of the user to login</param>
+        /// <returns>A response with the user's email, unless an error occurs (see <see cref="UserService"/>)</returns>
         public string Login(string email, string password)
         {
             try
             {
-                uF.LogIn(email, password);
                 UserService.log.Debug("login complete");
-                return JsonSerializer.Serialize(new Response());
+                return JsonSerializer.Serialize(new Response(uF.LogIn(email, password)));
             }
             catch (KanbanException ex)
             {
@@ -63,6 +76,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
+
+        /// <summary>
+        /// This method logs out a logged in user. 
+        /// </summary>
+        /// <param name="email">The email of the user to log out</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="UserService"/>)</returns>
         public string Logout(string email)
         {
             try
@@ -81,12 +100,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
+
+        /// <summary>
+        /// This method finding the user with the matches email. 
+        /// </summary>
+        /// <param name="email">The email of the user to find</param>
+        /// <returns>A response with a User, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetUser(string email)
         {
             try
             {
-                uF.GetUser(email);
-                return JsonSerializer.Serialize(new Response());
+                return JsonSerializer.Serialize(new Response(uF.GetUser(email)));
             }
             catch (KanbanException ex)
             {

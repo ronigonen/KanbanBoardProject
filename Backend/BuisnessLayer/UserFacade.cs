@@ -45,13 +45,14 @@ public class UserFacade
 		this.users.Add(email, newOne);
     }
 
-	public void LogIn(string email, string password)
+	public string LogIn(string email, string password)
 	{
 		if (!this.users.ContainsKey(email))
 		{
             throw new KanbanException("you need to register.");
         }
 		this.users[email].LogIn(password);
+		return email;
     }
 
 	public void LogOut(string email)
