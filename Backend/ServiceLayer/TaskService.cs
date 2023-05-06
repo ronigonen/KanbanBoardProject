@@ -23,7 +23,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskDueDate(email, boardName, taskId, dueDate);
+                bF.UpdateTaskDueDate(email, boardName, taskId, columnOrdinal, dueDate);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -40,7 +40,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskTitle(email, boardName, taskId, title);
+                bF.UpdateTaskTitle(email, boardName, taskId, columnOrdinal, title);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
@@ -57,7 +57,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.UpdateTaskTitle(email, boardName, taskId, description);
+                bF.UpdateTaskTitle(email, boardName, taskId, columnOrdinal, description);
                 return JsonSerializer.Serialize(new Response());
             }
             catch (KanbanException ex)
