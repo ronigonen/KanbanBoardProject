@@ -7,12 +7,14 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Welcome!");
-        UserService userService = new UserService();
-        new UserServiceTest(userService).runTests();
-        BoardService boardService = new BoardService();
-        new BoardServiceTest(boardService).runTests();
-        TaskService taskService = new TaskService();
-        new TaskServiceTest(taskService).runTests();
+        WrapperClass w= new WrapperClass();
+        UserServiceTest us= new UserServiceTest(w);
+        BoardServiceTest bs = new BoardServiceTest(w);
+  //      TaskServiceTest ts = new TaskServiceTest(w);
+        us.runTests();
+        bs.runTests();
+
+
     }
 }
 

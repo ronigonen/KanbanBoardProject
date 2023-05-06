@@ -229,7 +229,7 @@ public class Board
             throw new KanbanException("Not possible");
         }
     }
-}
+
 
 
 

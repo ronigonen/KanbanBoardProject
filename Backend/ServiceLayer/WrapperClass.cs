@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
-    internal class WrapperClass
+    public class WrapperClass
     {
-        internal UserService UserService;
-        internal BoardService boardService;
-        internal TaskService TaskService;
+        public UserService UserService;
+        public BoardService boardService;
+        public TaskService TaskService;
 
 
         public WrapperClass() {
