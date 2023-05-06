@@ -13,7 +13,7 @@ public class BoardFacade
 
 	public BoardFacade(UserFacade uF)
 	{
-		this.boards = new Dictionary<string, Board>(null, null);
+		this.boards = new Dictionary<string, Board>();
 		this.uf = uF;
         this.inProgressUser = new UserInProgressTasks();
 	}
