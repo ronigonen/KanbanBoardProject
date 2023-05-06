@@ -10,11 +10,10 @@ class Program
         WrapperClass w= new WrapperClass();
         UserServiceTest us= new UserServiceTest(w);
         BoardServiceTest bs = new BoardServiceTest(w);
-  //      TaskServiceTest ts = new TaskServiceTest(w);
+        TaskServiceTest ts = new TaskServiceTest(w);
         us.runTests();
         bs.runTests();
-
-
+        ts.runTests();
     }
 }
 

@@ -22,7 +22,7 @@ public class Board
     private UserInProgressTasks inProgressUser;
 
 
-    public Board(string name, User user)
+    public Board(UserInProgressTasks u, string name, User user)
     {
         this.name = name;
         backLogTasks = new Dictionary<int, Task>();
@@ -32,7 +32,7 @@ public class Board
         backLogMax = -1;
         inProgressMax = -1;
         doneMax = -1;
-        inProgressUser=new UserInProgressTasks(user.GetEmail());
+        inProgressUser=u;
     }
 
     public Task getTask(int taskId)
@@ -48,8 +48,8 @@ public class Board
         }
         else
         {
-            backLogTasks.Add(TaskId, new Task(user, TaskId, creationTime, dueDate, title, description));
-            TaskId = TaskId++; //uniqe id
+            backLogTasks.Add(TaskId, new Task(TaskId, creationTime, dueDate, title, description));
+            TaskId = TaskId+1; //uniqe id
         }
 
     }
@@ -196,9 +196,9 @@ public class Board
             else
             {
                 inProgressTasks.Add(taskId, backLogTasks[taskId]);
+                inProgressUser.AddTasks(email, backLogTasks[taskId]);
                 backLogTasks.Remove(taskId);
                 Task task = inProgressTasks[taskId];
-                inProgressUser.AddTasks(email, task);
             }
         }
         else if (columnOrdinal == 2)

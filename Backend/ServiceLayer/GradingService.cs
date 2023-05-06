@@ -205,7 +205,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            return taskSer.AdvanceTask(email, boardName, columnOrdinal, taskId);
+            return boardSer.AdvanceTask(email, boardName, columnOrdinal, taskId);
         }
 
 
