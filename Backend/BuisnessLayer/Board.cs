@@ -56,11 +56,11 @@ public class Board
 
     public void LimitColumn(int columnOrdinal, int max)
     {
-        if (columnOrdinal==1)
+        if (columnOrdinal==0)
         {
             backLogMax = max;
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             inProgressMax = max;
         }
@@ -72,11 +72,11 @@ public class Board
 
     public int GetColumnLimit(int columnOrdinal)
     {
-        if (columnOrdinal == 1)
+        if (columnOrdinal == 0)
         {
             return backLogMax;
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             return inProgressMax;
         }
@@ -88,11 +88,11 @@ public class Board
      
     public string GetColumnName(int columnOrdinal)
     {
-        if (columnOrdinal == 1)
+        if (columnOrdinal == 0)
         {
             return "Back Log";
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             return "In Progress";
         }
@@ -105,15 +105,15 @@ public class Board
 
     public List<Task> GetColumn(int columnOrdinal)
     {
-        if (columnOrdinal == 1)
+        if (columnOrdinal == 0)
         {
             return new List<Task>(backLogTasks.Values.ToList());
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             return new List<Task>(inProgressTasks.Values.ToList());
         }
-        else if (columnOrdinal == 3)
+        else if (columnOrdinal == 2)
         {
             return new List<Task>(doneTasks.Values.ToList());
         }
@@ -126,12 +126,12 @@ public class Board
 
     public void UpdateTaskDueDate(int taskId, int columnOrdinal, DateTime dueDate)
     {
-        if (columnOrdinal==1) {
+        if (columnOrdinal==0) {
             if(!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
             backLogTasks[taskId].UpdateTaskDueDate(dueDate);
         }
-        else if (columnOrdinal==2) {
+        else if (columnOrdinal==1) {
             if(!inProgressTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
             inProgressTasks[taskId].UpdateTaskDueDate(dueDate);
@@ -145,13 +145,13 @@ public class Board
 
     public void UpdateTaskTitle(int taskId, int columnOrdinal, string title)
     {
-        if (columnOrdinal == 1)
+        if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
             backLogTasks[taskId].UpdateTaskTitle(title);
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
@@ -167,13 +167,13 @@ public class Board
 
     public void UpdateTaskDescription(int taskId, int columnOrdinal, string description)
     {
-        if (columnOrdinal == 1)
+        if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
             backLogTasks[taskId].UpdateTaskDescription(description);
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
@@ -189,7 +189,7 @@ public class Board
 
     public void AdvanceTask(string email, int columnOrdinal, int taskId)
     {
-        if (columnOrdinal == 1)
+        if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
             {
@@ -207,7 +207,7 @@ public class Board
                 Task task = inProgressTasks[taskId];
             }
         }
-        else if (columnOrdinal == 2)
+        else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
             {

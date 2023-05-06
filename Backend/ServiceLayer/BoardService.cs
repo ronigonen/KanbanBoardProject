@@ -49,6 +49,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+
+        /// <summary>
+        /// This method limits the number of tasks in a specific column.
+        /// </summary>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="limit">The new limit value. A value of -1 indicates no limit.</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
             try
@@ -67,6 +77,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        /// <summary>
+        /// This method gets the limit of a specific column.
+        /// </summary>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <returns>A response with the column's limit, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
             try
@@ -82,6 +99,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
+
+
+        /// <summary>
+        /// This method gets the name of a specific column
+        /// </summary>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <returns>A response with the column's name, unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
             try
