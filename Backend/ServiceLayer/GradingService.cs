@@ -54,11 +54,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         private BoardService boardSer;
         private TaskService taskSer;
 
-        public GradingService(UserService us, BoardService bs, TaskService ts)
+        public GradingService()
         {
-            this.userSer = us;
-            this.boardSer = bs;
-            this.taskSer = ts;
+            WrapperClass wrapperSer=new WrapperClass();
+            this.userSer = wrapperSer.UserService;
+            this.boardSer = wrapperSer.boardService;
+            this.taskSer = wrapperSer.TaskService;
         }
 
 
