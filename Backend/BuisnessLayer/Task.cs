@@ -10,7 +10,7 @@ public class Task
     private string description;
 
     public Task(int id, DateTime creationTime, DateTime dueDate, string title, string description)
-	{
+    {
         if (title == null || title.Length > 50)
             throw new KanbanException("Title is empty or has more than 50 characters");
         if (description.Length > 300)
@@ -23,7 +23,12 @@ public class Task
             this.title = title;
             this.description = description;
         }
-	}
+    }
+    public int ID { get => id; set => id=value; }
+    public DateTime CreationTime { get => creationTime; set =>creationTime=value; }
+    public string Title { get => title; set => title=value; }
+    public string Description { get=> description; set=> description=value; }
+    
 
     public int GetId() { 
         return id; 

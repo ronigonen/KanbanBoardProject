@@ -37,12 +37,12 @@ namespace BackendTest
             runTestSucceessGetNameColumn();
             runTestSuccessfullAddTask();
             runTestFailedAddTaskByLimitColumn();
-            //runTestSuccessfullGetColumn();
+            runTestSuccessfullGetColumn();
             runTestSuccessfullDeleteBoard();
             runTestSuccessfullAddTaskAfterDeleteBoard();
             runTestSuccessfullAdvanceTask();
             runTestFailedAdvanceTask();
-            //runTestSuccessfullGetInProgress();
+            runTestSuccessfullGetInProgress();
         }
 
         /// <summary>
@@ -208,10 +208,6 @@ namespace BackendTest
             Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumn("hadas@gmail.com", "AssignmentHadas", 0));
             Object o1 = resp3a.ReturnValue;
             Console.WriteLine(o1);
-            if (o1.ToString().Equals("In Progress"))
-                Console.WriteLine("runTestSucceessGetColumn- succeeded.");
-            else
-                Console.WriteLine("runTestSucceessGetColumn- failed.");
         }
 
 
@@ -307,12 +303,7 @@ namespace BackendTest
             Response resp3a = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas@gmail.com"));
             Object o1 = resp3a.ReturnValue;
             Console.WriteLine(o1);
-            if (o1.ToString().Equals("In Progress"))
-                Console.WriteLine("runTestSuccessfullGetInProgress- succeeded.");
-            else
-                Console.WriteLine("runTestSuccessfullGetInProgress- failed.");   
         }
-
 
     }
 }

@@ -19,9 +19,8 @@ public class User
 		this.boards=new Dictionary<string, Board>();
 	}
 
-	public string GetEmail() {
-		return email;
-	}
+
+	public string EMAIL { get => email; set => email = value; }
 
 	public void LogIn(string password) {
 		if (this.password != password) {
