@@ -25,7 +25,7 @@ public class Task
         }
     }
     public int ID { get => id; set => id=value; }
-    public DateTime CreationTime { get => creationTime; set =>creationTime=value; }
+    public DateTime DueDate { get => dueDate; set =>dueDate=value; }
     public string Title { get => title; set => title=value; }
     public string Description { get=> description; set=> description=value; }
     

@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using BackendTest;
 using IntroSE.Kanban.Backend.ServiceLayer;
+using System.Data.Common;
 
 class Program
 {
@@ -13,7 +14,7 @@ class Program
         TaskServiceTest ts = new TaskServiceTest(w);
         us.runTests();
         bs.runTests();
-        ts.runTests();
+        ts.runTests();  
     }
 }
 
