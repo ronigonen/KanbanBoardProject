@@ -142,7 +142,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                return JsonSerializer.Serialize(new Response(bF.GetColumn(email, boardName, columnOrdinal)));
+                List<Task> tasks = bF.GetColumn(email, boardName, columnOrdinal);
+                Task[] taskToSend = tasks.ToArray();
+                return JsonSerializer.Serialize(new Response(taskToSend));
             }
             catch (KanbanException ex)
             {
@@ -189,8 +191,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                bF.GetInProgress(email);
-                return JsonSerializer.Serialize(new Response());
+                List<Task> tasks = bF.GetInProgress(email);
+                Task[] taskToSend = tasks.ToArray();
+                return JsonSerializer.Serialize(new Response(taskToSend));
             }
             catch (KanbanException ex)
             {
