@@ -29,8 +29,6 @@
         }
 
         public bool ErrorOccured()
-        
             => ErrorMessage! != null;
-        
     }
 }
