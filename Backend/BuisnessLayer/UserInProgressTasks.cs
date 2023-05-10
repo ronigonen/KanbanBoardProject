@@ -34,7 +34,7 @@ public class UserInProgressTasks
     }
     public List<Task> GetList(string email) 
 	{
-		if (userTasks[email] == null | userTasks[email].Count==0)
+		if (userTasks[email] == null)
 		{
 			throw new KanbanException("No Tasks in progress");
 		}
