@@ -28,12 +28,20 @@ public class Board
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
         doneTasks = new Dictionary<int, Task>();
-        TaskId = 0;
+        this.TaskId = 0;
         backLogMax = -1;
         inProgressMax = -1;
         doneMax = -1;
         inProgressUser=u;
     }
+
+    public string Name { get =>  name; set => name = value; }
+    public Dictionary<int, Task> BackLogTasks {  get => backLogTasks; set => backLogTasks = value; }
+    public Dictionary<int, Task> InProgressTasks { get => inProgressTasks; set => inProgressTasks = value; }
+    public Dictionary<int,Task> DoneTasks { get => doneTasks; set => doneTasks = value; }   
+    public int BackLogMax { get => backLogMax; set => backLogMax = value; }
+    public int DoneMax { get => doneMax; set => doneMax = value; }
+    public UserInProgressTasks InProgressUser { get => inProgressUser; set => inProgressUser = value; }
 
     public Task getTask(int taskId)
     {
