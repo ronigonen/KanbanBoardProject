@@ -64,7 +64,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 UserService.log.Debug("login complete");
-                return JsonSerializer.Serialize(new Response(uF.LogIn(email, password)));
+                return JsonSerializer.Serialize((Object) new Response(uF.LogIn(email, password)));
             }
             catch (KanbanException ex)
             {
