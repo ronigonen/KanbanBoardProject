@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
@@ -127,6 +128,14 @@ public class BoardFacade
         if (!user.GetBoards().ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
+        }
+        if(columnOrdinal == 0){
+            if(!board.BackLogTasks.ContainsKey(taskId))
+                throw new KanbanException("The task ID is incorrect");
+        }
+        if (columnOrdinal== 1){
+            if(!board.InProgressTasks.ContainsKey(taskId))
+                throw new KanbanException("The task ID is incorrect");
         }
         else
             board.UpdateTaskTitle(taskId, columnOrdinal, title);
