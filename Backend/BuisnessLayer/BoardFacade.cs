@@ -106,7 +106,7 @@ public class BoardFacade
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
-        if (columnOrdinal > 2 | columnOrdinal < 1)
+        if (columnOrdinal > 1 | columnOrdinal < 0)
         {
             throw new KanbanException("no such column");
         }
@@ -115,10 +115,10 @@ public class BoardFacade
         {
             throw new KanbanException("this user does not exists");
         }
-        //if (!user.IsLoggedIn())
-        //{
-        //    throw new KanbanException("User is not logged in");
-        //}
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("User is not logged in");
+        }
         Board board = boards[boardName];
         if (board == null)
         {
@@ -127,10 +127,6 @@ public class BoardFacade
         if (!user.GetBoards().ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
-        }
-        if (columnOrdinal == 2)
-        {
-            throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
         else
             board.UpdateTaskTitle(taskId, columnOrdinal, title);
