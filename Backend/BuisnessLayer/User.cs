@@ -25,14 +25,12 @@ public class User
 
 	public void LogIn(string password) {
 		if (!this.password.Equals(password)) {
-			Console.WriteLine("the password is wrong");
 			throw new KanbanException("password is wrong.");
 		}
 		else 
 		{ 
             if (this.loggedIn)
 			{
-				Console.WriteLine("this user is already logged in");
 				throw new KanbanException("user already logged in.");
 			}
 			else
