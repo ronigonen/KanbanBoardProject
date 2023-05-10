@@ -24,7 +24,7 @@ public class User
 	}
 
 	public void LogIn(string password) {
-		if (this.password != password) {
+		if (!this.password.Equals(password)) {
 			throw new KanbanException("password is wrong.");
 		}
 		else 
