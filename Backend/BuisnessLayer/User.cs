@@ -27,10 +27,10 @@ public class User
 		if (!this.password.Equals(password)) {
 			throw new KanbanException("password is wrong.");
 		}
-		//if (this.loggedIn)
-		//{
-			//throw new KanbanException("user already logged in.");
-		//}
+		if (this.loggedIn)
+		{
+			throw new KanbanException("user already logged in.");
+		}
 		this.loggedIn = true;
 	}
 
