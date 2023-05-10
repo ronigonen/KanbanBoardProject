@@ -106,7 +106,7 @@ public class BoardFacade
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
-        if (columnOrdinal > 2)
+        if (columnOrdinal != 1 & columnOrdinal != 2)
         {
             throw new KanbanException("no such column");
         }
