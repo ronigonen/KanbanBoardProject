@@ -20,7 +20,11 @@ public class BoardFacade
 	public void CreateBoard(string email, string boardName)
 	{
 		User user = uf.GetUser(email);
-		if (!user.IsLoggedIn()) 
+        if (user == null)
+        {
+            throw new KanbanException("this user does not exists");
+        }
+        if (!user.IsLoggedIn()) 
         {
             throw new KanbanException("User is not logged in");
         }
@@ -32,6 +36,10 @@ public class BoardFacade
     public void DeleteBoard(string email, string boardName)
     {
         User user = uf.GetUser(email);
+        if (user == null)
+        {
+            throw new KanbanException("this user does not exists");
+        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -46,6 +54,10 @@ public class BoardFacade
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
         User user = uf.GetUser(email);
+        if (user == null)
+        {
+            throw new KanbanException("this user does not exists");
+        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -63,8 +75,16 @@ public class BoardFacade
 	}
 	public void UpdateTaskDueDate(string email, string boardName, int taskId, int columnOrdinal, DateTime dueDate)
 	{
+        if (columnOrdinal > 2)
+        {
+            throw new KanbanException("no such column");
+        }
         User user = uf.GetUser(email);
-		if(!user.IsLoggedIn())
+        if (user == null)
+        {
+            throw new KanbanException("this user does not exists");
+        }
+        if (!user.IsLoggedIn())
 		{
             throw new KanbanException("User is not logged in");
         }
@@ -86,7 +106,15 @@ public class BoardFacade
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
+        if (columnOrdinal > 2)
+        {
+            throw new KanbanException("no such column");
+        }
         User user = uf.GetUser(email);
+        if (user == null)
+        {
+            throw new KanbanException("this user does not exists");
+        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -109,7 +137,15 @@ public class BoardFacade
     }
 	public void UpdateTaskDescription(string email, string boardName, int taskId, int columnOrdinal, string description)
 	{
+        if (columnOrdinal > 2)
+        {
+            throw new KanbanException("no such column");
+        }
         User user = uf.GetUser(email);
+        if (user == null)
+        {
+            throw new KanbanException("this user does not exists");
+        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
