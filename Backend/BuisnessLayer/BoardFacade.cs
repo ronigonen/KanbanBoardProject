@@ -97,7 +97,7 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        if (columnOrdinal == 3)
+        if (columnOrdinal == 2)
         {
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
@@ -128,7 +128,7 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        if (columnOrdinal == 3)
+        if (columnOrdinal == 2)
         {
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
@@ -159,7 +159,7 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        if (columnOrdinal == 3)
+        if (columnOrdinal == 2)
         {
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
