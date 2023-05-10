@@ -22,7 +22,8 @@ public class User
 
 	public string EMAIL { get => email; set => email = value; }
 
-	public void LogIn(string password) {
+
+    public void LogIn(string password) {
 		if (!this.password.Equals(password)) {
 			throw new KanbanException("password is wrong.");
 		}
