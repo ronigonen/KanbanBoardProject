@@ -151,6 +151,10 @@ public class Board
 
     public void UpdateTaskTitle(int taskId, int columnOrdinal, string title)
     {
+        if (title.Length < 0 || title.Length > 50)
+        {
+            throw new KanbanException("Invalid title- max 50 characters.");
+        }
         if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
@@ -171,7 +175,11 @@ public class Board
 
     public void UpdateTaskDescription(int taskId, int columnOrdinal, string description)
     {
-        if (columnOrdinal == 0)
+        if (description.Length > 300)
+        {
+            throw new KanbanException("Invalid description- max 300 characters.");
+        }
+        else if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");

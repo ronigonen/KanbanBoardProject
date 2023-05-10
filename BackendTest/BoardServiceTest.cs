@@ -151,7 +151,7 @@ namespace BackendTest
         {
             Response resp3b = JsonSerializer.Deserialize<Response>(boardService.GetColumnName("roni@gmail.com", "Assignment1", 1));
             Object o1 = resp3b.ReturnValue;
-            if (o1.ToString().Equals("In Progress"))
+            if (o1.ToString().Equals("in progress"))
                 Console.WriteLine("runTestSucceessGetNameColumn- succeeded.");
             else
                 Console.WriteLine("runTestSucceessGetNameColumn- failed.");
