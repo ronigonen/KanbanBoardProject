@@ -49,7 +49,6 @@ public class UserFacade
 	{
 		if (!this.users.ContainsKey(email))
 		{
-			Console.WriteLine("The user was not registered");
             throw new KanbanException("you need to register.");
         }
 		this.users[email].LogIn(password);
