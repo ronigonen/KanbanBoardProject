@@ -29,14 +29,14 @@ public class User
 		}
 		else 
 		{ 
-            //if (this.loggedIn)
-			//{
-			//	throw new KanbanException("user already logged in.");
-			//}
-			//else
-			//{
+            if (this.loggedIn)
+			{
+				throw new KanbanException("user already logged in.");
+			}
+			else
+			{
 				this.loggedIn = true;
-			//}
+			}
 		}
 	}
 
