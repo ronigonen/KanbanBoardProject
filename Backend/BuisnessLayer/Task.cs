@@ -11,7 +11,7 @@ public class Task
 
     public Task(int id, DateTime creationTime, DateTime dueDate, string title, string description)
     {
-        if (title == null || title.Length > 50)
+        if (title == null || title.Length > 50 || title.Length<1)
             throw new KanbanException("Title is null or has more than 50 characters");
         if (description == null || description.Length > 300)
             throw new KanbanException("Description is too long or null");
