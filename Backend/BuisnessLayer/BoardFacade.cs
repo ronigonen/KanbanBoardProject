@@ -106,7 +106,7 @@ public class BoardFacade
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
-        if (columnOrdinal > 2 | columnOrdinal < 0)
+        if (columnOrdinal > 2 | columnOrdinal < 1)
         {
             throw new KanbanException("no such column");
         }
@@ -115,10 +115,10 @@ public class BoardFacade
         {
             throw new KanbanException("this user does not exists");
         }
-        if (!user.IsLoggedIn())
-        {
-            throw new KanbanException("User is not logged in");
-        }
+        //if (!user.IsLoggedIn())
+        //{
+        //    throw new KanbanException("User is not logged in");
+        //}
         Board board = boards[boardName];
         if (board == null)
         {
