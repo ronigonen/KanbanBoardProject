@@ -98,15 +98,15 @@ public class Board
     {
         if (columnOrdinal == 0)
         {
-            return "Back Log";
+            return "backlog";
         }
         else if (columnOrdinal == 1)
         {
-            return "In Progress";
+            return "in progress";
         }
         else
         {
-            return "Done";
+            return "done";
         }
 
     }
