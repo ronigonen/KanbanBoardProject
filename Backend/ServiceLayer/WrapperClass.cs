@@ -15,8 +15,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public WrapperClass() {
             UserService = new UserService();
-            boardService = new BoardService(UserService.uF);
-            TaskService = new TaskService(boardService.bF);
+            boardService = new BoardService(UserService.UF);
+            TaskService = new TaskService(boardService.BF);
         }
     }
 }
