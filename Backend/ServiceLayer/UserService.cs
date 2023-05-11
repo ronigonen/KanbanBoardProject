@@ -15,7 +15,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class UserService
     {
-        internal UserFacade uF;
+        private UserFacade uF;
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
@@ -26,6 +26,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             XmlConfigurator.Configure(logRespository, new FileInfo("log4net.config"));
             log.Info("starting log!");
         }
+
+        public UserFacade UF { get => uF; set => uF = value; }
 
         /// <summary>
         /// This method registers a new user to the system.
