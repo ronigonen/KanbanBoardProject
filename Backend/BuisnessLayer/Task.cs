@@ -1,13 +1,16 @@
 ﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using System;
 
 public class Task
 {
+    private TaskDTO tdto;
     private int id;
     private DateTime creationTime;
     private DateTime dueDate;
     private string title;
     private string description;
+    private string emailAssignee;
 
     public Task(int id, DateTime creationTime, DateTime dueDate, string title, string description)
     {

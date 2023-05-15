@@ -8,9 +8,11 @@ using System.Reflection;
 using log4net;
 using log4net.Config;
 using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 
 public class Board
 {
+    private BoardDTO btdo;
     private string name;
     private Dictionary<int, Task> backLogTasks;
     private Dictionary<int, Task> inProgressTasks;
@@ -20,6 +22,8 @@ public class Board
     private int inProgressMax;
     private int doneMax;
     private UserInProgressTasks inProgressUser;
+    private int boardID;
+    private string ownerEmail;
 
 
     public Board(UserInProgressTasks u, string name, User user)
