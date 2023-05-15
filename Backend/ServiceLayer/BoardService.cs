@@ -266,5 +266,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        public string JoinBoard(string email, int boardID)
+        {
+            return JsonSerializer.Serialize(new Response("not imlemented yet."));
+        }
+
+        public string LeaveBoard(string email, int boardID)
+        {
+            return JsonSerializer.Serialize(new Response("not imlemented yet."));
+        }
+
+        public string GetBoardName(int boardId)
+        {
+            return JsonSerializer.Serialize(new Response("not implemented yet."));
+        }
+
+        public string TransferOwnership(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        {
+            return JsonSerializer.Serialize(new Response("not implemented yet."));
+        }
+
+
+
     }
 }

@@ -1,10 +1,12 @@
 ﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 
 public class UserInProgressTasks
 {
-	private Dictionary<string, List<Task>> userTasks;
+    private UserInProgressTasksDTO uipdto;
+    private Dictionary<string, List<Task>> userTasks;
 
 	public UserInProgressTasks() { 
 	userTasks = new Dictionary<string, List<Task>>();

@@ -1,11 +1,13 @@
 ﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 
 public class User
 {
-	private string password;
+    private UserDTO udto;
+    private string password;
 	private string email;
 	private bool loggedIn;
 	private Dictionary<string, Board> boards;
