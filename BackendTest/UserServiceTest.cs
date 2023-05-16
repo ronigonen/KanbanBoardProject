@@ -26,7 +26,7 @@ namespace BackendTest
 
         public void runTests()
         {
-            runTestSuccessfullRegister(); 
+            runTestSuccessfullRegister();
             runTestfailedRegisterByEmailNull();
             runTestfailedRegisterByInvalidPassword();
             runTestFailedlRegisterByUsedEmail();
@@ -35,6 +35,11 @@ namespace BackendTest
             runTestSuccessfullLogIn();
             runTestFailedLogInByIncorrectPassword();
             runTestFailedLogInByNotRegisteredEmail();
+            runTestSuccessfullGetUserBoards();
+            runTestSuccessLoadData();
+            runTestFailedLoadData();
+            runTestSuccessDeleteData();
+            runTestFailedDeleteData();
         }
 
         /// <summary>
@@ -208,8 +213,12 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestFailedLogInByNotRegisteredEmail- failed.");
             }
-        }   
+        }
 
+
+        /// <summary>
+        /// This function tests Requirement 5
+        /// </summary>
         public void runTestSuccessfullGetUserBoards()
         {
             boardService.CreateBoard("noga12@gmail.com", "board1");
@@ -227,6 +236,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Grading Service Requirement
+        /// </summary>
         public void runTestSuccessLoadData()
         {
             Response res = JsonSerializer.Deserialize<Response>(userService.LoadData());
@@ -240,6 +252,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Grading Service Requirement
+        /// </summary>
         public void runTestFailedLoadData()
         {
             Response res = JsonSerializer.Deserialize<Response>(userService.LoadData());
@@ -253,6 +268,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Grading Service Requirement
+        /// </summary>
         public void runTestSuccessDeleteData()
         {
             Response res = JsonSerializer.Deserialize<Response>(userService.DeleteData());
@@ -266,6 +284,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Grading Service Requirement
+        /// </summary>
         public void runTestFailedDeleteData()
         {
             Response res = JsonSerializer.Deserialize<Response>(userService.DeleteData());

@@ -37,14 +37,28 @@ namespace BackendTest
             runTestSuccessfullLimitColumn();
             runTestSucceessGetLimitColumn();
             runTestSucceessGetNameColumn();
+            runTestSuccessfullJoinBoard();
+            runTestFailedJoinBoard();
             runTestSuccessfullAddTask();
+            runTestSuccessfullAddTaskByMember();
+            runTestFailedAddTaskByNotMember();
             runTestFailedAddTaskByLimitColumn();
             runTestSuccessfullGetColumn();
             runTestSuccessfullDeleteBoard();
-            runTestSuccessfullAddTaskAfterDeleteBoard();
+            runTestFailedAddTaskAfterDeleteBoard();
             runTestSuccessfullAdvanceTask();
-            runTestFailedAdvanceTask();
+            runTestFailedAdvanceTaskByNotAssignee();
+            runTestFailedAdvanceTaskFromDone();
             runTestSuccessfullGetInProgress();
+            runTestFailedGetInProgress();
+            runTestSuccessfullLeaveBoard();
+            runTestFailedLeaveBoardByNotLoggedIn();
+            runTestFailedLeaveBoardByNotMember();
+            runTestFailedLeaveBoardByOwner();
+            runTestSuccessfullTransferOwnership();
+            runTestFailedTransferOwnership();
+            runTestSuccessfullGetBoardName();
+            runTestFailedGetBoardNameDoesntExists();
         }
 
         /// <summary>
@@ -108,7 +122,7 @@ namespace BackendTest
 
 
         /// <summary>
-        /// This function tests Requirement 11
+        /// This function tests Requirement 16
         /// </summary>
         public void runTestSuccessfullLimitColumn()
         {
@@ -133,7 +147,7 @@ namespace BackendTest
         }
 
         /// <summary>
-        /// This function tests Requirement 12
+        /// This function tests Requirement 16
         /// </summary>
         public void runTestSucceessGetLimitColumn()
         {
@@ -159,6 +173,10 @@ namespace BackendTest
                 Console.WriteLine("runTestSucceessGetNameColumn- failed.");
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 12
+        /// </summary>
         public void runTestSuccessfullJoinBoard()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni@gmail.com",0));
@@ -172,6 +190,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 12
+        /// </summary>
         public void runTestFailedJoinBoard()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni800@gmail.com", 0));
@@ -187,7 +209,7 @@ namespace BackendTest
 
 
         /// <summary>
-        /// This function tests Requirement 4
+        /// This function tests Requirement 18
         /// </summary>
         public void runTestSuccessfullAddTask()
         {
@@ -225,7 +247,9 @@ namespace BackendTest
         }
 
 
-
+        /// <summary>
+        /// This function tests Requirement 18
+        /// </summary>
         public void runTestSuccessfullAddTaskByMember()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.AddTask("roni@gmail.com", "AssignmentHadas", "mission3", "mission added by Roni", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
@@ -239,6 +263,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 18
+        /// </summary>
         public void runTestFailedAddTaskByNotMember()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.AddTask("noga@gmail.com", "AssignmentHadas", "mission4", "mission added by Noga", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
@@ -269,7 +296,7 @@ namespace BackendTest
         }
 
         /// <summary>
-        /// This function tests Requirement 14
+        /// This function tests Requirement 19
         /// </summary>
         public void runTestSuccessfullGetColumn()
         {
@@ -321,7 +348,7 @@ namespace BackendTest
         }
 
         /// <summary>
-        /// This function tests Requirement 14
+        /// This function tests Requirement 19
         /// </summary>
         public void runTestSuccessfullAdvanceTask()
         {
@@ -354,6 +381,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 19
+        /// </summary>
         public void runTestFailedAdvanceTaskByNotAssignee()
         {
             Response resp5c = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 1, 1));
@@ -368,7 +398,7 @@ namespace BackendTest
         }
 
         /// <summary>
-        /// This function tests Requirement 14
+        /// This function tests Requirement 19
         /// </summary>
         public void runTestFailedAdvanceTaskFromDone()
         {
@@ -385,7 +415,7 @@ namespace BackendTest
 
 
         /// <summary>
-        /// This function tests Requirement 17 
+        /// This function tests Requirement 22
         /// </summary>
         public void runTestSuccessfullGetInProgress()
         {
@@ -402,6 +432,10 @@ namespace BackendTest
             }  
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 22
+        /// </summary>
         public void runTestFailedGetInProgress()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas800@gmail.com"));
@@ -417,6 +451,9 @@ namespace BackendTest
         }
 
 
+        /// <summary>
+        /// This function tests Requirement 12
+        /// </summary>
         public void runTestSuccessfullLeaveBoard() 
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni@gmail.com",0));
@@ -430,6 +467,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 12
+        /// </summary>
         public void runTestFailedLeaveBoardByNotLoggedIn()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni800@gmail.com", 0));
@@ -443,6 +484,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 12
+        /// </summary>
         public void runTestFailedLeaveBoardByNotMember()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni@gmail.com", 0));
@@ -456,6 +501,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 14
+        /// </summary>
         public void runTestFailedLeaveBoardByOwner()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("hadas@gmail.com", 0));
@@ -469,6 +518,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 13
+        /// </summary>
         public void runTestSuccessfullTransferOwnership()
         {
             boardService.JoinBoard("roni@gmail.com", 3);
@@ -483,6 +536,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 13
+        /// </summary>
         public void runTestFailedTransferOwnership()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.TransferOwnership("roni@gmail.com", "hadas@gmail.com", "Assignment2"));
@@ -496,6 +553,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 5
+        /// </summary>
         public void runTestSuccessfullGetBoardName()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.GetBoardName(0));
@@ -517,6 +577,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 5
+        /// </summary>
         public void runTestFailedGetBoardNameDoesntExists()
         {
             Response res = JsonSerializer.Deserialize<Response>(boardService.GetBoardName(4));

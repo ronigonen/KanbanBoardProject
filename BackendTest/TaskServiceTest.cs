@@ -20,13 +20,20 @@ namespace BackendTest
 
         public void runTests()
         {
+            runTestSuccessfullAssignTask();
+            runTestFailedAssignTaskToNotMember();
             runTestSuccessfullUpdateTaskDueDate();
+            runTestFailedUpdateTaskDueDateByNotAssignee();
             runTestSuccessfullUpdateTaskTitle();
+            runTestFailedUpdateTaskTitleByNotAssignee();
             runTestSuccessfullUpdateTaskDescription();
+            runTestFailedUpdateTaskDescriptionByNotAssignee();
         }
 
 
-
+        /// <summary>
+        /// This function tests Requirement 23
+        /// </summary>
         public void runTestSuccessfullAssignTask()
         {
             Response res = JsonSerializer.Deserialize<Response>(taskService.AssignTask("noga@gmail.com", "Assignment3", 0, 3, "roni@gmail.com"));
@@ -40,6 +47,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 23
+        /// </summary>
         public void runTestFailedAssignTaskToNotMember()
         {
             Response res = JsonSerializer.Deserialize<Response>(taskService.AssignTask("noga@gmail.com", "Assignment3", 0, 3, "hadas@gmail.com"));
@@ -54,7 +64,7 @@ namespace BackendTest
         }
 
         /// <summary>
-        /// This function tests Requirement 16
+        /// This function tests Requirement 20
         /// </summary>
         public void runTestSuccessfullUpdateTaskDueDate()
         {
@@ -69,6 +79,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 20
+        /// </summary>
         public void runTestFailedUpdateTaskDueDateByNotAssignee()
         {
             Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("noga@gmail.com", "Assignment3", 0, 0, new DateTime(2023, 05, 30)));
@@ -82,8 +96,9 @@ namespace BackendTest
             }
         }
 
+
         /// <summary>
-        /// This function tests Requirement 16
+        /// This function tests Requirement 20
         /// </summary>
         public void runTestSuccessfullUpdateTaskTitle()
         {
@@ -98,6 +113,10 @@ namespace BackendTest
             }
         }
 
+
+        /// <summary>
+        /// This function tests Requirement 20
+        /// </summary>
         public void runTestFailedUpdateTaskTitleByNotAssignee()
         {
             Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("noga@gmail.com", "Assignment3", 0, 0, "changed"));
@@ -112,7 +131,7 @@ namespace BackendTest
         }
 
         /// <summary>
-        /// This function tests Requirement 16
+        /// This function tests Requirement 20
         /// </summary>
         public void runTestSuccessfullUpdateTaskDescription()
         {
@@ -127,6 +146,9 @@ namespace BackendTest
             }
         }
 
+        /// <summary>
+        /// This function tests Requirement 20
+        /// </summary>
         public void runTestFailedUpdateTaskDescriptionByNotAssignee()
         {
             Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("noga@gmail.com", "Assignment3", 0, 0, "mission 4 description changed."));
