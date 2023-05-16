@@ -29,12 +29,28 @@ namespace BackendTest
 
         public void runTestSuccessfullAssignTask()
         {
-
+            Response res = JsonSerializer.Deserialize<Response>(taskService.AssignTask("noga@gmail.com", "Assignment3", 0, 3, "roni@gmail.com"));
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine(res.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("runTestSuccessfullAssignTask- succeeded.");
+            }
         }
 
         public void runTestFailedAssignTaskToNotMember()
         {
-
+            Response res = JsonSerializer.Deserialize<Response>(taskService.AssignTask("noga@gmail.com", "Assignment3", 0, 3, "hadas@gmail.com"));
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine("runTestFailedAssignTaskToNotMember- succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("runTestFailedAssignTaskToNotMember- failed.");
+            }
         }
 
         /// <summary>
@@ -42,7 +58,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullUpdateTaskDueDate()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("hadas@gmail.com", "AssignmentHadas", 1, 1, new DateTime(2023, 05, 30)));
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("roni@gmail.com", "Assignment3", 0, 0, new DateTime(2023, 05, 30)));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -55,7 +71,15 @@ namespace BackendTest
 
         public void runTestFailedUpdateTaskDueDateByNotAssignee()
         {
-
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDueDate("noga@gmail.com", "Assignment3", 0, 0, new DateTime(2023, 05, 30)));
+            if (resp5b.ErrorOccured())
+            {
+                Console.WriteLine("runTestFailedUpdateTaskDueDateByNotAssignee- succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("runTestFailedUpdateTaskDueDateByNotAssignee- failed.");
+            }
         }
 
         /// <summary>
@@ -63,7 +87,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullUpdateTaskTitle()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("hadas@gmail.com", "AssignmentHadas", 1, 1, "changed"));
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("roni@gmail.com", "Assignment3", 0, 0, "changed"));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -76,7 +100,15 @@ namespace BackendTest
 
         public void runTestFailedUpdateTaskTitleByNotAssignee()
         {
-
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskTitle("noga@gmail.com", "Assignment3", 0, 0, "changed"));
+            if (resp5b.ErrorOccured())
+            {
+                Console.WriteLine("runTestFailedUpdateTaskTitleByNotAssignee- succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("runTestFailedUpdateTaskTitleByNotAssignee- failed.");
+            }
         }
 
         /// <summary>
@@ -84,7 +116,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullUpdateTaskDescription()
         {
-            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("hadas@gmail.com", "AssignmentHadas", 1, 1, "mission 2 description changed."));
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("roni@gmail.com", "Assignment3", 0, 0, "mission 4 description changed."));
             if (resp5b.ErrorOccured())
             {
                 Console.WriteLine(resp5b.ErrorMessage);
@@ -97,7 +129,15 @@ namespace BackendTest
 
         public void runTestFailedUpdateTaskDescriptionByNotAssignee()
         {
-
+            Response resp5b = JsonSerializer.Deserialize<Response>(taskService.UpdateTaskDescription("noga@gmail.com", "Assignment3", 0, 0, "mission 4 description changed."));
+            if (resp5b.ErrorOccured())
+            {
+                Console.WriteLine("runTestFailedUpdateTaskDescriptionByNotAssignee- succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("runTestFailedUpdateTaskDescriptionByNotAssignee- failed.");
+            }
         }
 
     }
