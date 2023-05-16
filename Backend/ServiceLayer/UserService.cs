@@ -129,5 +129,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             return JsonSerializer.Serialize(new Response("not implemented yet."));
         }
 
+        public string LoadData()
+        {
+            return JsonSerializer.Serialize(new Response("not implemented yet."));
+        }
+
+        public string DeleteData()
+        {
+            return JsonSerializer.Serialize(new Response("not implemented yet."));
+        }
     }
 }

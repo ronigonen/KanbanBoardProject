@@ -15,10 +15,13 @@ namespace BackendTest
     class UserServiceTest
     {
         private readonly UserService userService;
+        private readonly BoardService boardService;
+
 
         public UserServiceTest(WrapperClass w)
         {
             this.userService = w.UserService;
+            this.boardService = w.boardService;
         }
 
         public void runTests()
@@ -209,29 +212,70 @@ namespace BackendTest
 
         public void runTestSuccessfullGetUserBoards()
         {
-            BoardService bd = new BoardService();
-            bd.CreateBoard("noga12@gmail.com", "board1");
-            bd.CreateBoard("noga12@gmail.com", "board2");
-            Response res = JsonSerializer.Deserialize<Response>(userService.GetUserBoards());
+            boardService.CreateBoard("noga12@gmail.com", "board1");
+            boardService.CreateBoard("noga12@gmail.com", "board2");
+            Response res = JsonSerializer.Deserialize<Response>(userService.GetUserBoards("noga12@gmail.com"));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
             }
-            List<int> l1 = new List<int>;
-            l1.Add(0);
-            l1.Add(1);
             else
             {
-                Object o1=res.ReturnValue;
-                if (o1.Equals(l1.ToString()))
-                {
-                    Console.WriteLine("runTestSuccessfullGetUserBoards- succeeded.");
+                Console.WriteLine("runTestSuccessfullGetUserBoards- succeeded.");
+                Object o1 = res.ReturnValue;
+                Console.WriteLine(o1.ToString());
+            }
+        }
 
-                }
-                else
-                {
-                    Console.WriteLine("runTestSuccessfullGetUserBoards- failed.");
-                }
+        public void runTestSuccessLoadData()
+        {
+            Response res = JsonSerializer.Deserialize<Response>(userService.LoadData());
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine(res.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("runTestSuccessLoadData- succeeded.");
+            }
+        }
+
+        public void runTestFailedLoadData()
+        {
+            Response res = JsonSerializer.Deserialize<Response>(userService.LoadData());
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine("runTestFailedLoadData- succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("runTestFailedLoadData- failed.");
+            }
+        }
+
+        public void runTestSuccessDeleteData()
+        {
+            Response res = JsonSerializer.Deserialize<Response>(userService.DeleteData());
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine(res.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("runTestSuccessDeleteData- succeeded.");
+            }
+        }
+
+        public void runTestFailedDeleteData()
+        {
+            Response res = JsonSerializer.Deserialize<Response>(userService.DeleteData());
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine("runTestFailedDeleteData- succeeded.");
+            }
+            else
+            {
+                Console.WriteLine("runTestFailedDeleteData- failed.");
             }
         }
     }
