@@ -13,11 +13,13 @@ namespace BackendTest
     {
         private readonly BoardService boardService;
         private readonly UserService userService;
+        private readonly TaskService taskService;
 
         public BoardServiceTest(WrapperClass w)
         {
             this.boardService=w.boardService;
             this.userService = w.UserService;
+            this.taskService = w.TaskService;
         }
 
         public void createUsers()
@@ -171,6 +173,7 @@ namespace BackendTest
             else
             {
                 Console.WriteLine("runTestSuccessfullAddTask- succeeded.");
+                taskService.AssignTask("hadas@gmail.com", "AssignmentHadas", 0, 0, "roni@gmail.com");
             }
             Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AddTask("hadas@gmail.com", "AssignmentHadas", "Mission2", "your second mission", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
             if (resp5b.ErrorOccured())
@@ -180,7 +183,20 @@ namespace BackendTest
             else
             {
                 Console.WriteLine("runTestSuccessfullAddTask- succeeded.");
+                taskService.AssignTask("hadas@gmail.com", "AssignmentHadas", 0, 1, "roni@gmail.com");
             }
+        }
+
+
+
+        public void runTestSuccessfullAddTaskByMember()
+        {
+
+        }
+
+        public void runTestFailedAddTaskByNotMember()
+        {
+
         }
 
 
@@ -278,6 +294,11 @@ namespace BackendTest
             }
         }
 
+        public void runTestFailedAdvanceTaskByNotAssignee()
+        {
+            
+        }
+
         /// <summary>
         /// This function tests Requirement 14
         /// </summary>
@@ -296,7 +317,7 @@ namespace BackendTest
 
 
         /// <summary>
-        /// This function tests Requirement 17
+        /// This function tests Requirement 17 
         /// </summary>
         public void runTestSuccessfullGetInProgress()
         {
@@ -304,6 +325,57 @@ namespace BackendTest
             Object o1 = resp3a.ReturnValue;
             Console.WriteLine(o1);
         }
+
+        public void runTestSuccessfullJoinBoard()
+        {
+
+        }
+
+        public void runTestFailedJoinBoard()
+        {
+
+        }
+
+        public void runTestSuccessfullLeaveBoard() 
+        {
+
+        }
+
+        public void runTestFailedLeaveBoardByNotLoggedIn()
+        {
+
+        }
+
+        public void runTestFailedLeaveBoardByNotMember()
+        {
+
+        }
+
+        public void runTestFailedLeaveBoardByOwner()
+        {
+
+        }
+
+        public void runTestSuccessfullTransferOwnership()
+        {
+
+        }
+
+        public void runTestFailedTransferOwnership()
+        {
+
+        }
+
+        public void runTestSuccessfullGetBoardName()
+        {
+
+        }
+
+        public void runTestFailedGetBoardName()
+        {
+
+        }
+
 
     }
 }
