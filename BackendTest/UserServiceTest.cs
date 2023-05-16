@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using IntroSE.ForumSystem.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.ServiceLayer;
+using log4net.Layout;
 
 namespace BackendTest
 {
@@ -205,5 +206,33 @@ namespace BackendTest
                 Console.WriteLine("runTestFailedLogInByNotRegisteredEmail- failed.");
             }
         }   
+
+        public void runTestSuccessfullGetUserBoards()
+        {
+            BoardService bd = new BoardService();
+            bd.CreateBoard("noga12@gmail.com", "board1");
+            bd.CreateBoard("noga12@gmail.com", "board2");
+            Response res = JsonSerializer.Deserialize<Response>(userService.GetUserBoards());
+            if (res.ErrorOccured())
+            {
+                Console.WriteLine(res.ErrorMessage);
+            }
+            List<int> l1 = new List<int>;
+            l1.Add(0);
+            l1.Add(1);
+            else
+            {
+                Object o1=res.ReturnValue;
+                if (o1.Equals(l1.ToString()))
+                {
+                    Console.WriteLine("runTestSuccessfullGetUserBoards- succeeded.");
+
+                }
+                else
+                {
+                    Console.WriteLine("runTestSuccessfullGetUserBoards- failed.");
+                }
+            }
+        }
     }
 }

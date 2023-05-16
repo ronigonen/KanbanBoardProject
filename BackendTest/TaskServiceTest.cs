@@ -25,6 +25,18 @@ namespace BackendTest
             runTestSuccessfullUpdateTaskDescription();
         }
 
+
+
+        public void runTestSuccessfullAssignTask()
+        {
+
+        }
+
+        public void runTestFailedAssignTaskToNotMember()
+        {
+
+        }
+
         /// <summary>
         /// This function tests Requirement 16
         /// </summary>
@@ -39,6 +51,11 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullUpdateTaskDueDate- succeeded.");
             }
+        }
+
+        public void runTestFailedUpdateTaskDueDateByNotAssignee()
+        {
+
         }
 
         /// <summary>
@@ -57,6 +74,11 @@ namespace BackendTest
             }
         }
 
+        public void runTestFailedUpdateTaskTitleByNotAssignee()
+        {
+
+        }
+
         /// <summary>
         /// This function tests Requirement 16
         /// </summary>
@@ -72,5 +94,11 @@ namespace BackendTest
                 Console.WriteLine("runTestSuccessfullUpdateTaskDescription- succeeded.");
             }
         }
+
+        public void runTestFailedUpdateTaskDescriptionByNotAssignee()
+        {
+
+        }
+
     }
 }
