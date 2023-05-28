@@ -28,7 +28,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             this.uF = uF;
             bF = new BoardFacade(uF);
-
         }
 
         public BoardFacade BF { get => bF; set => bF = value; }

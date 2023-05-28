@@ -21,8 +21,16 @@ public class User
 		this.boards = new Dictionary<string, Board>();
 	}
 
+    public User(UserDTO udto)
+    {
+        this.password = password;
+        this.email = email;
+        this.loggedIn = true;
+        this.boards = new Dictionary<string, Board>();
+    }
 
-	public string EMAIL { get => email; set => email = value; }
+
+    public string EMAIL { get => email; set => email = value; }
 
 
     public void LogIn(string password) {
