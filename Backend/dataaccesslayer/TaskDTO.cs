@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-    internal class TaskDTO
+    public class TaskDTO
     {
         private TaskController taskController;
         private Boolean isPersisted;
@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         internal string Title
         {
             get => title;
-            private set
+            set
             {
                 if (isPersisted)
                 {
@@ -45,7 +45,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         internal DateTime DueDate
         {
             get => dueDate;
-            private set
+            set
             {
                 if (isPersisted)
                 {
@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         internal string Description
         {
             get => description;
-            private set
+            set
             {
                 if (isPersisted)
                 {
@@ -69,7 +69,31 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
         }
 
-        
+        internal DateTime CreationTime
+        {
+            get => creationTime;
+        }
+
+        internal int Id
+        {
+            get => id;
+        }
+
+        internal string EmailAssignee
+        {
+            get => emailAssignee;
+            set
+            {
+                if (isPersisted)
+                {
+                    taskController.updateEmailAssignee(value);
+                }
+                description = value;
+            }
+        }
+
+
+
         public void persist()
         {
             taskController.insert(this);
