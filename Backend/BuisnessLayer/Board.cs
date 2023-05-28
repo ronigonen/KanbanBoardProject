@@ -9,10 +9,11 @@ using log4net;
 using log4net.Config;
 using IntroSE.Kanban.Backend.BuisnessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using System.Linq.Expressions;
 
 public class Board
 {
-    private BoardDTO btdo;
+    private BoardDTO bdto;
     private string name;
     private Dictionary<int, Task> backLogTasks;
     private Dictionary<int, Task> inProgressTasks;
@@ -28,6 +29,7 @@ public class Board
 
     public Board(UserInProgressTasks u, string name, User user)
     {
+        this.bdto = new BoardDTO(u, name, user); ;
         this.name = name;
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
@@ -37,6 +39,24 @@ public class Board
         inProgressMax = -1;
         doneMax = -1;
         inProgressUser=u;
+        boardID = 0;
+        ownerEmail = user.Email;
+    }
+
+    public Board(BoardDTO bdto)
+    {
+        this.bdto = bdto;
+        this.name = bdto.Name;
+        this.backLogTasks = bdto.BackLogTasks;
+        this.inProgressTasks = bdto.InProgressTasks;
+        this.doneTasks = bdto.DoneTasks;
+        this.TaskId = bdto.TaskId;
+        this.backLogMax = bdto.BackLogMax;
+        this.inProgressMax = bdto.InProgressMax;
+        this.doneMax = bdto.DoneMax;
+        this.inProgressUser = bdto.InProgressUser;
+        this.boardID = bdto.BoardId;
+        this.ownerEmail = bdto.OwnerEmail;
     }
 
     public string Name { get =>  name; set => name = value; }
@@ -58,12 +78,23 @@ public class Board
         {
             throw new KanbanException("The Back Log column is full");
         }
+        if (!user.GetBoards().ContainsKey(name))
+            throw new KanbanException("the user is not a member.");
         else
         {
-            backLogTasks.Add(TaskId, new Task(TaskId, creationTime, dueDate, title, description));
+            Task toAdd = new Task(TaskId, creationTime, dueDate, title, description);
+            backLogTasks.Add(TaskId, toAdd);
             TaskId = TaskId+1; //uniqe id
+            try
+            {
+                bdto.addTask(toAdd.Tdto);
+            }
+            catch (Exception ex)
+            {
+                backLogTasks.Remove(TaskId);
+                throw ex;
+            }
         }
-
     }
 
     public void LimitColumn(int columnOrdinal, int max)
@@ -71,14 +102,17 @@ public class Board
         if (columnOrdinal==0)
         {
             backLogMax = max;
+            bdto.BackLogMax=max;
         }
         else if (columnOrdinal == 1)
         {
             inProgressMax = max;
+            bdto.InProgressMax=max;
         }
         else 
         {
             doneMax = max;
+            bdto.DoneMax=max;
         }
     }
 
