@@ -16,6 +16,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private string title;
         private string description;
         private string emailAssignee;
+        private int boardID;
+
 
         public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description)
         {
@@ -27,6 +29,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.title = title;
             this.description = description;
             this.emailAssignee = null;
+            this.boardID = null;
         }
 
         internal string Title

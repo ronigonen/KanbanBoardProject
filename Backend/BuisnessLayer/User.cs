@@ -15,6 +15,7 @@ public class User
 
 	public User(string password, string email)
 	{
+		this.udto = new UserDTO(password, email);
 		this.password = password;
 		this.email = email;
 		this.loggedIn = true;
@@ -23,15 +24,20 @@ public class User
 
     public User(UserDTO udto)
     {
-        this.password = password;
-        this.email = email;
-        this.loggedIn = true;
-        this.boards = new Dictionary<string, Board>();
+        this.udto = udto;
+        this.password = udto.Password;
+        this.email = udto.Email; 
+        this.loggedIn = false;
+		List<BoardDTO> boardsDTO = udto.Boards;
+		for (BoardDTO bd : boardsDTO)
+		{
+			Board b = new Board(bd);
+			boards.Add(b.Name, b);
+		}
     }
 
 
-    public string EMAIL { get => email; set => email = value; }
-
+    public string Email { get => email; set => email = value; }
 
     public void LogIn(string password) {
 		if (!this.password.Equals(password)) {
