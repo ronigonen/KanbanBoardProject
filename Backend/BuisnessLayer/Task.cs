@@ -34,6 +34,7 @@ public class Task
         this.emailAssignee = td.EmailAssignee;
     }
 
+    public TaskDTO Tdto { get => tdto; }
     public int ID { get => id; set => id = value; }
     public DateTime DueDate { get => dueDate; set => dueDate = value; }
     public string Title
