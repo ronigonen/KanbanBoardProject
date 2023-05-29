@@ -64,7 +64,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO{Users} ({ user.Email} ,{ user.Password}) " +$"VALUES (@idVal,@nameVal);";
+                    command.CommandText = $"INSERT INTO{"Users"} ({ user.Email} ,{ user.Password}) " +$"VALUES (@idVal,@nameVal);";
                     SQLiteParameter emailParam = new SQLiteParameter(@"idVal", user.Email);
                     SQLiteParameter passwordParam = new SQLiteParameter(@"nameVal", user.Password);
                     command.Parameters.Add(emailParam);
