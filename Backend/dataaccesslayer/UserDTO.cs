@@ -12,7 +12,33 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private Boolean isPersisted;
         private string password;
         private string email;
-        private bool loggedIn;
-        private Dictionary<string, Board> boards;
+        private List<BoardDTO> boards;
+
+        public UserDTO(string password, string email)
+        {
+            this.userController = new UserController();
+            this.password = password;
+            this.email = email;
+            this.isPersisted = false;
+            boards = userController.getAllBoards();
+            persist();
+        }
+
+        internal List<BoardDTO> Boards { get => boards; }
+        internal string Email { get => email; }
+        internal string Password { get => password; }
+
+        public void persist()
+        {
+            userController.insert(this);
+            isPersisted = true;
+        }
+
+        public void delete()
+        {
+            userController.delete(this);
+            isPersisted = true;
+        }
+
     }
 }
