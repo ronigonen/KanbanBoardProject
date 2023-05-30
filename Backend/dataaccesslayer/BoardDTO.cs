@@ -22,7 +22,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private int boardID;
         private string ownerEmail;
 
-<<<<<<< HEAD
         public BoardDTO(bool isPersisted, string name, Dictionary<int, Task> backLogTasks, Dictionary<int, Task> inProgressTasks, Dictionary<int, Task> doneTasks, int taskId, int backLogMax, int inProgressMax, int doneMax, UserInProgressTasks inProgressUser, int boardID, string ownerEmail)
         {
             this.boardController = new BoardController();
@@ -50,7 +49,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             boardController.delete(this);
             isPersisted = false;
-=======
+        }
+
         public BoardDTO(UserInProgressTasks u, string name, User user)
         {
             this.boardController = new BoardController();
@@ -103,9 +103,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public void addTask(TaskDTO task)
         {
-            task.BoardId=this.boardID;
+            task.BoardId = this.boardID;
             task.persist();
->>>>>>> eaa7fb3ae3e606b6ab4242632dde4f122c70ca4e
         }
     }
 }
