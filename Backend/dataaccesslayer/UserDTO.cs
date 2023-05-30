@@ -21,7 +21,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.email = email;
             this.isPersisted = false;
             boards = userController.getAllBoards();
-            persist();
+            try
+            {
+                persist();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message); //throw special exception
+            }
         }
 
         internal List<BoardDTO> Boards { get => boards; }
