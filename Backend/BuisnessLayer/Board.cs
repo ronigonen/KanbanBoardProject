@@ -27,7 +27,7 @@ public class Board
     private UserInProgressTasks inProgressUser;
 
 
-    public Board(UserInProgressTasks u, string name, User user)
+    public Board(UserInProgressTasks u, string name, User user, int BoardID)
     {
         this.bdto = new BoardDTO(u.UserInProgressTasksDTO, name, user); 
         this.name = name;
@@ -39,7 +39,7 @@ public class Board
         inProgressMax = -1;
         doneMax = -1;
         InProgressUser = u;
-        boardID = 0;
+        boardID = BoardID;
         ownerEmail = user.Email;
     }
 
@@ -60,6 +60,10 @@ public class Board
     }
 
     public string Name { get =>  name; set => name = value; }
+    public int BoardID { get => boardID;}
+    public BoardDTO Bdto { get => bdto; }
+    public string OwnerEmail { get => ownerEmail; set => ownerEmail = value; }
+
     public Dictionary<int, Task> BackLogTasks {  get => backLogTasks; set => backLogTasks = value; }
     public Dictionary<int, Task> InProgressTasks { get => inProgressTasks; set => inProgressTasks = value; }
     public Dictionary<int,Task> DoneTasks { get => doneTasks; set => doneTasks = value; }   
@@ -78,7 +82,7 @@ public class Board
         {
             throw new KanbanException("The Back Log column is full");
         }
-        if (!user.GetBoards().ContainsKey(name))
+        if (!user.Boards.ContainsKey(name))
             throw new KanbanException("the user is not a member.");
         else
         {
@@ -279,23 +283,10 @@ public class Board
             throw new KanbanException("Not possible");
         }
 
-    public void JoinBoard(string email, int boardID)
+
+    public void TransferOwnership(User newOwner)
     {
-
-    }
-
-    public void LeaveBoard(string email, int boardID)
-    {
-
-    }
-
-    public string GetBoardName(int boardID)
-    {
-
-    }
-    public void TransferOwnership(string currentOwnerEmail, string newOwnewemail, string boardName)
-    {
-
+        ownerEmail = newOwner.Email;
     }
 
     public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)

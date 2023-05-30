@@ -77,4 +77,16 @@ public class UserFacade
 			throw new KanbanException("user doesn't exist");
 		return this.users[email].getUserBoards();
 	}
+
+    public void DeleteBoardFromAllUsers(Board b)
+	{
+		foreach(User user in users.Values)
+		{
+			if (user.Boards.ContainsKey(b.Name))
+			{
+				user.DeleteUserFromBoard(b);
+			}
+		}
+	}
+
 }

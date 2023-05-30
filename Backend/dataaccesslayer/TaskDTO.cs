@@ -116,10 +116,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             get => boardID;
             set
             {
-                if (isPersisted)
-                {
-                    taskController.updateBoardID(value);
-                }
                 boardID = value;
             }
         }

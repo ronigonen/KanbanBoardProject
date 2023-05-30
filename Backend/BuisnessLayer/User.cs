@@ -39,6 +39,8 @@ public class User
 
 
     public string Email { get => email; set => email = value; }
+    public Dictionary<string, Board> Boards { get => boards; set => boards = value; }
+
 
     public void LogIn(string password) {
 		if (!this.password.Equals(password)) {
@@ -64,18 +66,16 @@ public class User
         this.loggedIn = false;
     }
 
-	public Dictionary<string, Board> GetBoards()
+	public void AddUserToBoard(Board board)
 	{
-		return this.boards;
+		this.boards.Add(board.Name, board);
+		udto.Boards.Add(board.Bdto);
 	}
 
-	public void AddBoard(string boardName, Board board)
-	{
-		this.boards.Add(boardName, board);
-	}
-    public void DeleteBoard(string boardName)
+    public void DeleteUserFromBoard(Board board)
     {
-        this.boards.Remove(boardName);
+        this.boards.Remove(board.Name);
+        udto.Boards.Remove(board.Bdto);
     }
 
     public List<Board> getUserBoards(string email)

@@ -49,7 +49,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             isPersisted = false;
         }
 
-        public BoardDTO(UserInProgressTasksDTO u, string name, User user)
+        public BoardDTO(UserInProgressTasksDTO u, string name, User user, int BoardID)
         {
             this.boardController = new BoardController();
             this.isPersisted = false;
@@ -60,7 +60,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.inProgressMax = -1;
             this.doneMax = -1;
             this.inProgressUser = u;
-            this.boardID = 0;
+            this.boardID = BoardID;
             this.ownerEmail = user.Email;
         }
 
