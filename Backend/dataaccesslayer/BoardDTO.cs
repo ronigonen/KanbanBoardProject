@@ -17,12 +17,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private int backLogMax;
         private int inProgressMax;
         private int doneMax;
-        private UserInProgressTasks inProgressUser;
+        private UserInProgressTasksDTO inProgressUser;
         private int boardID;
         private string ownerEmail;
 
 <<<<<<< HEAD
-        public BoardDTO(string name1, List<TaskDTO> tasks1, int taskId1, int backLogMax1, int inProgressMax1, int doneMax1, UserInProgressTasks inProgressUser1, int boardID1, string ownerEmail1)
+        public BoardDTO(string name1, List<TaskDTO> tasks1, int taskId1, int backLogMax1, int inProgressMax1, int doneMax1, Dictionary<string,List<TaskDTO>> inProgressUser1, int boardID1, string ownerEmail1)
         {
             this.boardController = new BoardController();
             this.isPersisted = true;
@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.backLogMax = backLogMax1;
             this.inProgressMax = inProgressMax1;
             this.doneMax = doneMax1;
-            this.inProgressUser = inProgressUser1;
+            this.inProgressUser = new UserInProgressTasksDTO();
             this.boardID = boardID1;
             this.ownerEmail = ownerEmail1;
         }
@@ -49,7 +49,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             isPersisted = false;
         }
 
-        public BoardDTO(UserInProgressTasks u, string name, User user)
+        public BoardDTO(UserInProgressTasksDTO u, string name, User user)
         {
             this.boardController = new BoardController();
             this.isPersisted = false;

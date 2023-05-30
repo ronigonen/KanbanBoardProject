@@ -321,7 +321,16 @@ public class BoardFacade
 
     public void JoinBoard(string email, int boardID)
     {
-
+        User curr = uf.GetUser(email);
+        if (curr == null)
+        {
+            throw new KanbanException("no match user to email");
+        }
+        if (!curr.IsLoggedIn())
+        {
+            throw new KanbanException("user not logged in");
+        }
+        boards[]
     }
 
     public void LeaveBoard(string email, int boardID)

@@ -22,14 +22,14 @@ public class Board
     private int backLogMax;
     private int inProgressMax;
     private int doneMax;
-    private UserInProgressTasks inProgressUser;
     private int boardID;
     private string ownerEmail;
+    private UserInProgressTasks inProgressUseru;
 
 
     public Board(UserInProgressTasks u, string name, User user)
     {
-        this.bdto = new BoardDTO(u, name, user); ;
+        this.bdto = new BoardDTO(u.UserInProgressTasksDTO, name, user); 
         this.name = name;
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
@@ -38,7 +38,7 @@ public class Board
         backLogMax = -1;
         inProgressMax = -1;
         doneMax = -1;
-        inProgressUser=u;
+        InProgressUser = u;
         boardID = 0;
         ownerEmail = user.Email;
     }
