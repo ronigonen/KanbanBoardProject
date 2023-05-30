@@ -24,7 +24,7 @@ public class Board
     private int doneMax;
     private int boardID;
     private string ownerEmail;
-    private UserInProgressTasks inProgressUseru;
+    private UserInProgressTasks inProgressUser;
 
 
     public Board(UserInProgressTasks u, string name, User user)
