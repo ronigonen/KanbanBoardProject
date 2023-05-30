@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,8 +66,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.doneMax = -1;
             this.inProgressUser = u;
             this.boardID = 0;
-            this.ownerEmail = user.EMAIL;
+            this.ownerEmail = user.Email;
         }
+
+        public BoardDTO(string name, List<Task> backLogTasks, List<Task> inProgressTasks, List<Task> doneTasks, int taskId, int backlogMax, int inProgressMax, int doneMax, Dictionary<string, List<Task>> inProgress, int boardId, string ownerEmail)
+        {
+            this.boardController = new BoardController();
+        }
+
 
         public string Name { get => name; }
         public Dictionary<int, Task> BackLogTasks { get => backLogTasks; }

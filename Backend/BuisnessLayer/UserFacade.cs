@@ -42,7 +42,7 @@ public class UserFacade
             throw new KanbanException("invalid password. A valid password is in the length of 6 to 20 characters and must include at least one uppercase letter, one small character, and a number.");
         }
 		User newOne = new User(password, email);
-		this.users.Add(email, newOne);
+		this.users.Add(email, newOne); //wont happen if new user failed- with insert to data base
     }
 
 	public string LogIn(string email, string password)
