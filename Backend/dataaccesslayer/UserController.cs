@@ -10,13 +10,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     internal class UserController
     {
-        private const string MessageTableName = "User";
+        private const string MessageTableName = "Users";
         private readonly string _connectionString;
         private readonly string _tableName;
         internal UserController()
         {
-            string path = Path.GetFullPath(Path.Combine
-            (Directory.GetCurrentDirectory(), "Kanban.db"));
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Kanban.db"));
             this._connectionString = $"Data Source={path}; Version=3;";
             this._tableName = MessageTableName;
         }
@@ -25,8 +24,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             List<UserDTO> results = new List<UserDTO>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                SQLiteCommand command = new SQLiteCommand(null,connection);
-                command.CommandText = $"select * from {_tableName};";
+                SQLiteCommand command = new SQLiteCommand(connection);
+                command.CommandText = $"SELECT * from {_tableName};";
                 SQLiteDataReader dataReader = null;
                 try
                 {
@@ -50,9 +49,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
-        public List<BoardDTO> SelectAllBoards()
+        public List<UserDTO> SelectAllBoards()
         {
-            List<BoardDTO> result = Select().Cast<BoardDTO>().ToList();
+            List<UserDTO> result = Select().Cast<UserDTO>().ToList();
             return result;
         }
         public bool Insert(UserDTO user)
@@ -60,13 +59,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 int res = -1;
-                SQLiteCommand command = new SQLiteCommand(null,connection);
+                SQLiteCommand command = new SQLiteCommand(connection);
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO{"Users"} ({ user.Email} ,{ user.Password}) " +$"VALUES (@idVal,@nameVal);";
-                    SQLiteParameter emailParam = new SQLiteParameter(@"idVal", user.Email);
-                    SQLiteParameter passwordParam = new SQLiteParameter(@"nameVal", user.Password);
+                    command.CommandText = $"INSERT INTO {_tableName} (Email, Password) " +$"VALUES (@email,@password);";
+                    SQLiteParameter emailParam = new SQLiteParameter("@email", user.Email);
+                    SQLiteParameter passwordParam = new SQLiteParameter("@password", user.Password);
                     command.Parameters.Add(emailParam);
                     command.Parameters.Add(passwordParam);
                     command.Prepare();
@@ -74,7 +73,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
                 catch
                 {
-                    //log error
+                    throw new Exception("Data Base exception");
                 }
                 finally
                 {
@@ -85,7 +84,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
         }
 
-        public bool Delete(UserDTO DTOObj)
+        public bool Delete(UserDTO user)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -93,7 +92,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"delete from {Users} where email={DTOObj.Email}"};
+                    CommandText = $"delete from {_tableName} where [Email]={user.Email}"
+                };              
                 try
                 {
                     connection.Open();
