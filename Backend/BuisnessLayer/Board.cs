@@ -22,14 +22,14 @@ public class Board
     private int backLogMax;
     private int inProgressMax;
     private int doneMax;
-    private UserInProgressTasks inProgressUser;
     private int boardID;
     private string ownerEmail;
+    private UserInProgressTasks inProgressUser;
 
 
     public Board(UserInProgressTasks u, string name, User user)
     {
-        this.bdto = new BoardDTO(u, name, user); ;
+        this.bdto = new BoardDTO(u.UserInProgressTasksDTO, name, user); 
         this.name = name;
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
@@ -38,7 +38,7 @@ public class Board
         backLogMax = -1;
         inProgressMax = -1;
         doneMax = -1;
-        inProgressUser=u;
+        InProgressUser = u;
         boardID = 0;
         ownerEmail = user.Email;
     }
@@ -175,12 +175,12 @@ public class Board
         if (columnOrdinal==0) {
             if(!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            backLogTasks[taskId].UpdateTaskDueDate(dueDate);
+            backLogTasks[taskId].DueDate = dueDate;
         }
         else if (columnOrdinal==1) {
             if(!inProgressTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            inProgressTasks[taskId].UpdateTaskDueDate(dueDate);
+            inProgressTasks[taskId].DueDate= dueDate;
         }
         else {
             throw new KanbanException("Invalid taskId");
@@ -197,13 +197,13 @@ public class Board
         {
             if (!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            backLogTasks[taskId].UpdateTaskTitle(title);
+            backLogTasks[taskId].Title= title;
         }
         else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            inProgressTasks[taskId].UpdateTaskTitle(title);
+            inProgressTasks[taskId].Title=title;
         }
         else
         {
@@ -221,13 +221,13 @@ public class Board
         {
             if (!backLogTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            backLogTasks[taskId].UpdateTaskDescription(description);
+            backLogTasks[taskId].Description= description;
         }
         else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
                 throw new KanbanException("Invalid taskId");
-            inProgressTasks[taskId].UpdateTaskDescription(description);
+            inProgressTasks[taskId].Description= description;
         }
         else
         {
@@ -253,6 +253,7 @@ public class Board
                 inProgressUser.AddTasks(email, backLogTasks[taskId]);
                 backLogTasks.Remove(taskId);
                 Task task = inProgressTasks[taskId];
+                task.Tdto.ColumnOrdinal = 1;
             }
         }
         else if (columnOrdinal == 1)
@@ -271,12 +272,39 @@ public class Board
                 inProgressTasks.Remove(taskId);
                 Task task = doneTasks[taskId];
                 inProgressUser.RemoveTasks(email, task);
+                task.Tdto.ColumnOrdinal = 2;
             }
         }
         else
             throw new KanbanException("Not possible");
         }
+
+    public void JoinBoard(string email, int boardID)
+    {
+
     }
+
+    public void LeaveBoard(string email, int boardID)
+    {
+
+    }
+
+    public string GetBoardName(int boardID)
+    {
+
+    }
+    public void TransferOwnership(string currentOwnerEmail, string newOwnewemail, string boardName)
+    {
+
+    }
+
+    public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
+    {
+
+    }
+
+
+}
 
 
 

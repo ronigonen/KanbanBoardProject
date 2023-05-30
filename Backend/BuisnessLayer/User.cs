@@ -3,6 +3,7 @@ using IntroSE.Kanban.Backend.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Linq;
 
 public class User
 {
@@ -29,7 +30,7 @@ public class User
         this.email = udto.Email; 
         this.loggedIn = false;
 		List<BoardDTO> boardsDTO = udto.Boards;
-		for (BoardDTO bd : boardsDTO)
+		foreach (BoardDTO bd in boardsDTO)
 		{
 			Board b = new Board(bd);
 			boards.Add(b.Name, b);
@@ -75,5 +76,11 @@ public class User
     public void DeleteBoard(string boardName)
     {
         this.boards.Remove(boardName);
+    }
+
+    public List<Board> getUserBoards(string email)
+    {
+		List<Board> toSend = boards.Values.ToList();
+		return toSend;
     }
 }

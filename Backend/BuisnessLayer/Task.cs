@@ -36,30 +36,44 @@ public class Task
 
     public TaskDTO Tdto { get => tdto; }
     public int ID { get => id; set => id = value; }
-    public DateTime DueDate { get => dueDate; set => dueDate = value; }
-    public string Title
+    internal string Title
     {
         get => title;
-        private set
+        set
         {
             if (title == null || title.Length > 50 || title.Length < 1)
                 throw new KanbanException("Title is null or has more than 50 characters");
             else
             {
                 title = value;
-                tdto.Title = title;
+                tdto.Title = value;
             }
         }
     }
-    public string Description { get => description;
-        private set
+    internal string Description { get => description;
+        set
         {
             if (description == null || description.Length > 300)
                 throw new KanbanException("Description is too long or null");
             else
             {
                 description = value;
-                tdto.Description = title;
+                tdto.Description = value;
+            }
+        }
+    }
+
+    internal DateTime DueDate
+    {
+        get => dueDate;
+        set
+        {
+            if (title == null || title.Length > 50 || title.Length < 1)
+                throw new KanbanException("Title is null or has more than 50 characters");
+            else
+            {
+                dueDate = value;
+                tdto.DueDate = value;
             }
         }
     }
@@ -79,20 +93,6 @@ public class Task
         return id; 
     }
 
-    public void UpdateTaskDueDate(DateTime dueDate)
-    {
-        DueDate=dueDate;
-    }
-
-    public void UpdateTaskTitle(string title)
-    {
-        Title=title;
-    }
-
-    public void UpdateTaskDescription(string description)
-    {
-        Description=description;
-    }
 
     public void AssignTask(string email, string boardName, int columnOrdinal, int TaskId, string emailAssignee)
     {

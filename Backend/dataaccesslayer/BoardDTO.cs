@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,32 +12,29 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private BoardController boardController;
         private Boolean isPersisted;
         private string name;
-        private Dictionary<int, Task> backLogTasks;
-        private Dictionary<int, Task> inProgressTasks;
-        private Dictionary<int, Task> doneTasks;
+        private List<TaskDTO> Tasks;
         private int taskId;
         private int backLogMax;
         private int inProgressMax;
         private int doneMax;
-        private UserInProgressTasks inProgressUser;
+        private UserInProgressTasksDTO inProgressUser;
         private int boardID;
         private string ownerEmail;
 
-        public BoardDTO(bool isPersisted, string name, Dictionary<int, Task> backLogTasks, Dictionary<int, Task> inProgressTasks, Dictionary<int, Task> doneTasks, int taskId, int backLogMax, int inProgressMax, int doneMax, UserInProgressTasks inProgressUser, int boardID, string ownerEmail)
+<<<<<<< HEAD
+        public BoardDTO(string name1, List<TaskDTO> tasks1, int taskId1, int backLogMax1, int inProgressMax1, int doneMax1, Dictionary<string,List<TaskDTO>> inProgressUser1, int boardID1, string ownerEmail1)
         {
             this.boardController = new BoardController();
-            this.isPersisted = isPersisted;
-            this.name = name;
-            this.backLogTasks = backLogTasks;
-            this.inProgressTasks = inProgressTasks;
-            this.doneTasks = doneTasks;
-            TaskId = taskId;
-            this.backLogMax = backLogMax;
-            this.inProgressMax = inProgressMax;
-            this.doneMax = doneMax;
-            this.inProgressUser = inProgressUser;
-            this.boardID = boardID;
-            this.ownerEmail = ownerEmail;
+            this.isPersisted = true;
+            this.name = name1;
+            this.Tasks = tasks1;
+            this.taskId = taskId1;
+            this.backLogMax = backLogMax1;
+            this.inProgressMax = inProgressMax1;
+            this.doneMax = doneMax1;
+            this.inProgressUser = new UserInProgressTasksDTO();
+            this.boardID = boardID1;
+            this.ownerEmail = ownerEmail1;
         }
 
         public void AddBoard()
@@ -51,22 +49,23 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             isPersisted = false;
         }
 
-        public BoardDTO(UserInProgressTasks u, string name, User user)
+        public BoardDTO(UserInProgressTasksDTO u, string name, User user)
         {
             this.boardController = new BoardController();
             this.isPersisted = false;
             this.name = name;
-            this.backLogTasks = new Dictionary<int, Task>();
-            this.inProgressTasks = new Dictionary<int, Task>();
-            this.doneTasks = new Dictionary<int, Task>();
+            this.Tasks = new List<TaskDTO>();
             taskId = 0;
             this.backLogMax = -1;
             this.inProgressMax = -1;
             this.doneMax = -1;
             this.inProgressUser = u;
             this.boardID = 0;
-            this.ownerEmail = user.EMAIL;
+            this.ownerEmail = user.Email;
         }
+
+
+
 
         public string Name { get => name; }
         public Dictionary<int, Task> BackLogTasks { get => backLogTasks; }
@@ -97,14 +96,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 doneMax = value;
             }
         }
+        
+        
         public UserInProgressTasks InProgressUser { get => inProgressUser; }
         public int BoardId { get => boardID; }
         public string OwnerEmail { get => ownerEmail; }
 
         public void addTask(TaskDTO task)
         {
-            task.BoardId = this.boardID;
+            task.BoardID=this.boardID;
             task.persist();
+            Tasks.Add(task); // if persist failed, it won't reach to this line
         }
     }
 }
