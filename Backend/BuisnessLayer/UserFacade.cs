@@ -71,4 +71,9 @@ public class UserFacade
 		return this.users[email];
 	}
 
+	public List<Board> getUserBoards(string email)
+	{
+
+	}
+
 }

@@ -76,4 +76,10 @@ public class User
     {
         this.boards.Remove(boardName);
     }
+
+    public List<Board> getUserBoards(string email)
+    {
+
+    }
+
 }
