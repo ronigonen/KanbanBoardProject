@@ -8,57 +8,55 @@ using System.Threading.Tasks;
 
 public class BoardFacade
 {
-	private Dictionary<string, Board> boards;
+    private Dictionary<int, string> idToNameBoards;// dictionary of id and name for each board
+    private Dictionary<string, Board> boards; // dictionary of uniqe boardname and boards
 	private UserFacade uf;
 	private UserInProgressTasks inProgressUser;
+    private int BoardID;
 
 	public BoardFacade(UserFacade uF)
 	{
 		this.boards = new Dictionary<string, Board>();
 		this.uf = uF;
         this.inProgressUser = new UserInProgressTasks();
+        this.BoardID = 0;
 	}
 	public void CreateBoard(string email, string boardName)
 	{
 		User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn()) 
         {
             throw new KanbanException("User is not logged in");
         }
-        Board board = new Board(inProgressUser, boardName, user);
+        Board board = new Board(inProgressUser, boardName, user, BoardID);
         boards.Add(boardName, board);
-        user.AddBoard(boardName, board);
+        idToNameBoards.Add(board.BoardID, boardName);
+        user.AddUserToBoard(board);
         inProgressUser.AddUser(email);
+        BoardID = BoardID + 1;
     }
     public void DeleteBoard(string email, string boardName)
     {
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
+        }
+        if (!boards[boardName].OwnerEmail.Equals(email))
+        {
+            throw new KanbanException("User is not owner");
         }
         if (!boards.ContainsKey(boardName))
         {
             throw new KanbanException("This board name does not exists");
         }
+        idToNameBoards.Remove(boards[boardName].BoardID);
         boards.Remove(boardName);
-        user.DeleteBoard(boardName);
+        uf.DeleteBoardFromAllUsers(boards[boardName]);
     }
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -68,7 +66,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -81,10 +79,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
 		{
             throw new KanbanException("User is not logged in");
@@ -94,7 +88,7 @@ public class BoardFacade
 		{
 			throw new KanbanException("This board name does not exists");
 		}
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -112,10 +106,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -125,7 +115,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -147,10 +137,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -160,7 +146,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -178,10 +164,6 @@ public class BoardFacade
             throw new KanbanException("Tasks can not be changed to the giving column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -191,7 +173,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -205,10 +187,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -218,7 +196,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -231,10 +209,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -244,7 +218,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -258,10 +232,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -271,7 +241,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -285,10 +255,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -298,7 +264,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -308,10 +274,6 @@ public class BoardFacade
 	public List<Task> GetInProgress(string email)
 	{
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -321,30 +283,52 @@ public class BoardFacade
 
     public void JoinBoard(string email, int boardID)
     {
-        User curr = uf.GetUser(email);
-        if (curr == null)
-        {
-            throw new KanbanException("no match user to email");
-        }
-        if (!curr.IsLoggedIn())
+        User user = uf.GetUser(email);
+        if (!user.IsLoggedIn())
         {
             throw new KanbanException("user not logged in");
         }
-        boards[]
+        Board b = boards[idToNameBoards[boardID]];
+        user.AddUserToBoard(b);
     }
 
     public void LeaveBoard(string email, int boardID)
     {
-
+        User user = uf.GetUser(email);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("user not logged in");
+        }
+        Board b = boards[idToNameBoards[boardID]];
+        if (user.Equals(b.OwnerEmail))
+        {
+            throw new KanbanException("owner cannot leave his own bord");
+        }
+        user.DeleteUserFromBoard(b);
     }
 
     public string GetBoardName(int boardID)
     {
-
+        return idToNameBoards[boardID];
     }
     public void TransferOwnership(string currentOwnerEmail, string newOwnewemail, string boardName)
     {
-
+        User owner = uf.GetUser(currentOwnerEmail);
+        User newOwner = uf.GetUser(newOwnewemail);
+        if (!owner.IsLoggedIn() || !newOwner.IsLoggedIn())
+        {
+            throw new KanbanException("user not logged in");
+        }
+        Board b = boards[boardName];
+        if (b == null)
+        {
+            throw new KanbanException("This board name does not exists");
+        }
+        if (!owner.Boards.ContainsKey(boardName) || !newOwner.Boards.ContainsKey(boardName))
+        {
+            throw new KanbanException("The user is not a member of this board");
+        }
+        b.TransferOwnership(newOwner);
     }
 
     public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)

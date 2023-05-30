@@ -76,4 +76,15 @@ public class UserFacade
 
 	}
 
+    public void DeleteBoardFromAllUsers(Board b)
+	{
+		foreach(User user in users.Values)
+		{
+			if (user.Boards.ContainsKey(b.Name))
+			{
+				user.DeleteUserFromBoard(b);
+			}
+		}
+	}
+
 }
