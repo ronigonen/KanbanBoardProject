@@ -17,6 +17,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private string description;
         private string emailAssignee;
         private int boardID;
+        private int columnOrdinal;
 
 
         public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description)
@@ -30,6 +31,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.description = description;
             this.emailAssignee = null;
             this.boardID = null;
+            this.columnOrdinal = 0;
+        }
+
+        internal int ColumnOrdinal
+        {
+            get => columnOrdinal;
+            set
+            {
+                if (isPersisted)
+                {
+                    taskController.updateColumnOrdinal(value);
+                }
+                columnOrdinal = value;
+            }
         }
 
         internal string Title
@@ -96,6 +111,18 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
+        internal int BoardID
+        {
+            get => boardID;
+            set
+            {
+                if (isPersisted)
+                {
+                    taskController.updateBoardID(value);
+                }
+                boardID = value;
+            }
+        }
 
         public void persist()
         {

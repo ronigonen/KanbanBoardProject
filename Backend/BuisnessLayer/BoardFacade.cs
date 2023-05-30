@@ -318,4 +318,29 @@ public class BoardFacade
         }
         return inProgressUser.GetList(email);
 	}
+
+    public void JoinBoard(string email, int boardID)
+    {
+
+    }
+
+    public void LeaveBoard(string email, int boardID)
+    {
+
+    }
+
+    public string GetBoardName(int boardID)
+    {
+
+    }
+    public void TransferOwnership(string currentOwnerEmail, string newOwnewemail, string boardName)
+    {
+
+    }
+
+    public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
+    {
+
+    }
+
 }
