@@ -253,7 +253,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public bool UpdateColumnLimit(int boardId, int col, int limit)
+        public bool UpdateBackLogMax(int boardId, int limit)
         {
             bool result = false;
 
@@ -261,19 +261,49 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 connection.Open();
                 string sqlQuery = string.Empty;
-                if (col == 0)
+                sqlQuery = $"UPDATE {_tableName} SET BackLogMax = @limit WHERE [BoardId] = @boardId";
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
                 {
-                    sqlQuery = $"UPDATE {_tableName} SET BackLogMax = @limit WHERE [BoardId] = @boardId";
+                    command.Parameters.AddWithValue("@limit", limit);
+                    command.Parameters.AddWithValue("@boardId", boardId);
+                    int rowsAffected = command.ExecuteNonQuery();
+                    result = (rowsAffected > 0);
                 }
-                if (col == 1)
-                {
-                    sqlQuery = $"UPDATE {_tableName} SET InProgressMax = @limit WHERE [BoardId] = @boardId";
-                }
-                else if (col == 2)
-                {
-                    sqlQuery = $"UPDATE {_tableName} SET DoneMax = @limit WHERE [BoardId] = @boardId";
-                }
+            }
 
+            return result;
+        }
+
+        public bool UpdateInProgressMax(int boardId, int limit)
+        {
+            bool result = false;
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string sqlQuery = string.Empty;
+                sqlQuery = $"UPDATE {_tableName} SET InProgressMax = @limit WHERE [BoardId] = @boardId";
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@limit", limit);
+                    command.Parameters.AddWithValue("@boardId", boardId);
+                    int rowsAffected = command.ExecuteNonQuery();
+                    result = (rowsAffected > 0);
+                }
+            }
+
+            return result;
+        }
+
+        public bool UpdateDoneMax(int boardId, int limit)
+        {
+            bool result = false;
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string sqlQuery = string.Empty;
+                sqlQuery = $"UPDATE {_tableName} SET DoneMax = @limit WHERE [BoardId] = @boardId";
                 using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@limit", limit);
