@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     internal class BoardController
     {
-        private const string MessageTableName = "Forum";
+        private const string MessageTableName = "Boards";
         private readonly string _connectionString;
         private readonly string _tableName;
         internal BoardController()
@@ -20,13 +20,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this._connectionString = $"Data Source={path}; Version=3;";
             this._tableName = MessageTableName;
         }
-        public List<TaskDTO> Select()
+        public List<BoardDTO> Select()
         {
-            List<TaskDTO> results = new List<TaskDTO>();
+            List<BoardDTO> results = new List<BoardDTO>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"select * from {_tableName};";
+                command.CommandText = $"SELECT * from {_tableName}";
                 SQLiteDataReader dataReader = null;
                 try
                 {
@@ -50,12 +50,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
-        public List<TaskDTO> SelectAllTasks()
+        public List<BoardDTO> SelectAllBoards(int boardId)
         {
-            List<TaskDTO> result = Select().Cast<TaskDTO>().ToList();
+            List<BoardDTO> result = Select().Cast<BoardDTO>().ToList();
             return result;
         }
-        public bool Insert(TaskDTO task)
+
+
+        public bool Insert(BoardDTO board)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -64,27 +66,27 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO{Tasks} ({task.Id} ,{task.CreationTime}, {task.Id} ,{task.DueDate}, {task.Title}, {task.Description}, {task.EmailAssignee}, {0}) " + $"VALUES (@idVal,@nameVal);";
-                    SQLiteParameter idParam = new SQLiteParameter("@idVal", task.Id);
-                    SQLiteParameter creationTimeParam = new SQLiteParameter("@creationTimeVal", task.CreationTime);
-                    SQLiteParameter dueDateParam = new SQLiteParameter("@dueDateVal", task.DueDate);
-                    SQLiteParameter titleParam = new SQLiteParameter("@titleVal", task.Title);
-                    SQLiteParameter descriptionParam = new SQLiteParameter("@descriptionVal", task.Description);
-                    SQLiteParameter emailParam = new SQLiteParameter("@emailVal", task.EmailAssignee);
-                    SQLiteParameter columnParam = new SQLiteParameter("@columnVal", 0);
+                    command.CommandText = $"INSERT INTO {_tableName} (BoardId, Name, TaskId, BackLogMax, InProgressMax, DoneMax, OwnerEmail) VALUES (@idVal, @nameVal, @taskIdVal, @backLogMaxVal, @inProgressMaxVal, @doneMaxVal, @ownerEmailVal)";
+                    SQLiteParameter idParam = new SQLiteParameter("@idVal", board.BoardId);
+                    SQLiteParameter nameParam = new SQLiteParameter("@nameVal", board.Name);
+                    SQLiteParameter taskIdParam = new SQLiteParameter("@taskIdVal", board.TaskId);
+                    SQLiteParameter backLogMaxParam = new SQLiteParameter("@backLogMaxVal", board.BackLogMax);
+                    SQLiteParameter inProgressMaxParam = new SQLiteParameter("@inProgressMaxVal", board.InProgressMax);
+                    SQLiteParameter doneMaxParam = new SQLiteParameter("@doneMaxVal", board.DoneMax);
+                    SQLiteParameter ownerEmailParam = new SQLiteParameter("@ownerEmailVal", board.OwnerEmail);
                     command.Parameters.Add(idParam);
-                    command.Parameters.Add(creationTimeParam);
-                    command.Parameters.Add(dueDateParam);
-                    command.Parameters.Add(titleParam);
-                    command.Parameters.Add(descriptionParam);
-                    command.Parameters.Add(emailParam);
-                    command.Parameters.Add(columnParam);
-                    command.Prepare();
+                    command.Parameters.Add(nameParam);
+                    command.Parameters.Add(taskIdParam);
+                    command.Parameters.Add(backLogMaxParam);
+                    command.Parameters.Add(inProgressMaxParam);
+                    command.Parameters.Add(doneMaxParam);
+                    command.Parameters.Add(ownerEmailParam);
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //log error
+                    // Handle or log the exception appropriately
+                    Console.WriteLine($"Error occurred during insert: {ex.Message}");
                 }
                 finally
                 {
@@ -95,7 +97,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
         }
 
-        public bool Delete(TaskDTO DTOObj)
+
+        public bool Delete(TaskDTO task)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -103,7 +106,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"delete from {Tasks} where BoardId={DTOObj.BoardId}"
+                    CommandText = $"Delete from {_tableName} where [BoardId]={task.BoardId}"
                 };
                 try
                 {
@@ -119,7 +122,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
-        public List<TaskDTO> SelectAllTasksInColumn(int col)
+
+        public List<TaskDTO> SelectAllTasksInColumn(int boardId, int col)
         {
             List<TaskDTO> result = new List<TaskDTO>();
 
@@ -127,10 +131,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 connection.Open();
 
-                string sqlQuery = $"SELECT * FROM Tasks WHERE ColumnName = {col}";
+                string sqlQuery = $"SELECT * FROM {_tableName} WHERE [BoardId] = @boardId and [ColumnName] = @col";
 
                 using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
                 {
+                    command.Parameters.AddWithValue("@boardId", boardId);
+                    command.Parameters.AddWithValue("@col", col);
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -149,8 +155,38 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
             return result;
         }
+        public List<TaskDTO> SelectAllTasksFromBoard(int boardId)
+        {
+            List<TaskDTO> result = new List<TaskDTO>();
 
-        public List<string> SelectEmailsFromInProgress(int boardId)
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sqlQuery = $"SELECT * FROM {_tableName} WHERE [BoardId] = @boardId";
+
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@boardId", boardId);
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            DateTime creationTime = DateTime.Parse(reader.GetString(1));
+                            DateTime dueDate = DateTime.Parse(reader.GetString(2));
+                            string title = reader.GetString(3);
+                            string description = reader.GetString(4);
+                            TaskDTO task = new TaskDTO(id, creationTime, dueDate, title, description);
+                            result.Add(task);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+        public List<string> SelectEmailsFromInProgress()
         {
             List<string> result = new List<string>();
 
@@ -158,12 +194,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 connection.Open();
 
-                string sqlQuery = $"SELECT {EmailAssignee} FROM {Tasks} WHERE Column = {1} AND BoardId = {boardId}";
+                string sqlQuery = $"SELECT {"EmailAssignee"} FROM {_tableName} WHERE [Column] = @column";
 
                 using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@boardId", boardId);
-
+                    command.Parameters.AddWithValue("@column", 1);
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -178,14 +213,110 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
-        public BoardDTO ConvertReaderToObject(SQLiteDataReader reader)
+        public Dictionary<String, List<TaskDTO>> SelectInProgressUser()
+        {
+            List<String> emails = SelectEmailsFromInProgress();
+            Dictionary<String, List<TaskDTO>> result = new Dictionary<String, List<TaskDTO>>();
+            foreach (String email in emails)
+            {
+                List<TaskDTO> tasks = new List<TaskDTO>();
+
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string sqlQuery = $"SELECT * FROM {_tableName} WHERE EmailAssignee = @email";
+
+                    using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@email", email);
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                DateTime creationTime = DateTime.Parse(reader.GetString(1));
+                                DateTime dueDate = DateTime.Parse(reader.GetString(2));
+                                string title = reader.GetString(3);
+                                string description = reader.GetString(4);
+                                TaskDTO task = new TaskDTO(id, creationTime, dueDate, title, description);
+                                tasks.Add(task);
+                            }
+                            result.Add(email, tasks);
+
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+        public bool UpdateColumnLimit(int boardId, int col, int limit)
+        {
+            bool result = false;
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string sqlQuery = string.Empty;
+                if (col == 0)
+                {
+                    sqlQuery = $"UPDATE {_tableName} SET BackLogMax = @limit WHERE [BoardId] = @boardId";
+                }
+                if (col == 1)
+                {
+                    sqlQuery = $"UPDATE {_tableName} SET InProgressMax = @limit WHERE [BoardId] = @boardId";
+                }
+                else if (col == 2)
+                {
+                    sqlQuery = $"UPDATE {_tableName} SET DoneMax = @limit WHERE [BoardId] = @boardId";
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@limit", limit);
+                    command.Parameters.AddWithValue("@boardId", boardId);
+                    int rowsAffected = command.ExecuteNonQuery();
+                    result = (rowsAffected > 0);
+                }
+            }
+
+            return result;
+        }
+
+        public string SelectEmailOwner(int boardId)
+        {
+            string result="";
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sqlQuery = $"SELECT {"EmailOwner"} FROM {"Boards"} WHERE [BoardId] = @boardId";
+
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@boardId", boardId);
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result= reader.GetString(0);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public BoardDTO ConvertReaderToObject(SQLiteDataReader reader, int boardId)
         {
             DateTime creation = DateTime.Parse(reader.GetString(1));
             DateTime dueDate = DateTime.Parse(reader.GetString(1));
-            List<TaskDTO> backlog = SelectAllTasksInColumn(0);
-            List<TaskDTO> inProgress = SelectAllTasksInColumn(0);
-            List<TaskDTO> done = SelectAllTasksInColumn(0);
-            return new BoardDTO(reader.GetString(1), backlog, inProgress, done, taskId, reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), inprogressuser, boardID, owneremail);
+            return new BoardDTO(reader.GetString(1), SelectAllTasksFromBoard(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), SelectInProgressUser(), SelectEmailOwner);
         }
 
     }
