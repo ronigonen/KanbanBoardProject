@@ -73,7 +73,8 @@ public class UserFacade
 
 	public List<Board> getUserBoards(string email)
 	{
-
+		if (!this.users.ContainsKey(email))
+			throw new KanbanException("user doesn't exist");
+		return this.users[email].getUserBoards();
 	}
-
 }
