@@ -318,7 +318,7 @@ public class BoardFacade
     {
         User owner = uf.GetUser(currentOwnerEmail);
         User newOwner = uf.GetUser(newOwnewemail);
-        if (!owner.IsLoggedIn() || !newOwner.IsLoggedIn())
+        if (!owner.IsLoggedIn())
         {
             throw new KanbanException("user not logged in");
         }
