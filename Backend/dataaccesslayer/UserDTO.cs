@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,14 +23,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.email = email;
             this.isPersisted = false;
             boards = userController.getAllBoards();
-            try
-            {
-                persist();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message); //throw special exception
-            }
+            persist();
         }
 
         internal List<BoardDTO> Boards { get => boards; }
@@ -37,15 +32,39 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public void persist()
         {
-            userController.insert(this);
-            isPersisted = true;
+            try
+            {
+                userController.insert(this);
+                isPersisted = true;
+            }
+            catch (KanbanDataException e)
+            { 
+                throw new KanbanDataException("didn't added to the data base");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
         public void delete()
         {
-            userController.delete(this);
-            isPersisted = true;
+            try
+            {
+                userController.delete(this);
+                isPersisted = true;
+            }
+            catch (KanbanDataException e)
+            {
+                throw new KanbanDataException("didn't deleted to the data base");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
+
+    }
 
     }
 }

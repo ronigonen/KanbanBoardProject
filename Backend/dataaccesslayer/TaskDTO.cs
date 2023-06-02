@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,9 +23,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description)
         {
-            TaskController taskController = new TaskController();   
+            TaskController taskController = new TaskController();
             isPersisted = false;
-            this.id = id;   
+            this.id = id;
             this.creationTime = creationTime;
             this.dueDate = dueDate;
             this.title = title;
@@ -122,23 +123,39 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public void persist()
         {
-            taskController.insert(this);
-            isPersisted = true;
+            try
+            {
+                taskController.insert(this);
+                isPersisted = true;
+            }
+            catch (KanbanDataException e)
+            {
+                throw new KanbanDataException("didn't added to the data base");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
         public void delete()
         {
-            taskController.delete(this);
-            isPersisted = false;
+            try
+            {
+                taskController.delete(this);
+                isPersisted = false;
+            }
+            catch (KanbanDataException e)
+            {
+                throw new KanbanDataException("didn't added to the data base");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
-
-
-
-
-
-
-
     }
-
-
 }
+
+
+

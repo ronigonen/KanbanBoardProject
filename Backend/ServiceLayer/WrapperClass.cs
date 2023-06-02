@@ -8,15 +8,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class WrapperClass
     {
-        public UserService UserService;
+        public UserService userService;
         public BoardService boardService;
-        public TaskService TaskService;
+        public TaskService taskService;
 
 
-        public WrapperClass() {
-            UserService = new UserService();
-            boardService = new BoardService(UserService.UF);
-            TaskService = new TaskService(boardService.BF);
+        public WrapperClass(UserService us, BoardService bs, TaskService ts) {
+            userService = us;
+            boardService = bs;
+            taskService = ts;
         }
     }
 }
