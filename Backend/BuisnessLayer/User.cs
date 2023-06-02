@@ -78,9 +78,13 @@ public class User
         udto.Boards.Remove(board.Bdto);
     }
 
-    public List<Board> getUserBoards(string email)
+    public List<Board> getUserBoards()
     {
-		List<Board> toSend = boards.Values.ToList();
+        if (!this.loggedIn)
+        {
+            throw new KanbanException("User isn't log in.");
+        }
+        List<Board> toSend = boards.Values.ToList();
 		return toSend;
     }
 }

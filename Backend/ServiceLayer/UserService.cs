@@ -124,16 +124,50 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+        /// <summary>
+        /// This method returns a list of IDs of all user's boards.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <returns>A response with a list of IDs of all user's boards, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetUserBoards(string email)
         {
-            return JsonSerializer.Serialize(new Response("not implemented yet."));
+            try
+            {
+                List<Board> boards = uF.GetUserBoards(email);
+                Board[] boardsToSend = boards.ToArray();
+                return JsonSerializer.Serialize(new Response(boardsToSend));
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
+
+        ///<summary>This method loads all persisted data.
+        ///<para>
+        ///<b>IMPORTANT:</b> When starting the system via the GradingService - do not load the data automatically, only through this method. 
+        ///In some cases we will call LoadData when the program starts and in other cases we will call DeleteData. Make sure you support both options.
+        ///</para>
+        /// </summary>
+        /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LoadData()
         {
             return JsonSerializer.Serialize(new Response("not implemented yet."));
         }
 
+        ///<summary>This method deletes all persisted data.
+        ///<para>
+        ///<b>IMPORTANT:</b> 
+        ///In some cases we will call LoadData when the program starts and in other cases we will call DeleteData. Make sure you support both options.
+        ///</para>
+        /// </summary>
+        ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string DeleteData()
         {
             return JsonSerializer.Serialize(new Response("not implemented yet."));

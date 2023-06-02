@@ -75,7 +75,7 @@ public class UserFacade
 	{
 		if (!this.users.ContainsKey(email))
 			throw new KanbanException("user doesn't exist");
-		return users[email].getUserBoards(email);
+		return users[email].getUserBoards();
 	}
 
     public void DeleteBoardFromAllUsers(Board b)
