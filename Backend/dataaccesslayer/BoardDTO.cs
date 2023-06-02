@@ -48,7 +48,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.backLogMax = -1;
             this.inProgressMax = -1;
             this.doneMax = -1;
-            this.inProgressUser = u1;
+            this.inProgressUser = u1.UserInProgressTasksDTO;
             this.boardID = boardID1;
             this.ownerEmail = user1.Email;
             persist();
@@ -108,9 +108,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
 
         public string Name { get => name; }
-        public Dictionary<int, Task> BackLogTasks { get => backLogTasks; }
-        public Dictionary<int, Task> InProgressTasks { get => inProgressTasks; }
-        public Dictionary<int, Task> DoneTasks { get => doneTasks; }
         public int TaskId { get => taskId; }
         internal int BackLogMax { get => backLogMax;
             set
