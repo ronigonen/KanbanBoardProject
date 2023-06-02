@@ -10,6 +10,7 @@ using log4net.Config;
 using IntroSE.Kanban.Backend.BuisnessLayer;
 using IntroSE.Kanban.Backend.DataAccessLayer;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 public class Board
 {
@@ -174,16 +175,28 @@ public class Board
     }
 
 
-    public void UpdateTaskDueDate(int taskId, int columnOrdinal, DateTime dueDate)
+    public void UpdateTaskDueDate(string email, int taskId, int columnOrdinal, DateTime dueDate)
     {
         if (columnOrdinal==0) {
-            if(!backLogTasks.ContainsKey(taskId))
+            if (!backLogTasks.ContainsKey(taskId))
+            {
                 throw new KanbanException("Invalid taskId");
+            }
+            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             backLogTasks[taskId].DueDate = dueDate;
         }
         else if (columnOrdinal==1) {
-            if(!inProgressTasks.ContainsKey(taskId))
+            if (!inProgressTasks.ContainsKey(taskId))
+            {
                 throw new KanbanException("Invalid taskId");
+            }
+            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             inProgressTasks[taskId].DueDate= dueDate;
         }
         else {
@@ -191,7 +204,7 @@ public class Board
         }
     }
 
-    public void UpdateTaskTitle(int taskId, int columnOrdinal, string title)
+    public void UpdateTaskTitle(string email, int taskId, int columnOrdinal, string title)
     {
         if (title.Length < 0 || title.Length > 50)
         {
@@ -200,13 +213,25 @@ public class Board
         if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
+            {
                 throw new KanbanException("Invalid taskId");
+            }
+            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             backLogTasks[taskId].Title= title;
         }
         else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
+            {
                 throw new KanbanException("Invalid taskId");
+            }
+            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             inProgressTasks[taskId].Title=title;
         }
         else
@@ -215,7 +240,7 @@ public class Board
         }
     }
 
-    public void UpdateTaskDescription(int taskId, int columnOrdinal, string description)
+    public void UpdateTaskDescription(string email, int taskId, int columnOrdinal, string description)
     {
         if (description.Length > 300)
         {
@@ -224,13 +249,25 @@ public class Board
         else if (columnOrdinal == 0)
         {
             if (!backLogTasks.ContainsKey(taskId))
+            {
                 throw new KanbanException("Invalid taskId");
+            }
+            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             backLogTasks[taskId].Description= description;
         }
         else if (columnOrdinal == 1)
         {
             if (!inProgressTasks.ContainsKey(taskId))
+            {
                 throw new KanbanException("Invalid taskId");
+            }
+            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             inProgressTasks[taskId].Description= description;
         }
         else
@@ -251,6 +288,10 @@ public class Board
             {
                 throw new KanbanException("'In progress' column is full");
             }
+            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
+            }
             else
             {
                 inProgressTasks.Add(taskId, backLogTasks[taskId]);
@@ -269,6 +310,10 @@ public class Board
             if (doneTasks.Count() == doneMax)
             {
                 throw new KanbanException("'Done' column is full");
+            }
+            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User is not assignee");
             }
             else
             {
@@ -289,10 +334,42 @@ public class Board
         ownerEmail = newOwner.Email;
     }
 
-    public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
+    public void AssignTask(string email, int columnOrdinal, int taskID, string AssigneeEmail)
     {
+        if (columnOrdinal == 0)
+        {
+            if (!backLogTasks.ContainsKey(taskID))
+            {
+                throw new KanbanException("Invalid taskId");
+            }
+            if (backLogTasks[taskID].EmailAssingnee != null && !backLogTasks[taskID].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User that is not assignee canno't change assignee");
+            }
+            backLogTasks[taskID].EmailAssingnee = AssigneeEmail;
+            }
+        if (columnOrdinal == 1)
+        {
+            if (!inProgressTasks.ContainsKey(taskID))
+            {
+                throw new KanbanException("Invalid taskId");
+            }
+            if (backLogTasks[taskID].EmailAssingnee != null && !backLogTasks[taskID].EmailAssingnee.Equals(email))
+            {
+                throw new KanbanException("User that is not assignee canno't change assignee");
+            }
+            inProgressTasks[taskID].EmailAssingnee = AssigneeEmail;
+            inProgressUser.AddTasks(AssigneeEmail, inProgressTasks[taskID]);
+            if (backLogTasks[taskID].EmailAssingnee != null)
+            {
+                inProgressUser.RemoveTasks(email, inProgressTasks[taskID]);
+            }
+            }
 
+        }
     }
+
+
 
 
 }

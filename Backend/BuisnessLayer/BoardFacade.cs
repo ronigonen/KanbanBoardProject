@@ -97,7 +97,7 @@ public class BoardFacade
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
         else
-            board.UpdateTaskDueDate(taskId, columnOrdinal, dueDate);
+            board.UpdateTaskDueDate(email, taskId, columnOrdinal, dueDate);
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
@@ -119,16 +119,8 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        if(columnOrdinal == 0){
-            if(!board.BackLogTasks.ContainsKey(taskId))
-                throw new KanbanException("The task ID is incorrect");
-        }
-        if (columnOrdinal== 1){
-            if(!board.InProgressTasks.ContainsKey(taskId))
-                throw new KanbanException("The task ID is incorrect");
-        }
         else
-            board.UpdateTaskTitle(taskId, columnOrdinal, title);
+            board.UpdateTaskTitle(email, taskId, columnOrdinal, title);
     }
 	public void UpdateTaskDescription(string email, string boardName, int taskId, int columnOrdinal, string description)
 	{
@@ -155,7 +147,7 @@ public class BoardFacade
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
         else
-            board.UpdateTaskDescription(taskId, columnOrdinal, description);
+            board.UpdateTaskDescription(email, taskId, columnOrdinal, description);
 	}
 	public void AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
 	{
@@ -304,6 +296,17 @@ public class BoardFacade
         {
             throw new KanbanException("owner cannot leave his own bord");
         }
+        int[] columns = {0, 1};
+        foreach (var column in columns)
+        {
+            foreach (Task t in b.GetColumn(column))
+            {
+                if (t.EmailAssingnee.Equals(email))
+                {
+                    t.EmailAssingnee = null;
+                }
+            }
+        }
         user.DeleteUserFromBoard(b);
     }
 
@@ -333,7 +336,22 @@ public class BoardFacade
 
     public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
     {
-
+        User user = uf.GetUser(email);
+        User newAssignee = uf.GetUser(emailAssignee);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("User is not logged in");
+        }
+        Board b = boards[boardName];
+        if (b == null)
+        {
+            throw new KanbanException("This board name does not exists");
+        }
+        if (!user.Boards.ContainsKey(boardName) || !newAssignee.Boards.ContainsKey(boardName))
+        {
+            throw new KanbanException("The user is not a member of this board");
+        }
+        b.AssignTask(email, columnOrdinal, taskID, emailAssignee);
     }
 
 }
