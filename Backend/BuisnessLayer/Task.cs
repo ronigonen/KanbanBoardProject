@@ -81,7 +81,7 @@ public class Task
     public string EmailAssingnee
     {
         get => emailAssignee;
-        private set
+        set
         {
             emailAssignee = value;
             tdto.EmailAssignee = emailAssignee;    
