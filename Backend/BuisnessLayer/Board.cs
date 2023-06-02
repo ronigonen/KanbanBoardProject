@@ -30,7 +30,7 @@ public class Board
 
     public Board(UserInProgressTasks u, string name, User user, int BoardID)
     {
-        this.bdto = new BoardDTO(u.UserInProgressTasksDTO, name, user); 
+        this.bdto = new BoardDTO(u.UserInProgressTasksDTO, name, user, BoardID); 
         this.name = name;
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();

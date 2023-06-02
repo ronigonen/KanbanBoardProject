@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,17 +38,56 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.ownerEmail = ownerEmail1;
         }
 
-        public void AddBoard()
+        public BoardDTO(UserInProgressTasks u1, string name1, User user1, int boardID1)
         {
-            boardController.insert(this);
-            isPersisted = true;
+            this.boardController = new BoardController();
+            this.isPersisted = false;
+            this.name = name1;
+            this.Tasks = new List<TaskDTO>();
+            this.taskId = 0;
+            this.backLogMax = -1;
+            this.inProgressMax = -1;
+            this.doneMax = -1;
+            this.inProgressUser = u1;
+            this.boardID = boardID1;
+            this.ownerEmail = user1.Email;
+            persist();
         }
+        public void persist()
+        {
+            try
+            {
+                boardController.insert(this);
+                isPersisted = true;
+            }
+            catch (KanbanDataException e)
+            {
+                throw new KanbanDataException("didn't added to the data base");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
+
 
         public void delete()
         {
-            boardController.delete(this);
-            isPersisted = false;
+            try
+            {
+                boardController.delete(this);
+                isPersisted = false;
+            }
+            catch (KanbanDataException e)
+            {
+                throw new KanbanDataException("didn't deleted to the data base");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
+
 
         public BoardDTO(UserInProgressTasksDTO u, string name, User user, int BoardID)
         {

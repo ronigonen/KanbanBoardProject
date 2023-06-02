@@ -21,18 +21,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardService
     {
         private BoardFacade bF;
-        private UserFacade uF;
 
 
-        public BoardService(UserFacade uF)
+        public BoardService(BoardFacade bf)
         {
-            this.uF = uF;
-            bF = new BoardFacade(uF);
+            bF = bf;
         }
 
         public BoardFacade BF { get => bF; set => bF = value; }
-        public UserFacade UF { get => uF; }
-
 
         /// <summary>
         /// This method creates a board for the given user.
