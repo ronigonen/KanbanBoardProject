@@ -41,6 +41,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public BoardDTO(UserInProgressTasks u1, string name1, User user1, int boardID1)
         {
             this.boardController = new BoardController();
+            this.boardController = new BoardController();
             this.isPersisted = false;
             this.name = name1;
             this.tasks = new List<TaskDTO>();

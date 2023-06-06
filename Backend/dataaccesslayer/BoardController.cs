@@ -293,32 +293,27 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                SQLiteCommand command = new SQLiteCommand
+                using (var command = new SQLiteCommand(connection))
                 {
-                    Connection = connection,
+                    command.CommandText = $"UPDATE {_tableName} SET [{attributeName}] = @attributeValue WHERE BoardId = @boardId";
+                    command.Parameters.AddWithValue("@attributeValue", attributeValue);
+                    command.Parameters.AddWithValue("@boardId", boardId);
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={boardId}"
-                };
-                try
-                {
-
-                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
-                    connection.Open();
-                    res = command.ExecuteNonQuery();
+                    try
+                    {
+                        connection.Open();
+                        res = command.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        throw new KanbanDataException("Data exception");
+                    }
                 }
-                catch
-                {
-                    throw new KanbanDataException("Data exception");
-                }
-                finally
-                {
-                    command.Dispose();
-                    connection.Close();
-                }
-
             }
             return res > 0;
         }
+
+
 
         public bool Update(long id, string attributeName, string attributeValue)
         {
@@ -386,7 +381,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"Delete * from {_tableName}"
+                    CommandText = $"Delete from {_tableName}"
                 };
                 try
                 {
@@ -410,7 +405,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"Delete * from Tasks"
+                    CommandText = $"Delete from Tasks"
                 };
                 try
                 {

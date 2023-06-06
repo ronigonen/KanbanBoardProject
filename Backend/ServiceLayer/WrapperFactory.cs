@@ -27,5 +27,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             
             return new WrapperClass(userService, boardService, taskService);
         }
+        public void delete()
+        {
+            userService.DeleteData();
+            boardService.DeleteData();
+        }
     }
 }
