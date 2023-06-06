@@ -56,7 +56,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateColumnOrdinal(value);
+                    taskController.Update(id, "ColumnOrdinal", value);
                 }
                 columnOrdinal = value;
             }
@@ -69,7 +69,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateTitle(value);
+                    taskController.Update(id, "Title", value);
                 }
                 title = value;
             }
@@ -82,7 +82,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateDueDate(value);
+                    taskController.Update(id, "DueDate", value);
                 }
                 dueDate = value;
             }
@@ -96,7 +96,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateDescription(value);
+                    taskController.Update(id, "Title", value);
                 }
                 description = value;
             }
@@ -119,7 +119,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateEmailAssignee(value);
+                    taskController.Update(id, "Title", value);
                 }
                 description = value;
             }
@@ -139,7 +139,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                taskController.insert(this);
+                taskController.Insert(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)
@@ -156,7 +156,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                taskController.delete(this);
+                taskController.Delete(this);
                 isPersisted = false;
             }
             catch (KanbanDataException e)
