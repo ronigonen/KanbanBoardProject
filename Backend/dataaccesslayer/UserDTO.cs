@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.password = password;
             this.email = email;
             this.isPersisted = false;
-            boards = userController.getAllBoards();
+            boards = userController.SelectBoardsByEmail(email);
             persist();
         }
 
@@ -34,7 +34,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                userController.insert(this);
+                userController.Insert(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)
@@ -51,7 +51,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                userController.delete(this);
+                userController.Delete(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)

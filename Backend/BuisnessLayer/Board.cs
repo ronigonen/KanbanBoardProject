@@ -48,16 +48,31 @@ public class Board
     {
         this.bdto = bdto;
         this.name = bdto.Name;
-        this.backLogTasks = bdto.BackLogTasks;
-        this.inProgressTasks = bdto.InProgressTasks;
-        this.doneTasks = bdto.DoneTasks;
+        this.backLogTasks = new Dictionary<int, Task>();
+        this.inProgressTasks = new Dictionary<int, Task>();
+        this.doneTasks = new Dictionary<int, Task>();
         this.TaskId = bdto.TaskId;
         this.backLogMax = bdto.BackLogMax;
         this.inProgressMax = bdto.InProgressMax;
         this.doneMax = bdto.DoneMax;
-        this.inProgressUser = bdto.InProgressUser;
+        this.inProgressUser = new UserInProgressTasks(bdto.InProgressUser);
         this.boardID = bdto.BoardId;
         this.ownerEmail = bdto.OwnerEmail;
+        foreach (TaskDTO t in bdto.tasks)
+        {
+            if (t.ColumnOrdinal == 0)
+            {
+                backLogTasks.Add(t.Id, new Task(t));
+            }
+            if (t.ColumnOrdinal == 1)
+            {
+                inProgressTasks.Add(t.Id, new Task(t));
+            }
+            if (t.ColumnOrdinal == 2)
+            {
+                doneTasks.Add(t.Id, new Task(t));
+            }
+        }
     }
 
     public string Name { get =>  name; set => name = value; }

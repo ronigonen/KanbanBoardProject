@@ -35,6 +35,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.columnOrdinal = 0;
         }
 
+        public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description, string emailAssignee, int boardID, int columnOrdinal)
+        {
+            TaskController taskController = new TaskController();
+            isPersisted = true;
+            this.id = id;
+            this.creationTime = creationTime;
+            this.dueDate = dueDate;
+            this.title = title;
+            this.description = description;
+            this.emailAssignee = emailAssignee;
+            this.boardID = boardID;
+            this.columnOrdinal = columnOrdinal;
+        }
+
         internal int ColumnOrdinal
         {
             get => columnOrdinal;
@@ -42,7 +56,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateColumnOrdinal(value);
+                    taskController.Update(id, "ColumnOrdinal", value);
                 }
                 columnOrdinal = value;
             }
@@ -55,7 +69,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateTitle(value);
+                    taskController.Update(id, "Title", value);
                 }
                 title = value;
             }
@@ -68,7 +82,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateDueDate(value);
+                    taskController.Update(id, "DueDate", value);
                 }
                 dueDate = value;
             }
@@ -82,7 +96,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateDescription(value);
+                    taskController.Update(id, "Title", value);
                 }
                 description = value;
             }
@@ -105,7 +119,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.updateEmailAssignee(value);
+                    taskController.Update(id, "Title", value);
                 }
                 description = value;
             }
@@ -125,7 +139,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                taskController.insert(this);
+                taskController.Insert(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)
@@ -142,7 +156,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                taskController.delete(this);
+                taskController.Delete(this);
                 isPersisted = false;
             }
             catch (KanbanDataException e)

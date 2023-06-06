@@ -6,6 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IntroSE.Kanban.Backend.ServiceLayer;
+using IntroSE.Kanban.Backend.BuisnessLayer;
+
+
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
@@ -55,6 +59,38 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             List<BoardDTO> result = Select().Cast<BoardDTO>().ToList();
             return result;
         }
+        public List<BoardDTO> SelectBoardsByEmail(string email)
+        {
+            List<BoardDTO> results = new List<BoardDTO>();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email";
+                command.Parameters.AddWithValue("@Email", email);
+
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        results.Add(ConvertReaderToObject(dataReader));
+                    }
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return results;
+        }
+
 
 
         public bool Insert(BoardDTO board)
@@ -85,8 +121,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
                 catch (Exception ex)
                 {
-                    // Handle or log the exception appropriately
-                    Console.WriteLine($"Error occurred during insert: {ex.Message}");
+                    throw new KanbanDataException(ex.Message);
                 }
                 finally
                 {
@@ -98,7 +133,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public bool Delete(TaskDTO task)
+        public bool Delete(BoardDTO board)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -106,7 +141,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"Delete from {_tableName} where [BoardId]={task.BoardId}"
+                    CommandText = $"Delete from {_tableName} where [BoardId]={board.BoardId}"
                 };
                 try
                 {
@@ -253,67 +288,68 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public bool UpdateBackLogMax(int boardId, int limit)
+        public bool Update(int boardId, string attributeName, int attributeValue)
         {
-            bool result = false;
-
+            int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                connection.Open();
-                string sqlQuery = string.Empty;
-                sqlQuery = $"UPDATE {_tableName} SET BackLogMax = @limit WHERE [BoardId] = @boardId";
-                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                SQLiteCommand command = new SQLiteCommand
                 {
-                    command.Parameters.AddWithValue("@limit", limit);
-                    command.Parameters.AddWithValue("@boardId", boardId);
-                    int rowsAffected = command.ExecuteNonQuery();
-                    result = (rowsAffected > 0);
-                }
-            }
+                    Connection = connection,
 
-            return result;
+                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={boardId}"
+                };
+                try
+                {
+
+                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    throw new KanbanDataException("Data exception");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
         }
 
-        public bool UpdateInProgressMax(int boardId, int limit)
+        public bool Update(long id, string attributeName, string attributeValue)
         {
-            bool result = false;
-
+            int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                connection.Open();
-                string sqlQuery = string.Empty;
-                sqlQuery = $"UPDATE {_tableName} SET InProgressMax = @limit WHERE [BoardId] = @boardId";
-                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                SQLiteCommand command = new SQLiteCommand
                 {
-                    command.Parameters.AddWithValue("@limit", limit);
-                    command.Parameters.AddWithValue("@boardId", boardId);
-                    int rowsAffected = command.ExecuteNonQuery();
-                    result = (rowsAffected > 0);
-                }
-            }
+                    Connection = connection,
 
-            return result;
-        }
-
-        public bool UpdateDoneMax(int boardId, int limit)
-        {
-            bool result = false;
-
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-                string sqlQuery = string.Empty;
-                sqlQuery = $"UPDATE {_tableName} SET DoneMax = @limit WHERE [BoardId] = @boardId";
-                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                };
+                try
                 {
-                    command.Parameters.AddWithValue("@limit", limit);
-                    command.Parameters.AddWithValue("@boardId", boardId);
-                    int rowsAffected = command.ExecuteNonQuery();
-                    result = (rowsAffected > 0);
-                }
-            }
 
-            return result;
+                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new KanbanDataException(ex.Message);
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
         }
 
         public string SelectEmailOwner(int boardId)
@@ -342,12 +378,60 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
-        public BoardDTO ConvertReaderToObject(SQLiteDataReader reader, int boardId)
+        public bool DeleteAllBoards()
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"Delete * from {_tableName}"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return res > 0;
+        }
+
+        public bool DeleteAllTasks()
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"Delete * from Tasks"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return res > 0;
+        }
+
+        public BoardDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             DateTime creation = DateTime.Parse(reader.GetString(1));
             DateTime dueDate = DateTime.Parse(reader.GetString(1));
-            return new BoardDTO(reader.GetString(1), SelectAllTasksFromBoard(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), SelectInProgressUser(), SelectEmailOwner);
+            int boardId = reader.GetInt32(0);
+            return new BoardDTO(reader.GetString(1), SelectAllTasksFromBoard(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), SelectInProgressUser(), boardId, reader.GetString(6));
         }
-
     }
 }

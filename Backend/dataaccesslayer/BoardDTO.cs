@@ -57,7 +57,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                boardController.insert(this);
+                boardController.Insert(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)
@@ -75,7 +75,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                boardController.delete(this);
+                boardController.Delete(this);
                 isPersisted = false;
             }
             catch (KanbanDataException e)
@@ -113,7 +113,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             set
             {
                 if (isPersisted)
-                    BoardController.updateBackLogMax(value);
+                    boardController.Update(boardID, "BackLogMax", value);
                 backLogMax = value;
             }
         }
@@ -121,7 +121,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             set
             {
                 if (isPersisted)
-                    BoardController.updateInProgressMax(value);
+                    boardController.Update(boardID, "InProgressMax", value);
                 InProgressMax = value;
             }
         }
@@ -129,13 +129,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             set
             {
                 if (isPersisted)
-                    BoardController.updateDoneMax(value);
+                    boardController.Update(boardID, "DoneMax", value);
                 doneMax = value;
             }
         }
         
         
-        public UserInProgressTasks InProgressUser { get => inProgressUser; }
+        public UserInProgressTasksDTO InProgressUser { get => inProgressUser; }
         public int BoardId { get => boardID; }
         public string OwnerEmail { get => ownerEmail; }
 
