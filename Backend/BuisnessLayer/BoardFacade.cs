@@ -21,6 +21,7 @@ public class BoardFacade
 		this.uf = uF;
         this.inProgressUser = new UserInProgressTasks();
         this.BoardID = 0;
+        idToNameBoards = new Dictionary<int, string>();
 	}
 	public void CreateBoard(string email, string boardName)
 	{
@@ -28,6 +29,10 @@ public class BoardFacade
         if (!user.IsLoggedIn()) 
         {
             throw new KanbanException("User is not logged in");
+        }
+        if (boards.ContainsKey(boardName)) 
+        {
+            throw new KanbanException("this board name already exists");
         }
         Board board = new Board(inProgressUser, boardName, user, BoardID);
         boards.Add(boardName, board);

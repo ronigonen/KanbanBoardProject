@@ -35,7 +35,7 @@ namespace BackendTest
             runTestSuccessfullCreateBoard();
             runTestFailedCreateBoardBySameNameBoardToSameUser();
             runTestSuccessfullLimitColumn();
-            //runTestSucceessGetLimitColumn();
+            runTestSucceessGetLimitColumn();
             runTestSucceessGetNameColumn();
             runTestSuccessfullJoinBoard();
             runTestFailedJoinBoard();

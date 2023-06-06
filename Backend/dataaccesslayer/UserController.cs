@@ -125,7 +125,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"Delete * from Users"
+                    CommandText = $"Delete from Users"
                 };
                 try
                 {
@@ -149,7 +149,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"Delete * from UsersInBoard"
+                    CommandText = $"Delete from UsersInBoard"
                 };
                 try
                 {
