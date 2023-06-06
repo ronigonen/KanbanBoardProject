@@ -16,13 +16,24 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private string email;
         private List<BoardDTO> boards;
 
+        public UserDTO(string password, string email, List<BoardDTO> b)
+        {
+            this.userController = new UserController();
+            this.password = password;
+            this.email = email;
+            this.isPersisted = true;
+            boards = new List<BoardDTO>();
+            foreach (BoardDTO boardDto in b)
+                boards.Add(boardDto);
+        }
+
         public UserDTO(string password, string email)
         {
             this.userController = new UserController();
             this.password = password;
             this.email = email;
             this.isPersisted = false;
-            boards = userController.SelectBoardsByEmail(email);
+            boards = new List<BoardDTO>();
             persist();
         }
 
