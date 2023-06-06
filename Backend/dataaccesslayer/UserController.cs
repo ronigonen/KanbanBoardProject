@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
+using IntroSE.Kanban.Backend.BuisnessLayer;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
@@ -49,11 +50,19 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
-        public List<UserDTO> SelectAllBoards()
+        public List<UserDTO> SelectAllUsers()
         {
             List<UserDTO> result = Select().Cast<UserDTO>().ToList();
             return result;
         }
+
+        public List<BoardDTO> SelectBoardsByEmail(string email)
+        {
+            BoardController boardController = new BoardController();
+            List<BoardDTO> result=boardController.SelectBoardsByEmail(email);
+            return result;
+        }
+
         public bool Insert(UserDTO user)
         {
             using (var connection = new SQLiteConnection(_connectionString))
@@ -73,7 +82,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
                 catch
                 {
-                    throw new Exception("Data Base exception");
+                    throw new KanbanDataException("Data Base exception");
                 }
                 finally
                 {
@@ -107,9 +116,58 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return res > 0;
         }
+        public bool DeleteAllUsers()
+        {
+            DeleteAllUsersInBoard();
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"Delete * from Users"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return res > 0;
+        }
+
+        public bool DeleteAllUsersInBoard()
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"Delete * from UsersInBoard"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return res > 0;
+        }
+
         public UserDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            return new UserDTO(reader.GetString(0),reader.GetString(1));
+            return new UserDTO(reader.GetString(0),reader.GetString(1), SelectBoardsByEmail(reader.GetString(0)));
         }
 
 
