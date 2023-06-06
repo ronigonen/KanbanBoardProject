@@ -35,6 +35,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.columnOrdinal = 0;
         }
 
+        public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description, string emailAssignee, int boardID, int columnOrdinal)
+        {
+            TaskController taskController = new TaskController();
+            isPersisted = true;
+            this.id = id;
+            this.creationTime = creationTime;
+            this.dueDate = dueDate;
+            this.title = title;
+            this.description = description;
+            this.emailAssignee = emailAssignee;
+            this.boardID = boardID;
+            this.columnOrdinal = columnOrdinal;
+        }
+
         internal int ColumnOrdinal
         {
             get => columnOrdinal;

@@ -1,4 +1,5 @@
 ﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -352,6 +353,37 @@ public class BoardFacade
             throw new KanbanException("The user is not a member of this board");
         }
         b.AssignTask(email, columnOrdinal, taskID, emailAssignee);
+    }
+
+    public void LoadData()
+    {
+        foreach (User u in uf.Users.Values)
+        {
+            foreach (Board b in u.Boards.Values)
+            {
+                if (!boards.ContainsKey(b.Name))
+                {
+                    boards.Add(b.Name, b);
+                    idToNameBoards.Add(b.BoardID, b.Name);
+                    copyInProgress(b.InProgressUser);
+                }
+            }
+        }
+    }
+
+    public void copyInProgress(UserInProgressTasks u)
+    {
+        foreach(string email in u.UserTasks.Keys)
+        {
+            inProgressUser.addAllTasks(email, u.UserTasks[email]);
+        }
+    }
+
+    public void DeleteData()
+    {
+        BoardController boardController = new BoardController();
+        boardController.DeleteAllBoards();
+        boardController.DeleteAllTasks();
     }
 
 }
