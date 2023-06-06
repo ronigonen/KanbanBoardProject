@@ -21,9 +21,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
         internal Dictionary<string, List<TaskDTO>> UserTasks
-        {
-            get => userTasks;
-        }
+        { get => userTasks; }
 
     }
 }

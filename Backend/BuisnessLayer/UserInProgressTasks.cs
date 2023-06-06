@@ -8,7 +8,9 @@ public class UserInProgressTasks
 	UserInProgressTasksDTO userInProgressTasksDTO;
 	private Dictionary<string, List<Task>> userTasks;
 
-	public UserInProgressTasks() 
+    public Dictionary<string, List<Task>> UserTasks { get => userTasks; }
+
+    public UserInProgressTasks() 
 	{
         userInProgressTasksDTO = new UserInProgressTasksDTO();
 		userTasks = new Dictionary<string, List<Task>>();
@@ -66,5 +68,10 @@ public class UserInProgressTasks
 			throw new KanbanException("No Tasks in progress");
 		}
 		return userTasks[email];
+	}
+
+	public void addAllTasks(string email, List<Task> tasks)
+	{
+		userTasks[email] = tasks;
 	}
 }

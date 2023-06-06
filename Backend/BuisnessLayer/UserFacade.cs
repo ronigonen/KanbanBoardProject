@@ -1,6 +1,8 @@
 ﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UserFacade
 {
@@ -10,7 +12,10 @@ public class UserFacade
 		this.users = new Dictionary<string, User>();
 	}
 
-	public void Register(string email, string password)
+    public Dictionary<string, User> Users { get => users; }
+
+
+    public void Register(string email, string password)
 	{
 		if (email == null)
 		{
@@ -71,7 +76,16 @@ public class UserFacade
 		return this.users[email];
 	}
 
-	public List<Board> getUserBoards(string email)
+	public User GetUser(UserDTO u)
+	{
+		if (!this.users.ContainsKey(u.Email))
+		{
+			this.users[u.Email] = new User(u);
+		}
+		return this.users[u.Email];
+	}
+
+    public List<Board> getUserBoards(string email)
 	{
 		if (!this.users.ContainsKey(email))
 			throw new KanbanException("user doesn't exist");
@@ -87,6 +101,22 @@ public class UserFacade
 				user.DeleteUserFromBoard(b);
 			}
 		}
+	}
+
+	public void LoadData()
+	{
+		List<UserDTO> userDtos = new UserController().SelectAllUsers();
+		foreach (UserDTO userDTO in userDtos)
+		{
+			User u = GetUser(userDTO);
+			users[u.Email] = u;
+		}
+	}
+
+	public void DeleteData()
+	{
+		UserController userController = new UserController();
+		userController.DeleteAllUsers();
 	}
 
 }

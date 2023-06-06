@@ -36,6 +36,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.inProgressUser = new UserInProgressTasksDTO();
             this.boardID = boardID1;
             this.ownerEmail = ownerEmail1;
+            foreach (TaskDTO t in tasks1)
+            {
+                if (t.ColumnOrdinal == 1)
+                {
+                    inProgressUser.UserTasks[t.EmailAssignee].Add(t);
+                }
+            }
         }
 
         public BoardDTO(UserInProgressTasks u1, string name1, User user1, int boardID1)
@@ -53,6 +60,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.ownerEmail = user1.Email;
             persist();
         }
+
+
         public void persist()
         {
             try
@@ -109,6 +118,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public string Name { get => name; }
         public int TaskId { get => taskId; }
+        public List<TaskDTO> tasks { get => Tasks; }
         internal int BackLogMax { get => backLogMax;
             set
             {
@@ -135,7 +145,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         
         
-        public UserInProgressTasks InProgressUser { get => inProgressUser; }
+        public UserInProgressTasksDTO InProgressUser { get => inProgressUser; }
         public int BoardId { get => boardID; }
         public string OwnerEmail { get => ownerEmail; }
 
