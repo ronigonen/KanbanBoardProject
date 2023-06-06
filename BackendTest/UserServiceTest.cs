@@ -20,7 +20,7 @@ namespace BackendTest
 
         public UserServiceTest(WrapperClass w)
         {
-            this.userService = w.UserService;
+            this.userService = w.userService;
             this.boardService = w.boardService;
         }
 

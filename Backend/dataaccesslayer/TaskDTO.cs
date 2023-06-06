@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.title = title;
             this.description = description;
             this.emailAssignee = null;
-            this.boardID = null;
+            this.boardID = -1;
             this.columnOrdinal = 0;
         }
 

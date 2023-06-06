@@ -13,7 +13,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private BoardController boardController;
         private Boolean isPersisted;
         private string name;
-        private List<TaskDTO> Tasks;
+        private List<TaskDTO> tasks;
         private int taskId;
         private int backLogMax;
         private int inProgressMax;
@@ -22,13 +22,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private int boardID;
         private string ownerEmail;
 
-<<<<<<< HEAD
+
         public BoardDTO(string name1, List<TaskDTO> tasks1, int taskId1, int backLogMax1, int inProgressMax1, int doneMax1, Dictionary<string,List<TaskDTO>> inProgressUser1, int boardID1, string ownerEmail1)
         {
             this.boardController = new BoardController();
             this.isPersisted = true;
             this.name = name1;
-            this.Tasks = tasks1;
+            this.tasks = tasks1;
             this.taskId = taskId1;
             this.backLogMax = backLogMax1;
             this.inProgressMax = inProgressMax1;
@@ -43,7 +43,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.boardController = new BoardController();
             this.isPersisted = false;
             this.name = name1;
-            this.Tasks = new List<TaskDTO>();
+            this.tasks = new List<TaskDTO>();
             this.taskId = 0;
             this.backLogMax = -1;
             this.inProgressMax = -1;
@@ -89,22 +89,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public BoardDTO(UserInProgressTasksDTO u, string name, User user, int BoardID)
-        {
-            this.boardController = new BoardController();
-            this.isPersisted = false;
-            this.name = name;
-            this.Tasks = new List<TaskDTO>();
-            taskId = 0;
-            this.backLogMax = -1;
-            this.inProgressMax = -1;
-            this.doneMax = -1;
-            this.inProgressUser = u;
-            this.boardID = BoardID;
-            this.ownerEmail = user.Email;
-        }
 
-
+        public List<TaskDTO> Tasks { get => tasks; }
 
 
         public string Name { get => name; }
@@ -143,7 +129,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             task.BoardID=this.boardID;
             task.persist();
-            Tasks.Add(task); // if persist failed, it won't reach to this line
+            tasks.Add(task); // if persist failed, it won't reach to this line
         }
     }
 }

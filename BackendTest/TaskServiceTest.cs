@@ -15,7 +15,7 @@ namespace BackendTest
 
         public TaskServiceTest(WrapperClass w)
         {
-            this.taskService = w.TaskService;
+            this.taskService = w.taskService;
         }
 
         public void runTests()
