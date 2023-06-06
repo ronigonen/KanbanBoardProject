@@ -16,13 +16,21 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private string email;
         private List<BoardDTO> boards;
 
-        public UserDTO(string password, string email)
+        public UserDTO(string email, string password, List<BoardDTO> b)
+        {
+            this.userController = new UserController();
+            this.password = password;
+            this.email = email;
+            this.isPersisted = true;
+            boards = b;
+        }
+        public UserDTO(string email, string password)
         {
             this.userController = new UserController();
             this.password = password;
             this.email = email;
             this.isPersisted = false;
-            boards = userController.getAllBoards();
+            boards = new List<BoardDTO>();
             persist();
         }
 

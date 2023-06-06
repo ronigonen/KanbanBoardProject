@@ -158,7 +158,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LoadData()
         {
-            return JsonSerializer.Serialize(new Response("not implemented yet."));
+            try
+            {
+                uF.LoadData();
+                UserService.log.Debug("data loaded");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (KanbanDataException ex)
+            {
+                UserService.log.Fatal("data didnt loaded");
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
         ///<summary>This method deletes all persisted data.
@@ -170,7 +188,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string DeleteData()
         {
-            return JsonSerializer.Serialize(new Response("not implemented yet."));
+            try
+            {
+                uF.DeleteData();
+                UserService.log.Debug("data deleted");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (KanbanDataException ex)
+            {
+                UserService.log.Fatal("data didnt deleted");
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
     }
 }

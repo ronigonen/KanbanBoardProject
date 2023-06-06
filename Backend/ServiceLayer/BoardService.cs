@@ -359,5 +359,65 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
+
+        ///<summary>This method deletes all persisted data.
+        ///<para>
+        ///<b>IMPORTANT:</b> 
+        ///In some cases we will call LoadData when the program starts and in other cases we will call DeleteData. Make sure you support both options.
+        ///</para>
+        /// </summary>
+        ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
+        public string LoadData()
+        {
+            try
+            {
+                bF.LoadData();
+                UserService.log.Debug("data loaded");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (KanbanDataException ex)
+            {
+                UserService.log.Fatal("data didnt loaded");
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
+
+        ///<summary>This method deletes all persisted data.
+        ///<para>
+        ///<b>IMPORTANT:</b> 
+        ///In some cases we will call LoadData when the program starts and in other cases we will call DeleteData. Make sure you support both options.
+        ///</para>
+        /// </summary>
+        ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
+        public string DeleteData()
+        {
+            try
+            {
+                bF.DeleteData();
+                UserService.log.Debug("data deleted");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (KanbanDataException ex)
+            {
+                UserService.log.Fatal("data didnt deleted");
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
     }
 }
