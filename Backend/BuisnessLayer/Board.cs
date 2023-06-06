@@ -30,7 +30,7 @@ public class Board
 
     public Board(UserInProgressTasks u, string name, User user, int BoardID)
     {
-        this.bdto = new BoardDTO(u.UserInProgressTasksDTO, name, user, BoardID); 
+        this.bdto = new BoardDTO(u, name, user, BoardID); 
         this.name = name;
         backLogTasks = new Dictionary<int, Task>();
         inProgressTasks = new Dictionary<int, Task>();
@@ -58,7 +58,7 @@ public class Board
         this.inProgressUser = new UserInProgressTasks(bdto.InProgressUser);
         this.boardID = bdto.BoardId;
         this.ownerEmail = bdto.OwnerEmail;
-        foreach (TaskDTO t in bdto.tasks)
+        foreach (TaskDTO t in bdto.Tasks)
         {
             if (t.ColumnOrdinal == 0)
             {
@@ -387,7 +387,7 @@ public class Board
 
 
 
-}
+
 
 
 

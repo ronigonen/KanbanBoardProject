@@ -134,7 +134,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                List<Board> boards = uF.GetUserBoards(email);
+                List<Board> boards = uF.getUserBoards(email);
                 Board[] boardsToSend = boards.ToArray();
                 return JsonSerializer.Serialize(new Response(boardsToSend));
             }

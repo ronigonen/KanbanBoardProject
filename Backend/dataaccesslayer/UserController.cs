@@ -80,7 +80,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Prepare();
                     res = command.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex) 
                 {
                     throw new KanbanDataException("Data Base exception");
                 }
