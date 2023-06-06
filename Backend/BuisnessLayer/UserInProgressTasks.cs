@@ -2,6 +2,7 @@
 using IntroSE.Kanban.Backend.DataAccessLayer;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 public class UserInProgressTasks
 {
@@ -14,8 +15,9 @@ public class UserInProgressTasks
 	{
         userInProgressTasksDTO = new UserInProgressTasksDTO();
 		userTasks = new Dictionary<string, List<Task>>();
-	}
+    }
 
+    public UserInProgressTasksDTO Name { get => userInProgressTasksDTO; }
 
     public UserInProgressTasks(UserInProgressTasksDTO tasks)
     {

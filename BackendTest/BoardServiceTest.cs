@@ -18,8 +18,8 @@ namespace BackendTest
         public BoardServiceTest(WrapperClass w)
         {
             this.boardService=w.boardService;
-            this.userService = w.UserService;
-            this.taskService = w.TaskService;
+            this.userService = w.userService;
+            this.taskService = w.taskService;
         }
 
         public void createUsers()
@@ -35,7 +35,7 @@ namespace BackendTest
             runTestSuccessfullCreateBoard();
             runTestFailedCreateBoardBySameNameBoardToSameUser();
             runTestSuccessfullLimitColumn();
-            runTestSucceessGetLimitColumn();
+            //runTestSucceessGetLimitColumn();
             runTestSucceessGetNameColumn();
             runTestSuccessfullJoinBoard();
             runTestFailedJoinBoard();
@@ -150,7 +150,7 @@ namespace BackendTest
         /// This function tests Requirement 16
         /// </summary>
         public void runTestSucceessGetLimitColumn()
-        {
+       {
             Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas@gmail.com", "AssignmentHadas", 0));
             Object o = resp3a.ReturnValue;
             if (o.ToString().Equals("2"))

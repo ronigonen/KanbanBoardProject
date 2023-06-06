@@ -8,7 +8,8 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Welcome!");
-        WrapperClass w= new WrapperClass();
+        WrapperFactory wf = new WrapperFactory();
+        WrapperClass w = wf.create();
         UserServiceTest us= new UserServiceTest(w);
         BoardServiceTest bs = new BoardServiceTest(w);
         TaskServiceTest ts = new TaskServiceTest(w);
