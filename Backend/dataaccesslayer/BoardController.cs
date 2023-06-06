@@ -133,7 +133,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public bool Delete(TaskDTO task)
+        public bool Delete(BoardDTO board)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -141,7 +141,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"Delete from {_tableName} where [BoardId]={task.BoardID}"
+                    CommandText = $"Delete from {_tableName} where [BoardId]={board.BoardId}"
                 };
                 try
                 {
@@ -288,7 +288,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public bool Update(int boardId, string attributeName, string attributeValue)
+        public bool Update(int boardId, string attributeName, int attributeValue)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -320,7 +320,37 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return res > 0;
         }
 
-       
+        public bool Update(long id, string attributeName, string attributeValue)
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand
+                {
+                    Connection = connection,
+
+                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                };
+                try
+                {
+
+                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new KanbanDataException(ex.Message);
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+            }
+            return res > 0;
+        }
 
         public string SelectEmailOwner(int boardId)
         {
@@ -346,6 +376,54 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
 
             return result;
+        }
+
+        public bool DeleteAllBoards()
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"Delete * from {_tableName}"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return res > 0;
+        }
+
+        public bool DeleteAllTasks()
+        {
+            int res = -1;
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                var command = new SQLiteCommand
+                {
+                    Connection = connection,
+                    CommandText = $"Delete * from Tasks"
+                };
+                try
+                {
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return res > 0;
         }
 
         public BoardDTO ConvertReaderToObject(SQLiteDataReader reader)

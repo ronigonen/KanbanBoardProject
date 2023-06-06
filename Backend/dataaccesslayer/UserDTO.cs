@@ -16,21 +16,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private string email;
         private List<BoardDTO> boards;
 
-        public UserDTO(string email, string password, List<BoardDTO> b)
-        {
-            this.userController = new UserController();
-            this.password = password;
-            this.email = email;
-            this.isPersisted = true;
-            boards = b;
-        }
-        public UserDTO(string email, string password)
+        public UserDTO(string password, string email)
         {
             this.userController = new UserController();
             this.password = password;
             this.email = email;
             this.isPersisted = false;
-            boards = new List<BoardDTO>();
+            boards = userController.SelectBoardsByEmail(email);
             persist();
         }
 
@@ -42,7 +34,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                userController.insert(this);
+                userController.Insert(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)
@@ -59,7 +51,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                userController.delete(this);
+                userController.Delete(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)

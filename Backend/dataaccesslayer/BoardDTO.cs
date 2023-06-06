@@ -36,13 +36,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.inProgressUser = new UserInProgressTasksDTO();
             this.boardID = boardID1;
             this.ownerEmail = ownerEmail1;
-            foreach (TaskDTO t in tasks1)
-            {
-                if (t.ColumnOrdinal == 1)
-                {
-                    inProgressUser.UserTasks[t.EmailAssignee].Add(t);
-                }
-            }
         }
 
         public BoardDTO(UserInProgressTasks u1, string name1, User user1, int boardID1)
@@ -60,13 +53,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.ownerEmail = user1.Email;
             persist();
         }
-
-
         public void persist()
         {
             try
             {
-                boardController.insert(this);
+                boardController.Insert(this);
                 isPersisted = true;
             }
             catch (KanbanDataException e)
@@ -84,7 +75,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             try
             {
-                boardController.delete(this);
+                boardController.Delete(this);
                 isPersisted = false;
             }
             catch (KanbanDataException e)
@@ -118,12 +109,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public string Name { get => name; }
         public int TaskId { get => taskId; }
-        public List<TaskDTO> tasks { get => Tasks; }
         internal int BackLogMax { get => backLogMax;
             set
             {
                 if (isPersisted)
-                    BoardController.updateBackLogMax(value);
+                    boardController.Update(boardID, "BackLogMax", value);
                 backLogMax = value;
             }
         }
@@ -131,7 +121,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             set
             {
                 if (isPersisted)
-                    BoardController.updateInProgressMax(value);
+                    boardController.Update(boardID, "InProgressMax", value);
                 InProgressMax = value;
             }
         }
@@ -139,7 +129,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             set
             {
                 if (isPersisted)
-                    BoardController.updateDoneMax(value);
+                    boardController.Update(boardID, "DoneMax", value);
                 doneMax = value;
             }
         }
