@@ -69,7 +69,7 @@ public class User
 	public void AddUserToBoard(Board board)
 	{
 		this.boards.Add(board.Name, board);
-		udto.Boards.Add(board.Bdto);
+		udto.addBoard(board.Bdto);
 	}
 
     public void DeleteUserFromBoard(Board board)
