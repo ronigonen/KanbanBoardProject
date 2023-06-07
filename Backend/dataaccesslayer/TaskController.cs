@@ -58,6 +58,104 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             List<TaskDTO> result = Select().Cast<TaskDTO>().ToList();
             return result;
         }
+        public List<TaskDTO> SelectTasksByBoardId(int boardId)
+        {
+            List<TaskDTO> results = new List<TaskDTO>();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = $"SELECT * FROM {_tableName} WHERE BoardId = @boardId";
+                command.Parameters.AddWithValue("@boardId", boardId);
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        results.Add(ConvertReaderToObject(dataReader));
+                    }
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return results;
+        }
+        public List<string> SelectEmailsFromInProgress()
+        {
+            List<string> result = new List<string>();
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sqlQuery = $"SELECT {"EmailAssignee"} FROM {_tableName} WHERE [Column] = @column";
+
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@column", 1);
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string email = reader.GetString(0);
+                            result.Add(email);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+        public List<TaskDTO> SelectTasksInProgressByEmail(string email)
+        {
+            List<TaskDTO> results = new List<TaskDTO>();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email and Column = @Column";
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Column", 1);
+                SQLiteDataReader dataReader = null;
+                try
+                {
+                    connection.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        results.Add(ConvertReaderToObject(dataReader));
+                    }
+                }
+                finally
+                {
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            return results;
+        }
+        public Dictionary<String, List<TaskDTO>> SelectInProgressUser()
+        {
+            List<String> emails = SelectEmailsFromInProgress();
+            Dictionary<String, List<TaskDTO>> result = new Dictionary<String, List<TaskDTO>>();
+            foreach (String email in emails)
+            {
+                List<TaskDTO> tasks = SelectTasksInProgressByEmail(email);
+                result.Add(email, tasks);
+            }
+            return result;
+        }
         public bool Insert(TaskDTO task)
         {
             using (var connection = new SQLiteConnection(_connectionString))

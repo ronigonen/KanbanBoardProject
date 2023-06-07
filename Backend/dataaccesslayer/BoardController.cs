@@ -186,136 +186,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
 
 
-        public List<TaskDTO> SelectAllTasksInColumn(int boardId, int col)
-        {
-            List<TaskDTO> result = new List<TaskDTO>();
-
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                string sqlQuery = $"SELECT * FROM {_tableName} WHERE [BoardId] = @boardId and [ColumnName] = @col";
-
-                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@boardId", boardId);
-                    command.Parameters.AddWithValue("@col", col);
-                    using (SQLiteDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = reader.GetInt32(0);
-                            DateTime creationTime = DateTime.Parse(reader.GetString(1));
-                            DateTime dueDate = DateTime.Parse(reader.GetString(2));
-                            string title = reader.GetString(3);
-                            string description = reader.GetString(4);
-                            TaskDTO task = new TaskDTO(id, creationTime, dueDate, title, description);
-                            result.Add(task);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-        public List<TaskDTO> SelectAllTasksFromBoard(int boardId)
-        {
-            List<TaskDTO> result = new List<TaskDTO>();
-
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                string sqlQuery = $"SELECT * FROM {_tableName} WHERE [BoardId] = @boardId";
-
-                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@boardId", boardId);
-                    using (SQLiteDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = reader.GetInt32(0);
-                            DateTime creationTime = DateTime.Parse(reader.GetString(1));
-                            DateTime dueDate = DateTime.Parse(reader.GetString(2));
-                            string title = reader.GetString(3);
-                            string description = reader.GetString(4);
-                            TaskDTO task = new TaskDTO(id, creationTime, dueDate, title, description);
-                            result.Add(task);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-        public List<string> SelectEmailsFromInProgress()
-        {
-            List<string> result = new List<string>();
-
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                string sqlQuery = $"SELECT {"EmailAssignee"} FROM {_tableName} WHERE [Column] = @column";
-
-                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@column", 1);
-                    using (SQLiteDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string email = reader.GetString(0);
-                            result.Add(email);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public Dictionary<String, List<TaskDTO>> SelectInProgressUser()
-        {
-            List<String> emails = SelectEmailsFromInProgress();
-            Dictionary<String, List<TaskDTO>> result = new Dictionary<String, List<TaskDTO>>();
-            foreach (String email in emails)
-            {
-                List<TaskDTO> tasks = new List<TaskDTO>();
-
-                using (var connection = new SQLiteConnection(_connectionString))
-                {
-                    connection.Open();
-
-                    string sqlQuery = $"SELECT * FROM {_tableName} WHERE EmailAssignee = @email";
-
-                    using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@email", email);
-                        using (SQLiteDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                int id = reader.GetInt32(0);
-                                DateTime creationTime = DateTime.Parse(reader.GetString(1));
-                                DateTime dueDate = DateTime.Parse(reader.GetString(2));
-                                string title = reader.GetString(3);
-                                string description = reader.GetString(4);
-                                TaskDTO task = new TaskDTO(id, creationTime, dueDate, title, description);
-                                tasks.Add(task);
-                            }
-                            result.Add(email, tasks);
-
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-
         public bool Update(int boardId, string attributeName, int attributeValue)
         {
             int res = -1;
@@ -458,10 +328,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public BoardDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            DateTime creation = DateTime.Parse(reader.GetString(1));
-            DateTime dueDate = DateTime.Parse(reader.GetString(1));
             int boardId = reader.GetInt32(0);
-            return new BoardDTO(reader.GetString(1), SelectAllTasksFromBoard(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), SelectInProgressUser(), boardId, reader.GetString(6));
+            return new BoardDTO(reader.GetString(1), SelectAllTasksFromBoard(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), TaskController.SelectInProgressUser(), boardId, reader.GetString(6));
         }
     }
 }
