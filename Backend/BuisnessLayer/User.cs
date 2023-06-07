@@ -75,7 +75,7 @@ public class User
     public void DeleteUserFromBoard(Board board)
     {
         this.boards.Remove(board.Name);
-        udto.Boards.Remove(board.Bdto);
+		udto.deleteBoard(board.Bdto);
     }
 
     public List<Board> getUserBoards()

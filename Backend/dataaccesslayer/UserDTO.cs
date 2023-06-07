@@ -49,7 +49,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 isPersisted = true;
             }
             catch (KanbanDataException e)
-            { 
+            {
                 throw new KanbanDataException("didn't added to the data base");
             }
             catch (Exception ex)
@@ -74,8 +74,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 throw new Exception(($"An unexpected error occured: \n {ex.Message} \nplease contact"));
             }
         }
+        public void addBoard(BoardDTO boardDto)
+        {
+            boards.Add(boardDto);
+            userController.AddMember(this.Email, boardDto.BoardId);
+        }
+        public void deleteBoard(BoardDTO boardDto)
+        {
+            boards.Remove(boardDto);
+            userController.DeleteMember(this.Email, boardDto.BoardId);
+        }
 
     }
-
-    }
+}
 

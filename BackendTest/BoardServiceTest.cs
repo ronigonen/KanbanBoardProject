@@ -179,7 +179,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullJoinBoard()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni@gmail.com",0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni@gmail.com",2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
@@ -307,7 +307,7 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullGetInProgress- succeeded.");
+                Console.WriteLine("runTestSuccessfullGetColumn- succeeded.");
                 Object o1 = res.ReturnValue;
                 Console.WriteLine(o1);
             }
