@@ -298,9 +298,17 @@ public class BoardFacade
             throw new KanbanException("user not logged in");
         }
         Board b = boards[idToNameBoards[boardID]];
+        if (b == null)
+        {
+            throw new KanbanException("this board does not exists");
+        }
         if (user.Equals(b.OwnerEmail))
         {
             throw new KanbanException("owner cannot leave his own bord");
+        }
+        if (! user.Boards.ContainsKey(b.Name))
+        {
+            throw new KanbanException("this user is not a member of this board");
         }
         int[] columns = {0, 1};
         foreach (var column in columns)

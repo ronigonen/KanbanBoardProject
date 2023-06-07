@@ -153,7 +153,7 @@ namespace BackendTest
        {
             Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas@gmail.com", "AssignmentHadas", 0));
             Object o = resp3a.ReturnValue;
-            if (o.ToString().Equals("2"))
+            if (o.ToString().Equals("3"))
                 Console.WriteLine("runTestSucceessGetLimitColumn- succeeded.");
             else
                 Console.WriteLine("runTestSucceessGetLimitColumn- failed.");

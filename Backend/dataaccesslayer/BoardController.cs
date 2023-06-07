@@ -293,22 +293,29 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                using (var command = new SQLiteCommand(connection))
+                SQLiteCommand command = new SQLiteCommand
                 {
-                    command.CommandText = $"UPDATE {_tableName} SET [{attributeName}] = @attributeValue WHERE BoardId = @boardId";
-                    command.Parameters.AddWithValue("@attributeValue", attributeValue);
-                    command.Parameters.AddWithValue("@boardId", boardId);
+                    Connection = connection,
 
-                    try
-                    {
-                        connection.Open();
-                        res = command.ExecuteNonQuery();
-                    }
-                    catch
-                    {
-                        throw new KanbanDataException("Data exception");
-                    }
+                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where BoardId={boardId}"
+                };
+                try
+                {
+                    command.Parameters.Add(new SQLiteParameter("@attributeValue", attributeValue));
+                    command.Parameters.Add(new SQLiteParameter("@boardId", boardId));
+                    connection.Open();
+                    res = command.ExecuteNonQuery();
                 }
+                catch (Exception ex)
+                {
+                    throw new KanbanDataException(ex.Message);
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
             }
             return res > 0;
         }
