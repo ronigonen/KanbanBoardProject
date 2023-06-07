@@ -339,11 +339,11 @@ namespace BackendTest
             Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AddTask("roni@gmail.com", "Assignment1", "Mission2", "your first mission", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
             if (resp5a.ErrorOccured())
             {
-                Console.WriteLine("runTestSuccessfullAddTaskAfterDeleteBoard- succeeded.");
+                Console.WriteLine("runTestFailedAddTaskAfterDeleteBoard- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullAddTaskAfterDeleteBoard- failed.");
+                Console.WriteLine("runTestFailedAddTaskAfterDeleteBoard- failed.");
             }
         }
 

@@ -51,7 +51,7 @@ public class UserInProgressTasks
 			throw new KanbanException("Task in null");
 		}
 		userTasks[email].Add(task);
-		userInProgressTasksDTO.UserTasks[email].Add(task.Tdto);
+		userInProgressTasksDTO.addTasks(email, task.Tdto);
 	}
 	public void RemoveTasks(string email, Task task)
 	{

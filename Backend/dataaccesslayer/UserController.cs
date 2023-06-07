@@ -204,11 +204,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"DELETE in UsersInBoard (UserEmail, BoardId) " + $"VALUES (@email,@boardId);";
-                    SQLiteParameter emailParam = new SQLiteParameter("@email", email);
-                    SQLiteParameter boardIdParam = new SQLiteParameter("@boardId", boardId);
-                    command.Parameters.Add(emailParam);
-                    command.Parameters.Add(boardIdParam);
+                    command.CommandText = $"DELETE from UsersInBoard WHERE BoardId = @boardId AND UserEmail = @userEmail";
+                    command.Parameters.Add(new SQLiteParameter("@boardId", boardId));
+                    command.Parameters.Add(new SQLiteParameter("@userEmail", email));
                     command.Prepare();
                     res = command.ExecuteNonQuery();
                 }
