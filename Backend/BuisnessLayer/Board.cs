@@ -112,7 +112,7 @@ public class Board
             catch (Exception ex)
             {
                 backLogTasks.Remove(TaskId);
-                throw ex;
+                throw new Exception (ex.Message);
             }
         }
     }
@@ -347,6 +347,7 @@ public class Board
     public void TransferOwnership(User newOwner)
     {
         ownerEmail = newOwner.Email;
+        bdto.OwnerEmail = newOwner.Email;
     }
 
     public void AssignTask(string email, int columnOrdinal, int taskID, string AssigneeEmail)
