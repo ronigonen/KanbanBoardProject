@@ -131,7 +131,35 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 return res > 0;
             }
         }
-
+        public bool AddMember(string email, int boardId)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                int res = -1;
+                SQLiteCommand command = new SQLiteCommand(connection);
+                try
+                {
+                    connection.Open();
+                    command.CommandText = $"INSERT INTO UsersInBoard (UserEmail, BoardId) " + $"VALUES (@email,@boardId);";
+                    SQLiteParameter emailParam = new SQLiteParameter("@email", email);
+                    SQLiteParameter boardIdParam = new SQLiteParameter("@password", boardId);
+                    command.Parameters.Add(emailParam);
+                    command.Parameters.Add(boardIdParam);
+                    command.Prepare();
+                    res = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new KanbanDataException("Data Base exception");
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+                return res > 0;
+            }
+        }
 
         public bool Delete(BoardDTO board)
         {
