@@ -329,7 +329,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public BoardDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             int boardId = reader.GetInt32(0);
-            return new BoardDTO(reader.GetString(1), SelectAllTasksFromBoard(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), TaskController.SelectInProgressUser(), boardId, reader.GetString(6));
+            TaskController taskController=new TaskController();
+            return new BoardDTO(reader.GetString(1), taskController.SelectTasksByBoardId(boardId), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), taskController.SelectInProgressUser(), boardId, reader.GetString(6));
         }
     }
 }
