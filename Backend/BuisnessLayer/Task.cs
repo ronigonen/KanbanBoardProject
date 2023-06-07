@@ -41,7 +41,7 @@ public class Task
         get => title;
         set
         {
-            if (title == null || title.Length > 50 || title.Length < 1)
+            if (value == null || value.Length > 50 || value.Length < 1)
                 throw new KanbanException("Title is null or has more than 50 characters");
             else
             {
@@ -53,7 +53,7 @@ public class Task
     internal string Description { get => description;
         set
         {
-            if (description == null || description.Length > 300)
+            if (value == null || value.Length > 300)
                 throw new KanbanException("Description is too long or null");
             else
             {
@@ -68,13 +68,8 @@ public class Task
         get => dueDate;
         set
         {
-            if (title == null || title.Length > 50 || title.Length < 1)
-                throw new KanbanException("Title is null or has more than 50 characters");
-            else
-            {
-                dueDate = value;
-                tdto.DueDate = value;
-            }
+            dueDate = value;
+            tdto.DueDate = value;  
         }
     }
 

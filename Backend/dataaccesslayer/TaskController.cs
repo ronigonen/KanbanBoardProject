@@ -83,6 +83,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Parameters.Add(descriptionParam);
                     command.Parameters.Add(emailParam);
                     command.Parameters.Add(columnParam);
+                    command.Parameters.Add(boardIdParam);
                     command.Prepare();
                     res = command.ExecuteNonQuery();
                 }
