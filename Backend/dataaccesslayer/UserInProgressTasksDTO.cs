@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,5 +24,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         internal Dictionary<string, List<TaskDTO>> UserTasks
         { get => userTasks; }
 
+        public void addTasks(string email, TaskDTO task)
+        {
+            userTasks[email].Add(task);
+        }
     }
 }

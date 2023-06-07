@@ -57,8 +57,8 @@ public class BoardFacade
             throw new KanbanException("This board name does not exists");
         }
         idToNameBoards.Remove(boards[boardName].BoardID);
-        boards.Remove(boardName);
         uf.DeleteBoardFromAllUsers(boards[boardName]);
+        boards.Remove(boardName);
     }
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
@@ -315,9 +315,12 @@ public class BoardFacade
         {
             foreach (Task t in b.GetColumn(column))
             {
-                if (t.EmailAssingnee.Equals(email))
+                if (t.EmailAssingnee != null)
                 {
-                    t.EmailAssingnee = null;
+                    if (t.EmailAssingnee.Equals(email))
+                    {
+                        t.EmailAssingnee = null;
+                    }
                 }
             }
         }
