@@ -41,7 +41,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public BoardDTO(UserInProgressTasks u1, string name1, User user1, int boardID1)
         {
             this.boardController = new BoardController();
-            this.boardController = new BoardController();
             this.isPersisted = false;
             this.name = name1;
             this.tasks = new List<TaskDTO>();
@@ -124,7 +123,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         
         public UserInProgressTasksDTO InProgressUser { get => inProgressUser; }
         public int BoardId { get => boardID; }
-        public string OwnerEmail { get => ownerEmail; }
+        public string OwnerEmail { get => ownerEmail;
+            set
+            {
+                if (isPersisted)
+                    boardController.Update(boardID, "OwnerEmail", value);
+                ownerEmail = value;
+            }
+        }
 
         public void addTask(TaskDTO task)
         {

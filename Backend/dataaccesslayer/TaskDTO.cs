@@ -23,7 +23,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description)
         {
-            TaskController taskController = new TaskController();
+            this.taskController = new TaskController();
             isPersisted = false;
             this.id = id;
             this.creationTime = creationTime;
@@ -37,7 +37,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public TaskDTO(int id, DateTime creationTime, DateTime dueDate, string title, string description, string emailAssignee, int boardID, int columnOrdinal)
         {
-            TaskController taskController = new TaskController();
+            this.taskController = new TaskController();
             isPersisted = true;
             this.id = id;
             this.creationTime = creationTime;
