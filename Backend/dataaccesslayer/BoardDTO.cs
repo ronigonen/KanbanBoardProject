@@ -109,7 +109,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                     boardController.Update(boardID, "InProgressMax", value);
-                InProgressMax = value;
+                inProgressMax = value;
             }
         }
         internal int DoneMax { get => doneMax;
