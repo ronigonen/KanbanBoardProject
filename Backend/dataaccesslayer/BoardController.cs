@@ -20,7 +20,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private readonly string _tableName;
         internal BoardController()
         {
-            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Kanban.db"));
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
             this._connectionString = $"Data Source={path}; Version=3;";
             this._tableName = MessageTableName;
         }
