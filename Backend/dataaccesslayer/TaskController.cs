@@ -172,7 +172,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     SQLiteParameter titleParam = new SQLiteParameter("@title", task.Title);
                     SQLiteParameter descriptionParam = new SQLiteParameter("@description", task.Description);
                     SQLiteParameter emailParam = new SQLiteParameter("@email", task.EmailAssignee);
-                    SQLiteParameter columnParam = new SQLiteParameter("@column", 0);
+                    SQLiteParameter columnParam = new SQLiteParameter("@column", task.ColumnOrdinal);
                     SQLiteParameter boardIdParam = new SQLiteParameter("@boardId", task.BoardID);
                     command.Parameters.Add(idParam);
                     command.Parameters.Add(creationTimeParam);
@@ -263,7 +263,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where id={id}"
                 };
                 try
                 {
@@ -295,7 +295,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where id={id}"
                 };
                 try
                 {

@@ -16,7 +16,7 @@ class Program
         wf.delete();
         us.runTests();
         bs.runTests();
-        //ts.runTests();  
+        ts.runTests();  
     }
 }
 

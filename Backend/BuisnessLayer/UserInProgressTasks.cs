@@ -41,7 +41,7 @@ public class UserInProgressTasks
         if (!userTasks.ContainsKey(email))
 		{
             userTasks.Add(email, new List<Task>());
-
+			userInProgressTasksDTO.AddUser(email);
         }
     }
 	public void AddTasks(string email, Task task)
