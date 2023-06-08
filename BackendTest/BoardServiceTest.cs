@@ -309,7 +309,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullGetColumn- succeeded.");
                 Object o1 = res.ReturnValue;
-                Console.WriteLine(o1);
+                Console.WriteLine(o1.ToString());
             }
         }
 
