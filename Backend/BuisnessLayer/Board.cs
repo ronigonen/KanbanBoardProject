@@ -173,15 +173,60 @@ public class Board
     {
         if (columnOrdinal == 0)
         {
-            return new List<Task>(backLogTasks.Values.ToList());
+            List<Task> list1 = backLogTasks.Values.ToList();
+            return list1;
         }
         else if (columnOrdinal == 1)
         {
-            return new List<Task>(inProgressTasks.Values.ToList());
+            List<Task> list2 = inProgressTasks.Values.ToList();
+            return list2;
         }
         else if (columnOrdinal == 2)
         {
-            return new List<Task>(doneTasks.Values.ToList());
+            List<Task> list3 = doneTasks.Values.ToList();
+            return list3;
+        }
+        else
+        {
+            throw new KanbanException("Invalid column ordinal");
+        }
+    }
+
+
+    public List<TaskToSend> GetColumnToSend(int columnOrdinal)
+    {
+        if (columnOrdinal == 0)
+        {
+            List<Task> list = backLogTasks.Values.ToList();
+            List<TaskToSend> output = new List<TaskToSend>();
+            foreach (Task t in list)
+            {
+                TaskToSend t1 = new TaskToSend(t);
+                output.Add(t1);
+            }
+            return output;
+        }
+        else if (columnOrdinal == 1)
+        {
+            List<Task> list = inProgressTasks.Values.ToList();
+            List<TaskToSend> output = new List<TaskToSend>();
+            foreach (Task t in list)
+            {
+                TaskToSend t1 = new TaskToSend(t);
+                output.Add(t1);
+            }
+            return output;
+        }
+        else if (columnOrdinal == 2)
+        {
+            List<Task> list = doneTasks.Values.ToList();
+            List<TaskToSend> output = new List<TaskToSend>();
+            foreach (Task t in list)
+            {
+                TaskToSend t1 = new TaskToSend(t);
+                output.Add(t1);
+            }
+            return output;
         }
         else
         {

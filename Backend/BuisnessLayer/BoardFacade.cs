@@ -246,7 +246,7 @@ public class BoardFacade
         string name = board.GetColumnName(columnOrdinal);
         return name;
     }
-	public List<Task> GetColumn(string email, string boardName, int columnOrdinal)
+	public List<TaskToSend> GetColumn(string email, string boardName, int columnOrdinal)
 	{
         if (columnOrdinal > 2)
         {
@@ -266,7 +266,7 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        List<Task> tasks = board.GetColumn(columnOrdinal);
+        List<TaskToSend> tasks = board.GetColumnToSend(columnOrdinal);
 		return tasks;
     }
 	public List<Task> GetInProgress(string email)
