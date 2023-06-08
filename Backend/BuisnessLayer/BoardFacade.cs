@@ -269,14 +269,20 @@ public class BoardFacade
         List<TaskToSend> tasks = board.GetColumnToSend(columnOrdinal);
 		return tasks;
     }
-	public List<Task> GetInProgress(string email)
+	public List<TaskToSend> GetInProgress(string email)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
         }
-        return inProgressUser.GetList(email);
+        List<Task> tasks = inProgressUser.GetList(email);
+        List<TaskToSend> output = new List<TaskToSend>();
+        foreach (Task task in tasks)
+        {
+            output.Add(new TaskToSend(task));
+        }
+        return output;
 	}
 
     public void JoinBoard(string email, int boardID)

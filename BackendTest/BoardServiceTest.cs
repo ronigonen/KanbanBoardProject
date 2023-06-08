@@ -419,7 +419,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullGetInProgress()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas@gmail.com"));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("roni@gmail.com"));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
@@ -446,7 +446,6 @@ namespace BackendTest
             else
             {
                 Console.WriteLine("runTestFailedGetInProgress- failed.");
-
             }
         }
 
