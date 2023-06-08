@@ -25,5 +25,13 @@ namespace IntroSE.Kanban.Backend.BuisnessLayer
             this.description = t.Description;
             this.emailAssignee = t.EmailAssingnee;
         }
+
+        public int ID { get => id; set => id = value; }
+        public DateTime CreationTime { get => creationTime; }
+        public DateTime DueDate { get => dueDate; }
+        public string Title { get => title; }
+        public string Description { get => description; }
+        public string EmailAssignee { get => emailAssignee; }
+
     }
 }
