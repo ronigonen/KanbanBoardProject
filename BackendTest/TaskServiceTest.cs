@@ -36,7 +36,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullAssignTask()
         {
-            Response res = JsonSerializer.Deserialize<Response>(taskService.AssignTask("noga@gmail.com", "Assignment3", 0, 3, "roni@gmail.com"));
+            Response res = JsonSerializer.Deserialize<Response>(taskService.AssignTask("noga@gmail.com", "Assignment3", 0, 0, "roni@gmail.com"));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);

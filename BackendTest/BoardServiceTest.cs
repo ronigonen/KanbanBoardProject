@@ -116,7 +116,7 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("runTestFailedCreateBoardBySameNameBoardToSameUse- failed.");
+                Console.WriteLine("runTestFailedCreateBoardBySameNameBoardToSameUser- failed.");
             }
         }
 
@@ -259,7 +259,7 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("runTestFailedJoinBoard- succeeded.");
+                Console.WriteLine("runTestSuccessfullAddTaskByMember- succeeded.");
             }
         }
 
@@ -271,11 +271,11 @@ namespace BackendTest
             Response res = JsonSerializer.Deserialize<Response>(boardService.AddTask("noga@gmail.com", "AssignmentHadas", "mission4", "mission added by Noga", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
             if (res.ErrorOccured())
             {
-                Console.WriteLine("runTestFailedJoinBoard- succeeded.");
+                Console.WriteLine("runTestFailedAddTaskByNotMember- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestFailedJoinBoard- failed.");
+                Console.WriteLine("runTestFailedAddTaskByNotMember- failed.");
             }
         }
 
@@ -389,11 +389,11 @@ namespace BackendTest
             Response resp5c = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 1, 1));
             if (resp5c.ErrorOccured())
             {
-                Console.WriteLine("runTestSuccessfullAdvanceTask- succeeded.");
+                Console.WriteLine("runTestFailedAdvanceTaskByNotAssignee- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullAdvanceTask- failed.");
+                Console.WriteLine("runTestFailedAdvanceTaskByNotAssignee- failed.");
             }
         }
 
@@ -405,11 +405,11 @@ namespace BackendTest
             Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 2, 0));
             if (resp5b.ErrorOccured())
             {
-                Console.WriteLine("runTestFailedAdvanceTask- succeeded.");
+                Console.WriteLine("runTestFailedAdvanceTaskFromDone- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestFailedAdvanceTask- failed.");
+                Console.WriteLine("runTestFailedAdvanceTaskFromDone- failed.");
             }
         }
 
@@ -428,7 +428,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullGetInProgress- succeeded.");
                 Object o1 = res.ReturnValue;
-                Console.WriteLine(o1);
+                Console.WriteLine(o1.ToString());
             }  
         }
 
@@ -566,7 +566,7 @@ namespace BackendTest
             else
             {
                 Object o1 = res.ReturnValue;
-                if (o1.Equals("AssignmentHadas"))
+                if (o1.ToString().Equals("AssignmentHadas"))
                 {
                     Console.WriteLine("runTestSuccessfullGetBoardName- succeeded.");
                 }

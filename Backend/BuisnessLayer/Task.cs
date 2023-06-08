@@ -79,7 +79,7 @@ public class Task
         set
         {
             emailAssignee = value;
-            tdto.EmailAssignee = emailAssignee;    
+            tdto.EmailAssignee = value;    
         }
     }
 

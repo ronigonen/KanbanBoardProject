@@ -195,12 +195,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where BoardId={boardId}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where BoardId={boardId}"
                 };
                 try
                 {
-                    command.Parameters.Add(new SQLiteParameter("@attributeValue", attributeValue));
-                    command.Parameters.Add(new SQLiteParameter("@boardId", boardId));
+                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    //command.Parameters.Add(new SQLiteParameter("@boardId", boardId));
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
@@ -220,7 +220,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
 
 
-        public bool Update(long id, string attributeName, string attributeValue)
+        public bool Update(int boardId, string attributeName, string attributeValue)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -229,7 +229,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where BoardId={boardId}"
                 };
                 try
                 {

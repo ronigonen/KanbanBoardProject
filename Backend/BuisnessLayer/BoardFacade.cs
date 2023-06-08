@@ -302,7 +302,7 @@ public class BoardFacade
         {
             throw new KanbanException("this board does not exists");
         }
-        if (user.Equals(b.OwnerEmail))
+        if (user.Email.Equals(b.OwnerEmail))
         {
             throw new KanbanException("owner cannot leave his own bord");
         }

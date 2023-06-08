@@ -197,7 +197,7 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            if (backLogTasks[taskId].EmailAssingnee!=null && !backLogTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -208,7 +208,7 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            if (inProgressTasks[taskId].EmailAssingnee != null && !inProgressTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -231,7 +231,7 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            if (backLogTasks[taskId].EmailAssingnee!=null && !backLogTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -243,7 +243,7 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            if (inProgressTasks[taskId].EmailAssingnee!=null && !inProgressTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -267,7 +267,7 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            if (backLogTasks[taskId].EmailAssingnee != null && !backLogTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -279,7 +279,7 @@ public class Board
             {
                 throw new KanbanException("Invalid taskId");
             }
-            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            if (inProgressTasks[taskId].EmailAssingnee != null && !inProgressTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -303,7 +303,7 @@ public class Board
             {
                 throw new KanbanException("'In progress' column is full");
             }
-            if (!backLogTasks[taskId].EmailAssingnee.Equals(email))
+            if (backLogTasks[taskId].EmailAssingnee != null && !backLogTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
@@ -326,7 +326,7 @@ public class Board
             {
                 throw new KanbanException("'Done' column is full");
             }
-            if (!inProgressTasks[taskId].EmailAssingnee.Equals(email))
+            if (inProgressTasks[taskId].EmailAssingnee != null && !inProgressTasks[taskId].EmailAssingnee.Equals(email))
             {
                 throw new KanbanException("User is not assignee");
             }
