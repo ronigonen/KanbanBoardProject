@@ -1,4 +1,5 @@
 ﻿using IntroSE.Kanban.Backend.BuisnessLayer;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -8,57 +9,60 @@ using System.Threading.Tasks;
 
 public class BoardFacade
 {
-	private Dictionary<string, Board> boards;
+    private Dictionary<int, string> idToNameBoards;// dictionary of id and name for each board
+    private Dictionary<string, Board> boards; // dictionary of uniqe boardname and boards
 	private UserFacade uf;
 	private UserInProgressTasks inProgressUser;
+    private int BoardID;
 
 	public BoardFacade(UserFacade uF)
 	{
 		this.boards = new Dictionary<string, Board>();
 		this.uf = uF;
         this.inProgressUser = new UserInProgressTasks();
+        this.BoardID = 0;
+        idToNameBoards = new Dictionary<int, string>();
 	}
 	public void CreateBoard(string email, string boardName)
 	{
 		User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn()) 
         {
             throw new KanbanException("User is not logged in");
         }
-        Board board = new Board(inProgressUser, boardName, user);
+        if (boards.ContainsKey(boardName)) 
+        {
+            throw new KanbanException("this board name already exists");
+        }
+        Board board = new Board(inProgressUser, boardName, user, BoardID);
         boards.Add(boardName, board);
-        user.AddBoard(boardName, board);
+        idToNameBoards.Add(board.BoardID, boardName);
+        user.AddUserToBoard(board);
         inProgressUser.AddUser(email);
+        BoardID = BoardID + 1;
     }
     public void DeleteBoard(string email, string boardName)
     {
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
+        }
+        if (!boards[boardName].OwnerEmail.Equals(email))
+        {
+            throw new KanbanException("User is not owner");
         }
         if (!boards.ContainsKey(boardName))
         {
             throw new KanbanException("This board name does not exists");
         }
+        idToNameBoards.Remove(boards[boardName].BoardID);
+        uf.DeleteBoardFromAllUsers(boards[boardName]);
         boards.Remove(boardName);
-        user.DeleteBoard(boardName);
     }
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -68,7 +72,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -81,10 +85,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
 		{
             throw new KanbanException("User is not logged in");
@@ -94,7 +94,7 @@ public class BoardFacade
 		{
 			throw new KanbanException("This board name does not exists");
 		}
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -103,7 +103,7 @@ public class BoardFacade
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
         else
-            board.UpdateTaskDueDate(taskId, columnOrdinal, dueDate);
+            board.UpdateTaskDueDate(email, taskId, columnOrdinal, dueDate);
 	}
     public void UpdateTaskTitle(string email, string boardName, int taskId, int columnOrdinal, string title)
     {
@@ -112,10 +112,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -125,20 +121,12 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        if(columnOrdinal == 0){
-            if(!board.BackLogTasks.ContainsKey(taskId))
-                throw new KanbanException("The task ID is incorrect");
-        }
-        if (columnOrdinal== 1){
-            if(!board.InProgressTasks.ContainsKey(taskId))
-                throw new KanbanException("The task ID is incorrect");
-        }
         else
-            board.UpdateTaskTitle(taskId, columnOrdinal, title);
+            board.UpdateTaskTitle(email, taskId, columnOrdinal, title);
     }
 	public void UpdateTaskDescription(string email, string boardName, int taskId, int columnOrdinal, string description)
 	{
@@ -147,10 +135,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -160,7 +144,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -169,7 +153,7 @@ public class BoardFacade
             throw new KanbanException("Tasks that are 'Done' can not be changed");
         }
         else
-            board.UpdateTaskDescription(taskId, columnOrdinal, description);
+            board.UpdateTaskDescription(email, taskId, columnOrdinal, description);
 	}
 	public void AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
 	{
@@ -178,10 +162,6 @@ public class BoardFacade
             throw new KanbanException("Tasks can not be changed to the giving column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -191,7 +171,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -205,10 +185,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -218,7 +194,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -231,10 +207,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -244,7 +216,7 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
@@ -258,10 +230,6 @@ public class BoardFacade
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -271,24 +239,20 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
         string name = board.GetColumnName(columnOrdinal);
         return name;
     }
-	public List<Task> GetColumn(string email, string boardName, int columnOrdinal)
+	public List<TaskToSend> GetColumn(string email, string boardName, int columnOrdinal)
 	{
         if (columnOrdinal > 2)
         {
             throw new KanbanException("no such column");
         }
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
@@ -298,24 +262,150 @@ public class BoardFacade
         {
             throw new KanbanException("This board name does not exists");
         }
-        if (!user.GetBoards().ContainsKey(boardName))
+        if (!user.Boards.ContainsKey(boardName))
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        List<Task> tasks = board.GetColumn(columnOrdinal);
+        List<TaskToSend> tasks = board.GetColumnToSend(columnOrdinal);
 		return tasks;
     }
-	public List<Task> GetInProgress(string email)
+	public List<TaskToSend> GetInProgress(string email)
 	{
         User user = uf.GetUser(email);
-        if (user == null)
-        {
-            throw new KanbanException("this user does not exists");
-        }
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
         }
-        return inProgressUser.GetList(email);
+        List<Task> tasks = inProgressUser.GetList(email);
+        List<TaskToSend> output = new List<TaskToSend>();
+        foreach (Task task in tasks)
+        {
+            output.Add(new TaskToSend(task));
+        }
+        return output;
 	}
+
+    public void JoinBoard(string email, int boardID)
+    {
+        User user = uf.GetUser(email);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("user not logged in");
+        }
+        Board b = boards[idToNameBoards[boardID]];
+        user.AddUserToBoard(b);
+    }
+
+    public void LeaveBoard(string email, int boardID)
+    {
+        User user = uf.GetUser(email);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("user not logged in");
+        }
+        Board b = boards[idToNameBoards[boardID]];
+        if (b == null)
+        {
+            throw new KanbanException("this board does not exists");
+        }
+        if (user.Email.Equals(b.OwnerEmail))
+        {
+            throw new KanbanException("owner cannot leave his own bord");
+        }
+        if (! user.Boards.ContainsKey(b.Name))
+        {
+            throw new KanbanException("this user is not a member of this board");
+        }
+        int[] columns = {0, 1};
+        foreach (var column in columns)
+        {
+            foreach (Task t in b.GetColumn(column))
+            {
+                if (t.EmailAssingnee != null)
+                {
+                    if (t.EmailAssingnee.Equals(email))
+                    {
+                        t.EmailAssingnee = null;
+                    }
+                }
+            }
+        }
+        user.DeleteUserFromBoard(b);
+    }
+
+    public string GetBoardName(int boardID)
+    {
+        return idToNameBoards[boardID];
+    }
+    public void TransferOwnership(string currentOwnerEmail, string newOwnewemail, string boardName)
+    {
+        User owner = uf.GetUser(currentOwnerEmail);
+        User newOwner = uf.GetUser(newOwnewemail);
+        if (!owner.IsLoggedIn())
+        {
+            throw new KanbanException("user not logged in");
+        }
+        Board b = boards[boardName];
+        if (b == null)
+        {
+            throw new KanbanException("This board name does not exists");
+        }
+        if (!owner.Boards.ContainsKey(boardName) || !newOwner.Boards.ContainsKey(boardName))
+        {
+            throw new KanbanException("The user is not a member of this board");
+        }
+        b.TransferOwnership(newOwner);
+    }
+
+    public void AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
+    {
+        User user = uf.GetUser(email);
+        User newAssignee = uf.GetUser(emailAssignee);
+        if (!user.IsLoggedIn())
+        {
+            throw new KanbanException("User is not logged in");
+        }
+        Board b = boards[boardName];
+        if (b == null)
+        {
+            throw new KanbanException("This board name does not exists");
+        }
+        if (!user.Boards.ContainsKey(boardName) || !newAssignee.Boards.ContainsKey(boardName))
+        {
+            throw new KanbanException("The user is not a member of this board");
+        }
+        b.AssignTask(email, columnOrdinal, taskID, emailAssignee);
+    }
+
+    public void LoadData()
+    {
+        foreach (User u in uf.Users.Values)
+        {
+            foreach (Board b in u.Boards.Values)
+            {
+                if (!boards.ContainsKey(b.Name))
+                {
+                    boards.Add(b.Name, b);
+                    idToNameBoards.Add(b.BoardID, b.Name);
+                    copyInProgress(b.InProgressUser);
+                }
+            }
+        }
+    }
+
+    public void copyInProgress(UserInProgressTasks u)
+    {
+        foreach(string email in u.UserTasks.Keys)
+        {
+            inProgressUser.addAllTasks(email, u.UserTasks[email]);
+        }
+    }
+
+    public void DeleteData()
+    {
+        BoardController boardController = new BoardController();
+        boardController.DeleteAllBoards();
+        boardController.DeleteAllTasks();
+    }
+
 }

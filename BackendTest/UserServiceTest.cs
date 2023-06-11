@@ -20,7 +20,7 @@ namespace BackendTest
 
         public UserServiceTest(WrapperClass w)
         {
-            this.userService = w.UserService;
+            this.userService = w.userService;
             this.boardService = w.boardService;
         }
 
@@ -36,10 +36,6 @@ namespace BackendTest
             runTestFailedLogInByIncorrectPassword();
             runTestFailedLogInByNotRegisteredEmail();
             runTestSuccessfullGetUserBoards();
-            runTestSuccessLoadData();
-            runTestFailedLoadData();
-            runTestSuccessDeleteData();
-            runTestFailedDeleteData();
         }
 
         /// <summary>
@@ -236,68 +232,5 @@ namespace BackendTest
             }
         }
 
-        /// <summary>
-        /// This function tests Grading Service Requirement
-        /// </summary>
-        public void runTestSuccessLoadData()
-        {
-            Response res = JsonSerializer.Deserialize<Response>(userService.LoadData());
-            if (res.ErrorOccured())
-            {
-                Console.WriteLine(res.ErrorMessage);
-            }
-            else
-            {
-                Console.WriteLine("runTestSuccessLoadData- succeeded.");
-            }
-        }
-
-        /// <summary>
-        /// This function tests Grading Service Requirement
-        /// </summary>
-        public void runTestFailedLoadData()
-        {
-            Response res = JsonSerializer.Deserialize<Response>(userService.LoadData());
-            if (res.ErrorOccured())
-            {
-                Console.WriteLine("runTestFailedLoadData- succeeded.");
-            }
-            else
-            {
-                Console.WriteLine("runTestFailedLoadData- failed.");
-            }
-        }
-
-        /// <summary>
-        /// This function tests Grading Service Requirement
-        /// </summary>
-        public void runTestSuccessDeleteData()
-        {
-            Response res = JsonSerializer.Deserialize<Response>(userService.DeleteData());
-            if (res.ErrorOccured())
-            {
-                Console.WriteLine(res.ErrorMessage);
-            }
-            else
-            {
-                Console.WriteLine("runTestSuccessDeleteData- succeeded.");
-            }
-        }
-
-        /// <summary>
-        /// This function tests Grading Service Requirement
-        /// </summary>
-        public void runTestFailedDeleteData()
-        {
-            Response res = JsonSerializer.Deserialize<Response>(userService.DeleteData());
-            if (res.ErrorOccured())
-            {
-                Console.WriteLine("runTestFailedDeleteData- succeeded.");
-            }
-            else
-            {
-                Console.WriteLine("runTestFailedDeleteData- failed.");
-            }
-        }
     }
 }

@@ -21,19 +21,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardService
     {
         private BoardFacade bF;
-        private UserFacade uF;
 
 
-        public BoardService(UserFacade uF)
+        public BoardService(BoardFacade bf)
         {
-            this.uF = uF;
-            bF = new BoardFacade(uF);
-
+            bF = bf;
         }
 
         public BoardFacade BF { get => bF; set => bF = value; }
-        public UserFacade UF { get => uF; }
-
 
         /// <summary>
         /// This method creates a board for the given user.
@@ -146,8 +141,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                List<Task> tasks = bF.GetColumn(email, boardName, columnOrdinal);
-                Task[] taskToSend = tasks.ToArray();
+                List<TaskToSend> tasks = bF.GetColumn(email, boardName, columnOrdinal);
+                TaskToSend[] taskToSend = tasks.ToArray();
                 return JsonSerializer.Serialize(new Response(taskToSend));
             }
             catch (KanbanException ex)
@@ -195,8 +190,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                List<Task> tasks = bF.GetInProgress(email);
-                Task[] taskToSend = tasks.ToArray();
+                List<TaskToSend> tasks = bF.GetInProgress(email);
+                TaskToSend[] taskToSend = tasks.ToArray();
                 return JsonSerializer.Serialize(new Response(taskToSend));
             }
             catch (KanbanException ex)
@@ -266,27 +261,163 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        /// <summary>
+        /// This method adds a user as member to an existing board.
+        /// </summary>
+        /// <param name="email">The email of the user that joins the board. Must be logged in</param>
+        /// <param name="boardID">The board's ID</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string JoinBoard(string email, int boardID)
         {
-            return JsonSerializer.Serialize(new Response("not imlemented yet."));
+            try
+            {
+                bF.JoinBoard(email, boardID);
+                UserService.log.Debug("Join Board completed");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                UserService.log.Warn("Join board wasn't succeeded because of unexpected error");
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
+        /// <summary>
+        /// This method removes a user from the members list of a board.
+        /// </summary>
+        /// <param name="email">The email of the user. Must be logged in</param>
+        /// <param name="boardID">The board's ID</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LeaveBoard(string email, int boardID)
         {
-            return JsonSerializer.Serialize(new Response("not imlemented yet."));
+            try
+            {
+                bF.LeaveBoard(email, boardID);
+                UserService.log.Debug("Leave Board completed");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                UserService.log.Warn("Leave board wasn't succeeded because of unexpected error");
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
+
+        /// <summary>
+        /// This method returns a board's name
+        /// </summary>
+        /// <param name="boardId">The board's ID</param>
+        /// <returns>A response with the board's name, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetBoardName(int boardId)
         {
-            return JsonSerializer.Serialize(new Response("not implemented yet."));
+            try
+            {
+                return JsonSerializer.Serialize(new Response((Object)bF.GetBoardName(boardId)));
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
+
+        /// <summary>
+        /// This method transfers a board ownership.
+        /// </summary>
+        /// <param name="currentOwnerEmail">Email of the current owner. Must be logged in</param>
+        /// <param name="newOwnerEmail">Email of the new owner</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string TransferOwnership(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
-            return JsonSerializer.Serialize(new Response("not implemented yet."));
+            try
+            {
+                bF.TransferOwnership(currentOwnerEmail, newOwnerEmail, boardName);
+                UserService.log.Debug("Transfer Ownership completed");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                UserService.log.Warn("Transfer Ownership wasn't succeeded because of unexpected error");
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
         }
 
+        ///<summary>This method deletes all persisted data.
+        ///<para>
+        ///<b>IMPORTANT:</b> 
+        ///In some cases we will call LoadData when the program starts and in other cases we will call DeleteData. Make sure you support both options.
+        ///</para>
+        /// </summary>
+        ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
+        public string LoadData()
+        {
+            try
+            {
+                bF.LoadData();
+                UserService.log.Debug("data loaded");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (KanbanDataException ex)
+            {
+                UserService.log.Fatal("data didnt loaded");
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
 
-
+        ///<summary>This method deletes all persisted data.
+        ///<para>
+        ///<b>IMPORTANT:</b> 
+        ///In some cases we will call LoadData when the program starts and in other cases we will call DeleteData. Make sure you support both options.
+        ///</para>
+        /// </summary>
+        ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
+        public string DeleteData()
+        {
+            try
+            {
+                bF.DeleteData();
+                UserService.log.Debug("data deleted");
+                return JsonSerializer.Serialize(new Response());
+            }
+            catch (KanbanException ex)
+            {
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (KanbanDataException ex)
+            {
+                UserService.log.Fatal("data didnt deleted");
+                return JsonSerializer.Serialize(new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(new Response($"An unexpected error occured: \n {ex.Message} \nplease contact"));
+            }
+        }
     }
 }

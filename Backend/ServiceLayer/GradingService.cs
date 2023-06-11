@@ -55,10 +55,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public GradingService()
         {
-            WrapperClass wrapperSer = new WrapperClass();
-            this.userSer = wrapperSer.UserService;
-            this.boardSer = wrapperSer.boardService;
-            this.taskSer = wrapperSer.TaskService;
+            WrapperFactory wrapperSer = new WrapperFactory();
+            WrapperClass w=wrapperSer.create();
+            this.userSer = w.userService;
+            this.boardSer = w.boardService;
+            this.taskSer = w.taskService;
         }
 
 
@@ -337,7 +338,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LoadData()
         {
-            throw new NotImplementedException();
+            userSer.LoadData();
+            return boardSer.LoadData();
         }
 
         ///<summary>This method deletes all persisted data.
@@ -349,7 +351,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string DeleteData()
         {
-            throw new NotImplementedException();
+            userSer.DeleteData();
+            return boardSer.DeleteData();
         }
     }
 }

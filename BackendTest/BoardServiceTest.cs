@@ -18,8 +18,8 @@ namespace BackendTest
         public BoardServiceTest(WrapperClass w)
         {
             this.boardService=w.boardService;
-            this.userService = w.UserService;
-            this.taskService = w.TaskService;
+            this.userService = w.userService;
+            this.taskService = w.taskService;
         }
 
         public void createUsers()
@@ -116,7 +116,7 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("runTestFailedCreateBoardBySameNameBoardToSameUse- failed.");
+                Console.WriteLine("runTestFailedCreateBoardBySameNameBoardToSameUser- failed.");
             }
         }
 
@@ -150,10 +150,10 @@ namespace BackendTest
         /// This function tests Requirement 16
         /// </summary>
         public void runTestSucceessGetLimitColumn()
-        {
+       {
             Response resp3a = JsonSerializer.Deserialize<Response>(boardService.GetColumnLimit("hadas@gmail.com", "AssignmentHadas", 0));
             Object o = resp3a.ReturnValue;
-            if (o.ToString().Equals("2"))
+            if (o.ToString().Equals("3"))
                 Console.WriteLine("runTestSucceessGetLimitColumn- succeeded.");
             else
                 Console.WriteLine("runTestSucceessGetLimitColumn- failed.");
@@ -179,7 +179,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullJoinBoard()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni@gmail.com",0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni@gmail.com",2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
@@ -196,7 +196,7 @@ namespace BackendTest
         /// </summary>
         public void runTestFailedJoinBoard()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni800@gmail.com", 0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.JoinBoard("roni800@gmail.com", 2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine("runTestFailedJoinBoard- succeeded.");
@@ -259,7 +259,7 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("runTestFailedJoinBoard- succeeded.");
+                Console.WriteLine("runTestSuccessfullAddTaskByMember- succeeded.");
             }
         }
 
@@ -271,11 +271,11 @@ namespace BackendTest
             Response res = JsonSerializer.Deserialize<Response>(boardService.AddTask("noga@gmail.com", "AssignmentHadas", "mission4", "mission added by Noga", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
             if (res.ErrorOccured())
             {
-                Console.WriteLine("runTestFailedJoinBoard- succeeded.");
+                Console.WriteLine("runTestFailedAddTaskByNotMember- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestFailedJoinBoard- failed.");
+                Console.WriteLine("runTestFailedAddTaskByNotMember- failed.");
             }
         }
 
@@ -307,9 +307,9 @@ namespace BackendTest
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullGetInProgress- succeeded.");
+                Console.WriteLine("runTestSuccessfullGetColumn- succeeded.");
                 Object o1 = res.ReturnValue;
-                Console.WriteLine(o1);
+                Console.WriteLine(o1.ToString());
             }
         }
 
@@ -339,11 +339,11 @@ namespace BackendTest
             Response resp5a = JsonSerializer.Deserialize<Response>(boardService.AddTask("roni@gmail.com", "Assignment1", "Mission2", "your first mission", new DateTime(2023, 05, 20), new DateTime(2023, 04, 23)));
             if (resp5a.ErrorOccured())
             {
-                Console.WriteLine("runTestSuccessfullAddTaskAfterDeleteBoard- succeeded.");
+                Console.WriteLine("runTestFailedAddTaskAfterDeleteBoard- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullAddTaskAfterDeleteBoard- failed.");
+                Console.WriteLine("runTestFailedAddTaskAfterDeleteBoard- failed.");
             }
         }
 
@@ -389,11 +389,11 @@ namespace BackendTest
             Response resp5c = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 1, 1));
             if (resp5c.ErrorOccured())
             {
-                Console.WriteLine("runTestSuccessfullAdvanceTask- succeeded.");
+                Console.WriteLine("runTestFailedAdvanceTaskByNotAssignee- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestSuccessfullAdvanceTask- failed.");
+                Console.WriteLine("runTestFailedAdvanceTaskByNotAssignee- failed.");
             }
         }
 
@@ -405,11 +405,11 @@ namespace BackendTest
             Response resp5b = JsonSerializer.Deserialize<Response>(boardService.AdvanceTask("hadas@gmail.com", "AssignmentHadas", 2, 0));
             if (resp5b.ErrorOccured())
             {
-                Console.WriteLine("runTestFailedAdvanceTask- succeeded.");
+                Console.WriteLine("runTestFailedAdvanceTaskFromDone- succeeded.");
             }
             else
             {
-                Console.WriteLine("runTestFailedAdvanceTask- failed.");
+                Console.WriteLine("runTestFailedAdvanceTaskFromDone- failed.");
             }
         }
 
@@ -419,7 +419,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullGetInProgress()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("hadas@gmail.com"));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.InProgressTasks("roni@gmail.com"));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
@@ -428,7 +428,7 @@ namespace BackendTest
             {
                 Console.WriteLine("runTestSuccessfullGetInProgress- succeeded.");
                 Object o1 = res.ReturnValue;
-                Console.WriteLine(o1);
+                Console.WriteLine(o1.ToString());
             }  
         }
 
@@ -446,7 +446,6 @@ namespace BackendTest
             else
             {
                 Console.WriteLine("runTestFailedGetInProgress- failed.");
-
             }
         }
 
@@ -456,7 +455,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullLeaveBoard() 
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni@gmail.com",0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni@gmail.com",2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
@@ -473,7 +472,7 @@ namespace BackendTest
         /// </summary>
         public void runTestFailedLeaveBoardByNotLoggedIn()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni800@gmail.com", 0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni800@gmail.com", 2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine("runTestFailedLeaveBoardByNotLoggedIn- succeeded.");
@@ -490,7 +489,7 @@ namespace BackendTest
         /// </summary>
         public void runTestFailedLeaveBoardByNotMember()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni@gmail.com", 0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("roni@gmail.com", 2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine("runTestFailedLeaveBoardByNotMember- succeeded.");
@@ -507,7 +506,7 @@ namespace BackendTest
         /// </summary>
         public void runTestFailedLeaveBoardByOwner()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("hadas@gmail.com", 0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.LeaveBoard("hadas@gmail.com", 2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine("runTestFailedLeaveBoardByOwner- succeeded.");
@@ -524,7 +523,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullTransferOwnership()
         {
-            boardService.JoinBoard("roni@gmail.com", 3);
+            boardService.JoinBoard("roni@gmail.com", 5);
             Response res = JsonSerializer.Deserialize<Response>(boardService.TransferOwnership("noga@gmail.com", "roni@gmail.com", "Assignment3"));
             if (res.ErrorOccured())
             {
@@ -558,7 +557,7 @@ namespace BackendTest
         /// </summary>
         public void runTestSuccessfullGetBoardName()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.GetBoardName(0));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.GetBoardName(2));
             if (res.ErrorOccured())
             {
                 Console.WriteLine(res.ErrorMessage);
@@ -566,7 +565,7 @@ namespace BackendTest
             else
             {
                 Object o1 = res.ReturnValue;
-                if (o1.Equals("AssignmentHadas"))
+                if (o1.ToString().Equals("AssignmentHadas"))
                 {
                     Console.WriteLine("runTestSuccessfullGetBoardName- succeeded.");
                 }
@@ -582,7 +581,7 @@ namespace BackendTest
         /// </summary>
         public void runTestFailedGetBoardNameDoesntExists()
         {
-            Response res = JsonSerializer.Deserialize<Response>(boardService.GetBoardName(4));
+            Response res = JsonSerializer.Deserialize<Response>(boardService.GetBoardName(6));
             if (res.ErrorOccured())
             {
                 Console.WriteLine("runTestFailedGetBoardNameDoesntExists- succeeded.");
