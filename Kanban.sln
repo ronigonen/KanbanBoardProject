@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "Backend\Backend.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendTest", "BackendTest\BackendTest.csproj", "{BB64538E-1D43-4439-B971-110110143A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Fronted\Frontend.csproj", "{FB2A6588-B07F-45C8-8DA5-9332630B9A3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{BE3370F7-C52D-4DEE-BD45-166C886B3E85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{BB64538E-1D43-4439-B971-110110143A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB64538E-1D43-4439-B971-110110143A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB64538E-1D43-4439-B971-110110143A48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB2A6588-B07F-45C8-8DA5-9332630B9A3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB2A6588-B07F-45C8-8DA5-9332630B9A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB2A6588-B07F-45C8-8DA5-9332630B9A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB2A6588-B07F-45C8-8DA5-9332630B9A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3370F7-C52D-4DEE-BD45-166C886B3E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3370F7-C52D-4DEE-BD45-166C886B3E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3370F7-C52D-4DEE-BD45-166C886B3E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3370F7-C52D-4DEE-BD45-166C886B3E85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
