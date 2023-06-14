@@ -17,6 +17,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public WrapperFactory() { 
         }
 
+        public UserService UserService { get { return userService; }}
+        public BoardService BoardService { get { return boardService;} }
+        public TaskService TaskService { get { return taskService;} }
+
         public WrapperClass create()
         {
             userFacade = new UserFacade();
