@@ -54,7 +54,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
-        public List<BoardDTO> SelectAllBoards(int boardId)
+        public List<BoardDTO> SelectAllBoards()
         {
             List<BoardDTO> result = Select().Cast<BoardDTO>().ToList();
             return result;
