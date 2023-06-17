@@ -59,7 +59,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public List<BoardDTO> SelectBoardsByEmail(string email)
         {
             BoardController boardController = new BoardController();
-            List<BoardDTO> result=boardController.SelectBoardsByEmail(email);
+            List<int> ids=boardController.SelectBoardsByEmail(email);
+            List<BoardDTO> result = boardController.ConvertBoardIdtoBoardDTO(ids);
             return result;
         }
 
@@ -225,7 +226,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public UserDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            return new UserDTO(reader.GetString(0),reader.GetString(1), SelectBoardsByEmail(reader.GetString(0)));
+            return new UserDTO(reader.GetString(1),reader.GetString(0), SelectBoardsByEmail(reader.GetString(0)));
         }
 
 

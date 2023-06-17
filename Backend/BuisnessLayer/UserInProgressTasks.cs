@@ -24,6 +24,7 @@ public class UserInProgressTasks
         userTasks = new Dictionary<string, List<Task>>();
 		foreach (string email in tasks.UserTasks.Keys)
 		{
+			userTasks.Add(email, new List<Task>());
 			foreach (TaskDTO taskDTO in tasks.UserTasks[email])
 			{
 				userTasks[email].Add(new Task(taskDTO));
