@@ -120,7 +120,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email and Column = @Column";
+                command.CommandText = $"SELECT * FROM {_tableName} WHERE EmailAssignee = @Email and Column = @Column";
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Column", 1);
                 SQLiteDataReader dataReader = null;
@@ -321,7 +321,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public TaskDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             DateTime creation = DateTime.Parse(reader.GetString(1));
-            DateTime dueDate = DateTime.Parse(reader.GetString(1));
+            DateTime dueDate = DateTime.Parse(reader.GetString(2));
             return new TaskDTO(reader.GetInt32(0), creation, dueDate, reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(7), reader.GetInt32(6));
         }
 

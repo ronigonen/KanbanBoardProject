@@ -60,8 +60,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
-
-        public void SelectBoardsByEmail(string email)
+        public List<int> SelectBoardsByEmail(string email)
         {
             List<int> results = new List<int>();
 
@@ -69,23 +68,22 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 connection.Open();
 
-                string sqlQuery = $"SELECT {"BoardId"} FROM UsersInBoards WHERE [UserEmail] = @Email";
+                string sqlQuery = $"SELECT {"BoardId"} FROM UsersInBoard WHERE [UserEmail] = @Email";
 
                 using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Email", email);
-                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    using (SQLiteDataReader dataReader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                        while (dataReader.Read())
                         {
-                            int boardId = reader.GetInt32(0);
+                            int boardId = dataReader.GetInt32(0);
                             results.Add(boardId);
                         }
                     }
                 }
             }
-            ConvertBoardIdtoBoardDTO(results);
-
+            return results;
         }
 
         public List<BoardDTO> ConvertBoardIdtoBoardDTO(List<int> boardId)

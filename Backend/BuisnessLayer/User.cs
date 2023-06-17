@@ -30,7 +30,8 @@ public class User
         this.email = udto.Email; 
         this.loggedIn = false;
 		List<BoardDTO> boardsDTO = udto.Boards;
-		foreach (BoardDTO bd in boardsDTO)
+        this.boards = new Dictionary<string, Board>();
+        foreach (BoardDTO bd in boardsDTO)
 		{
 			Board b = new Board(bd);
 			boards.Add(b.Name, b);
