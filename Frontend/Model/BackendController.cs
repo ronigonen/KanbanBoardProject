@@ -27,6 +27,7 @@ namespace Frontend.Model
         {
             BackendController backendController = new BackendController();
             backendController.wrapperFactory.UserService.LoadData();
+            backendController.wrapperFactory.BoardService.LoadData();
             return backendController;
         }
 

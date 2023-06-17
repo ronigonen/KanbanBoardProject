@@ -6,22 +6,25 @@
         xmlns:local="clr-namespace:Frontend.View"
         mc:Ignorable="d"
         Title="UserWindow" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="kanbanPicture.jpg" />
+    </Window.Background>
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <ListBox ItemsSource="{Binding Path=User.Boards}" SelectedItem="{Binding Path=SelectedBoard}">
+        <StackPanel Orientation="Vertical" Margin="0,217,0,0">
+            <ListBox ItemsSource="{Binding User.Boards}" SelectedItem="{Binding SelectedBoard}" Height="140">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Aqua" BorderThickness="1">
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Path=Id, Mode=OneWay}"/>
-                                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Background="LightBlue"/>
+                                <TextBlock Text="{Binding Id, Mode=OneWay}"/>
+                                <TextBlock Text="{Binding Name, Mode=OneWay}" Background="LightBlue"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Content="Enter Board" Click="EnterBoard_Click" IsEnabled="{Binding Path=EnableForward}"/>
-            <Button Content="Logout" Click="Logout_Click"/>
+            <Button FontFamily="Comic Sans MS" FontSize="14" Content="Enter Board" Click="EnterBoard_Click" IsEnabled="{Binding EnableForward}" Width="115"/>
+            <Button FontFamily="Comic Sans MS" FontSize="14" Content="Logout" Click="Logout_Click" Width="115"/>
         </StackPanel>
     </Grid>
 </Window>
