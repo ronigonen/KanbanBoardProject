@@ -6,13 +6,21 @@
         xmlns:local="clr-namespace:Frontend.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="kanbanPicture.jpg" />
+    </Window.Background>
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="152,42,0,0" TextWrapping="Wrap" Text="{Binding Path=Email, Mode=OneWayToSource}" VerticalAlignment="Top" Width="130"></TextBox>
-        <Label Content="email" HorizontalAlignment="Left" Margin="72,38,0,0"  VerticalAlignment="Top"></Label>
-        <TextBox HorizontalAlignment="Left" Margin="152,80,0,0" TextWrapping="Wrap" Text="{Binding Path=Password, Mode=OneWayToSource}" VerticalAlignment="Top" Width="130"></TextBox>
-        <Label Content="password" HorizontalAlignment="Left" Margin="72,80,0,0"  VerticalAlignment="Top"></Label>
-        <Button Content="login" HorizontalAlignment="Left" Click="Login_Click" Margin="212,133,0,0" VerticalAlignment="Top"></Button>
-        <Button Content="Register" HorizontalAlignment="Left" Click="Register_Click" Margin="141,133,0,0"  VerticalAlignment="Top"></Button>
-        <Label Content="{Binding Path=ErrorMessage, Mode=OneWay}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="235" Margin="47,115,0,0"></Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="723*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox HorizontalAlignment="Left" Margin="267,181,0,0" TextWrapping="Wrap" Text="{Binding Path=Email, Mode=OneWayToSource}" VerticalAlignment="Top" Width="130" Grid.Column="2"/>
+        <Label FontFamily="Comic Sans MS" FontSize="20" Content="EMAIL" HorizontalAlignment="Left" Margin="164,172,0,0"  VerticalAlignment="Top" Grid.Column="2"/>
+        <TextBox HorizontalAlignment="Left" Margin="267,244,0,0" TextWrapping="Wrap" Text="{Binding Path=Password, Mode=OneWayToSource}" VerticalAlignment="Top" Width="130" Grid.Column="2"/>
+        <Label FontFamily="Comic Sans MS" FontSize="20" Content="PASSWORD" HorizontalAlignment="Left" Margin="131,232,0,0"  VerticalAlignment="Top" Grid.Column="2" Height="41" Width="143"/>
+        <Button FontFamily="Comic Sans MS" FontSize="16" Content="login" HorizontalAlignment="Left" Click="Login_Click" Margin="350,294,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <Button FontFamily="Comic Sans MS" FontSize="16" Content="Register" HorizontalAlignment="Left" Click="Register_Click" Margin="264,294,0,0"  VerticalAlignment="Top" Grid.Column="2"/>
+        <Label Content="{Binding Path=ErrorMessage, Mode=OneWay}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="235" Margin="47,115,0,0" Grid.ColumnSpan="3"/>
     </Grid>
 </Window>

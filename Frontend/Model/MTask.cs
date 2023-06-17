@@ -64,7 +64,7 @@ namespace Frontend.Model
         /// <param name="task">A task in TaskToSend format</param>
         public MTask(TaskToSend task)
         {
-            this._id = task.ID;
+            this._id = task.Id;
             this._creationTime = task.CreationTime;
             this._title = task.Title;
             this._description = task.Description;
