@@ -321,11 +321,11 @@ public class BoardFacade
         {
             foreach (Task t in b.GetColumn(column))
             {
-                if (t.EmailAssingnee != null)
+                if (t.EmailAssignee != null)
                 {
-                    if (t.EmailAssingnee.Equals(email))
+                    if (t.EmailAssignee.Equals(email))
                     {
-                        t.EmailAssingnee = null;
+                        t.EmailAssignee = null;
                     }
                 }
             }

@@ -75,7 +75,7 @@ public class Task
         }
     }
 
-    public string EmailAssingnee
+    public string EmailAssignee
     {
         get => emailAssignee;
         set
@@ -93,6 +93,6 @@ public class Task
 
     public void AssignTask(string email, string boardName, int columnOrdinal, int TaskId, string emailAssignee)
     {
-        EmailAssingnee = emailAssignee;
+        EmailAssignee = emailAssignee;
     }
 }

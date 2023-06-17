@@ -3,35 +3,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.BuisnessLayer
 {
     public class TaskToSend
     {
-        private int id;
-        private DateTime creationTime;
-        private DateTime dueDate;
-        private string title;
-        private string description;
-        private string emailAssignee;
+        public int Id { get; set; }
+        public DateTime CreationTime { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime DueDate { get; set; }
 
-        public TaskToSend(Task t)
+        [JsonConstructor]
+        public TaskToSend(int Id, DateTime CreationTime, string Title, string Description, DateTime DueDate)
         {
-            this.id = t.ID;
-            this.creationTime = t.CreationTime;
-            this.dueDate = t.DueDate;
-            this.title = t.Title;
-            this.description = t.Description;
-            this.emailAssignee = t.EmailAssingnee;
+            this.Id = Id;
+            this.CreationTime = CreationTime;
+            this.Title = Title;
+            this.Description = Description;
+            this.DueDate = DueDate;
         }
 
-        public int ID { get => id; set => id = value; }
-        public DateTime CreationTime { get => creationTime; }
-        public DateTime DueDate { get => dueDate; }
-        public string Title { get => title; }
-        public string Description { get => description; }
-        public string EmailAssignee { get => emailAssignee; }
+        internal TaskToSend(Task task)
+        {
+            Id = task.ID;
+            CreationTime = task.CreationTime;
+            Title = task.Title;
+            Description = task.Description;
+            DueDate = task.DueDate;
+        }
 
+        internal TaskToSend()
+        {
+            this.Id = -1;
+            this.CreationTime = DateTime.Now;
+            this.Title = string.Empty;
+            this.Description = string.Empty;
+            this.DueDate = DateTime.Now;
+        }
     }
 }
