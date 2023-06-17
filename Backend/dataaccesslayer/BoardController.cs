@@ -65,7 +65,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email";
+                command.CommandText = $"SELECT * FROM {_tableName} WHERE [OwnerEmail] = @Email";
                 command.Parameters.AddWithValue("@Email", email);
 
                 SQLiteDataReader dataReader = null;
@@ -77,6 +77,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     {
                         results.Add(ConvertReaderToObject(dataReader));
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
                 finally
                 {
