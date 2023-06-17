@@ -11,6 +11,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     public class UserInProgressTasksDTO
     { 
         private Dictionary<string, List<TaskDTO>> userTasks;
+        private TaskController taskController;
         public UserInProgressTasksDTO(Dictionary<string, List<TaskDTO>> tasks) 
         {
             userTasks = tasks;
