@@ -59,33 +59,65 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             List<BoardDTO> result = Select().Cast<BoardDTO>().ToList();
             return result;
         }
-        public List<BoardDTO> SelectBoardsByEmail(string email)
+
+
+        public void SelectBoardsByEmail(string email)
+        {
+            List<int> results = new List<int>();
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sqlQuery = $"SELECT {"BoardId"} FROM UsersInBoards WHERE [UserEmail] = @Email";
+
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int boardId = reader.GetInt32(0);
+                            results.Add(boardId);
+                        }
+                    }
+                }
+            }
+            ConvertBoardIdtoBoardDTO(results);
+
+        }
+
+        public List<BoardDTO> ConvertBoardIdtoBoardDTO(List<int> boardId)
         {
             List<BoardDTO> results = new List<BoardDTO>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email";
-                command.Parameters.AddWithValue("@Email", email);
+                for (int i = 0; i < boardId.Count(); i = i + 1)
+                {
+                    int id = boardId[i];
+                    SQLiteCommand command = new SQLiteCommand(null, connection);
+                    command.CommandText = $"SELECT * FROM {_tableName} WHERE BoardId = {id}";
 
-                SQLiteDataReader dataReader = null;
-                try
-                {
-                    connection.Open();
-                    dataReader = command.ExecuteReader();
-                    while (dataReader.Read())
+                    SQLiteDataReader dataReader = null;
+                    try
                     {
-                        results.Add(ConvertReaderToObject(dataReader));
+                        connection.Open();
+                        dataReader = command.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            results.Add(ConvertReaderToObject(dataReader));
+                        }
                     }
-                }
-                finally
-                {
-                    if (dataReader != null)
+                    finally
                     {
-                        dataReader.Close();
+                        if (dataReader != null)
+                        {
+                            dataReader.Close();
+                        }
+                        command.Dispose();
+                        connection.Close();
                     }
-                    command.Dispose();
-                    connection.Close();
                 }
             }
             return results;
