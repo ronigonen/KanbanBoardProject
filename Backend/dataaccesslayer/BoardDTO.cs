@@ -33,7 +33,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.backLogMax = backLogMax1;
             this.inProgressMax = inProgressMax1;
             this.doneMax = doneMax1;
-            this.inProgressUser = new UserInProgressTasksDTO();
+            this.inProgressUser = new UserInProgressTasksDTO(inProgressUser1);
             this.boardID = boardID1;
             this.ownerEmail = ownerEmail1;
         }
