@@ -56,7 +56,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.Update(id, "ColumnOrdinal", value);
+                    taskController.Update(id, "Column", value);
                 }
                 columnOrdinal = value;
             }
@@ -119,9 +119,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 if (isPersisted)
                 {
-                    taskController.Update(id, "Title", value);
+                    taskController.Update(id, "EmailAssignee", value);
                 }
-                description = value;
+                emailAssignee = value;
             }
         }
 

@@ -57,8 +57,8 @@ public class BoardFacade
             throw new KanbanException("This board name does not exists");
         }
         idToNameBoards.Remove(boards[boardName].BoardID);
-        boards.Remove(boardName);
         uf.DeleteBoardFromAllUsers(boards[boardName]);
+        boards.Remove(boardName);
     }
     public void AddTask(string email,string boardName, string title, string description, DateTime dueDate, DateTime creationTime)
 	{
@@ -246,7 +246,7 @@ public class BoardFacade
         string name = board.GetColumnName(columnOrdinal);
         return name;
     }
-	public List<Task> GetColumn(string email, string boardName, int columnOrdinal)
+	public List<TaskToSend> GetColumn(string email, string boardName, int columnOrdinal)
 	{
         if (columnOrdinal > 2)
         {
@@ -266,17 +266,23 @@ public class BoardFacade
         {
             throw new KanbanException("The user is not a member of this board");
         }
-        List<Task> tasks = board.GetColumn(columnOrdinal);
+        List<TaskToSend> tasks = board.GetColumnToSend(columnOrdinal);
 		return tasks;
     }
-	public List<Task> GetInProgress(string email)
+	public List<TaskToSend> GetInProgress(string email)
 	{
         User user = uf.GetUser(email);
         if (!user.IsLoggedIn())
         {
             throw new KanbanException("User is not logged in");
         }
-        return inProgressUser.GetList(email);
+        List<Task> tasks = inProgressUser.GetList(email);
+        List<TaskToSend> output = new List<TaskToSend>();
+        foreach (Task task in tasks)
+        {
+            output.Add(new TaskToSend(task));
+        }
+        return output;
 	}
 
     public void JoinBoard(string email, int boardID)
@@ -302,7 +308,7 @@ public class BoardFacade
         {
             throw new KanbanException("this board does not exists");
         }
-        if (user.Equals(b.OwnerEmail))
+        if (user.Email.Equals(b.OwnerEmail))
         {
             throw new KanbanException("owner cannot leave his own bord");
         }
@@ -315,9 +321,12 @@ public class BoardFacade
         {
             foreach (Task t in b.GetColumn(column))
             {
-                if (t.EmailAssingnee.Equals(email))
+                if (t.EmailAssingnee != null)
                 {
-                    t.EmailAssingnee = null;
+                    if (t.EmailAssingnee.Equals(email))
+                    {
+                        t.EmailAssingnee = null;
+                    }
                 }
             }
         }

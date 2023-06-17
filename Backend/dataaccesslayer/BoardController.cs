@@ -20,7 +20,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private readonly string _tableName;
         internal BoardController()
         {
-            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Kanban.db"));
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
             this._connectionString = $"Data Source={path}; Version=3;";
             this._tableName = MessageTableName;
         }
@@ -54,38 +54,68 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             }
             return results;
         }
-        public List<BoardDTO> SelectAllBoards(int boardId)
+        public List<BoardDTO> SelectAllBoards()
         {
             List<BoardDTO> result = Select().Cast<BoardDTO>().ToList();
             return result;
         }
-        public List<BoardDTO> SelectBoardsByEmail(string email)
+
+        public List<int> SelectBoardsByEmail(string email)
+        {
+            List<int> results = new List<int>();
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sqlQuery = $"SELECT {"BoardId"} FROM UsersInBoard WHERE [UserEmail] = @Email";
+
+                using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    using (SQLiteDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int boardId = dataReader.GetInt32(0);
+                            results.Add(boardId);
+                        }
+                    }
+                }
+            }
+            return results;
+        }
+
+        public List<BoardDTO> ConvertBoardIdtoBoardDTO(List<int> boardId)
         {
             List<BoardDTO> results = new List<BoardDTO>();
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email";
-                command.Parameters.AddWithValue("@Email", email);
+                for (int i = 0; i < boardId.Count(); i = i + 1)
+                {
+                    int id = boardId[i];
+                    SQLiteCommand command = new SQLiteCommand(null, connection);
+                    command.CommandText = $"SELECT * FROM {_tableName} WHERE BoardId = {id}";
 
-                SQLiteDataReader dataReader = null;
-                try
-                {
-                    connection.Open();
-                    dataReader = command.ExecuteReader();
-                    while (dataReader.Read())
+                    SQLiteDataReader dataReader = null;
+                    try
                     {
-                        results.Add(ConvertReaderToObject(dataReader));
+                        connection.Open();
+                        dataReader = command.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            results.Add(ConvertReaderToObject(dataReader));
+                        }
                     }
-                }
-                finally
-                {
-                    if (dataReader != null)
+                    finally
                     {
-                        dataReader.Close();
+                        if (dataReader != null)
+                        {
+                            dataReader.Close();
+                        }
+                        command.Dispose();
+                        connection.Close();
                     }
-                    command.Dispose();
-                    connection.Close();
                 }
             }
             return results;
@@ -195,12 +225,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where BoardId={boardId}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where BoardId={boardId}"
                 };
                 try
                 {
-                    command.Parameters.Add(new SQLiteParameter("@attributeValue", attributeValue));
-                    command.Parameters.Add(new SQLiteParameter("@boardId", boardId));
+                    command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
+                    //command.Parameters.Add(new SQLiteParameter("@boardId", boardId));
                     connection.Open();
                     res = command.ExecuteNonQuery();
                 }
@@ -220,7 +250,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
 
 
-        public bool Update(long id, string attributeName, string attributeValue)
+        public bool Update(int boardId, string attributeName, string attributeValue)
         {
             int res = -1;
             using (var connection = new SQLiteConnection(_connectionString))
@@ -229,7 +259,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where BoardId={boardId}"
                 };
                 try
                 {

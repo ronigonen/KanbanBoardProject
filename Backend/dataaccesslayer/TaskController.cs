@@ -19,7 +19,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private readonly string _tableName;
         internal TaskController()
         {
-            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Kanban.db"));
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
             this._connectionString = $"Data Source={path}; Version=3;";
             this._tableName = MessageTableName;
         }
@@ -120,7 +120,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"SELECT * FROM {_tableName} WHERE OwnerEmail = @Email and Column = @Column";
+                command.CommandText = $"SELECT * FROM {_tableName} WHERE EmailAssignee = @Email and Column = @Column";
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Column", 1);
                 SQLiteDataReader dataReader = null;
@@ -172,7 +172,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     SQLiteParameter titleParam = new SQLiteParameter("@title", task.Title);
                     SQLiteParameter descriptionParam = new SQLiteParameter("@description", task.Description);
                     SQLiteParameter emailParam = new SQLiteParameter("@email", task.EmailAssignee);
-                    SQLiteParameter columnParam = new SQLiteParameter("@column", 0);
+                    SQLiteParameter columnParam = new SQLiteParameter("@column", task.ColumnOrdinal);
                     SQLiteParameter boardIdParam = new SQLiteParameter("@boardId", task.BoardID);
                     command.Parameters.Add(idParam);
                     command.Parameters.Add(creationTimeParam);
@@ -263,7 +263,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where id={id}"
                 };
                 try
                 {
@@ -295,7 +295,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Connection = connection,
 
-                    CommandText = $"update {_tableName} set [{attributeName}]=@attributeValue where id={id}"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where id={id}"
                 };
                 try
                 {
@@ -321,7 +321,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public TaskDTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             DateTime creation = DateTime.Parse(reader.GetString(1));
-            DateTime dueDate = DateTime.Parse(reader.GetString(1));
+            DateTime dueDate = DateTime.Parse(reader.GetString(2));
             return new TaskDTO(reader.GetInt32(0), creation, dueDate, reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(7), reader.GetInt32(6));
         }
 

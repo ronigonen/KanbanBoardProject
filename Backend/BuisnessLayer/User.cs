@@ -30,7 +30,8 @@ public class User
         this.email = udto.Email; 
         this.loggedIn = false;
 		List<BoardDTO> boardsDTO = udto.Boards;
-		foreach (BoardDTO bd in boardsDTO)
+        this.boards = new Dictionary<string, Board>();
+        foreach (BoardDTO bd in boardsDTO)
 		{
 			Board b = new Board(bd);
 			boards.Add(b.Name, b);
@@ -78,13 +79,18 @@ public class User
 		udto.deleteBoard(board.Bdto);
     }
 
-    public List<Board> getUserBoards()
+    public List<int> getUserBoards()
     {
         if (!this.loggedIn)
         {
             throw new KanbanException("User isn't log in.");
         }
         List<Board> toSend = boards.Values.ToList();
-		return toSend;
+		List<int> output=new List<int>();
+		foreach (Board board in toSend)
+		{
+			output.Add(board.BoardID);
+		}
+		return output;
     }
 }

@@ -85,7 +85,7 @@ public class UserFacade
 		return this.users[u.Email];
 	}
 
-    public List<Board> getUserBoards(string email)
+    public List<int> getUserBoards(string email)
 	{
 		if (!this.users.ContainsKey(email))
 			throw new KanbanException("user doesn't exist");

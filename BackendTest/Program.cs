@@ -13,10 +13,10 @@ class Program
         UserServiceTest us= new UserServiceTest(w);
         BoardServiceTest bs = new BoardServiceTest(w);
         TaskServiceTest ts = new TaskServiceTest(w);
-        wf.delete();
         us.runTests();
         bs.runTests();
-        //ts.runTests();  
+        ts.runTests();
+        wf.delete();
     }
 }
 

@@ -24,6 +24,7 @@ public class UserInProgressTasks
         userTasks = new Dictionary<string, List<Task>>();
 		foreach (string email in tasks.UserTasks.Keys)
 		{
+			userTasks.Add(email, new List<Task>());
 			foreach (TaskDTO taskDTO in tasks.UserTasks[email])
 			{
 				userTasks[email].Add(new Task(taskDTO));
@@ -41,7 +42,7 @@ public class UserInProgressTasks
         if (!userTasks.ContainsKey(email))
 		{
             userTasks.Add(email, new List<Task>());
-
+			userInProgressTasksDTO.AddUser(email);
         }
     }
 	public void AddTasks(string email, Task task)
@@ -51,7 +52,7 @@ public class UserInProgressTasks
 			throw new KanbanException("Task in null");
 		}
 		userTasks[email].Add(task);
-		userInProgressTasksDTO.UserTasks[email].Add(task.Tdto);
+		userInProgressTasksDTO.addTasks(email, task.Tdto);
 	}
 	public void RemoveTasks(string email, Task task)
 	{

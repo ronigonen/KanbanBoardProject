@@ -36,6 +36,8 @@ public class Task
 
     public TaskDTO Tdto { get => tdto; }
     public int ID { get => id; set => id = value; }
+    public DateTime CreationTime { get => creationTime; }
+
     internal string Title
     {
         get => title;
@@ -79,7 +81,7 @@ public class Task
         set
         {
             emailAssignee = value;
-            tdto.EmailAssignee = emailAssignee;    
+            tdto.EmailAssignee = value;    
         }
     }
 

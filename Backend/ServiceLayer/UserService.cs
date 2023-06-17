@@ -134,8 +134,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                List<Board> boards = uF.getUserBoards(email);
-                Board[] boardsToSend = boards.ToArray();
+                List<int> boards = uF.getUserBoards(email);
+                int[] boardsToSend = boards.ToArray();
                 return JsonSerializer.Serialize(new Response(boardsToSend));
             }
             catch (KanbanException ex)
