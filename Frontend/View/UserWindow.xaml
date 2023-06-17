@@ -10,14 +10,13 @@
         <ImageBrush ImageSource="kanbanPicture.jpg" />
     </Window.Background>
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="0,217,0,0">
-            <ListBox ItemsSource="{Binding User.Boards}" SelectedItem="{Binding SelectedBoard}" Height="140">
+        <StackPanel Orientation="Vertical" Margin="250,150,250,0" Background="Transparent">
+            <ListBox ItemsSource="{Binding User.Boards}" SelectedItem="{Binding SelectedBoard}" Height="170">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Aqua" BorderThickness="1">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Id, Mode=OneWay}"/>
-                                <TextBlock Text="{Binding Name, Mode=OneWay}" Background="LightBlue"/>
+                        <Border BorderBrush="Orange" BorderThickness="3">
+                            <StackPanel  Orientation="Vertical" >
+                                <TextBlock Text="{Binding Name, Mode=OneWay}" Background="Orange" FontSize="20" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

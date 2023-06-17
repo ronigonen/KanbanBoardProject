@@ -19,8 +19,8 @@
         <Label FontFamily="Comic Sans MS" FontSize="20" Content="EMAIL" HorizontalAlignment="Left" Margin="164,172,0,0"  VerticalAlignment="Top" Grid.Column="2"/>
         <TextBox HorizontalAlignment="Left" Margin="267,244,0,0" TextWrapping="Wrap" Text="{Binding Path=Password, Mode=OneWayToSource}" VerticalAlignment="Top" Width="130" Grid.Column="2"/>
         <Label FontFamily="Comic Sans MS" FontSize="20" Content="PASSWORD" HorizontalAlignment="Left" Margin="131,232,0,0"  VerticalAlignment="Top" Grid.Column="2" Height="41" Width="143"/>
-        <Button FontFamily="Comic Sans MS" FontSize="16" Content="login" HorizontalAlignment="Left" Click="Login_Click" Margin="350,294,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <Button FontFamily="Comic Sans MS" FontSize="16" Content="Login" HorizontalAlignment="Left" Click="Login_Click" Margin="350,294,0,0" VerticalAlignment="Top" Grid.Column="2"/>
         <Button FontFamily="Comic Sans MS" FontSize="16" Content="Register" HorizontalAlignment="Left" Click="Register_Click" Margin="264,294,0,0"  VerticalAlignment="Top" Grid.Column="2"/>
-        <Label Content="{Binding Path=ErrorMessage, Mode=OneWay}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="235" Margin="47,115,0,0" Grid.ColumnSpan="3"/>
+        <Label FontFamily="Comic Sans MS" FontSize="14" Content="{Binding Path=ErrorMessage, Mode=OneWay}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="284" Margin="239,339,0,0" Grid.Column="2" Height="45" Foreground="Red"/>
     </Grid>
 </Window>

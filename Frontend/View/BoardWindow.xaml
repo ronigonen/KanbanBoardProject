@@ -11,26 +11,26 @@
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="407*"/>
-            <RowDefinition Height="27*"/>
+            <RowDefinition Height="174*"/>
+            <RowDefinition Height="43*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*"/>
             <ColumnDefinition Width="260*"/>
             <ColumnDefinition Width="260*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,266,0" Grid.RowSpan="2">
-            <TextBlock HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,266,0">
+            <TextBlock FontFamily="Comic Sans MS" FontSize="18" HorizontalAlignment="Center" Background="#80FFFFFF">
                 Backlog
             </TextBlock>
             <ListBox ItemsSource="{Binding Path=Board.BacklogTasks}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Aqua" BorderThickness="1">
+                        <Border>
                             <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=Title, Mode=OneWay}" HorizontalAlignment="Center" FontFamily="Comic Sans MS" FontSize="16" Foreground="Orange"/>
                                 <TextBlock Text="{Binding Path=Id, Mode=OneWay, StringFormat='Id: {0}'}"/>
                                 <TextBlock Text="{Binding Path=CreationTime, Mode=OneWay, StringFormat='Creation Time: {0}'}"/>
-                                <TextBlock Text="{Binding Path=Title, Mode=OneWay, StringFormat='Title: {0}'}"/>
                                 <TextBlock Text="{Binding Path=Description, Mode=OneWay, StringFormat='Description: {0}'}"/>
                                 <TextBlock Text="{Binding Path=DueDate, Mode=OneWay, StringFormat='Due Date: {0}'}"/>
                             </StackPanel>
@@ -39,18 +39,18 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-            <TextBlock HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" RenderTransformOrigin="0.488,0.516">
+            <TextBlock FontFamily="Comic Sans MS" FontSize="18" HorizontalAlignment="Center" Background="#80FFFFFF">
                 In Progress
             </TextBlock>
             <ListBox ItemsSource="{Binding Path=Board.InProgressTasks}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Aqua" BorderThickness="1">
+                        <Border>
                             <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=Title, Mode=OneWay}" HorizontalAlignment="Center" FontFamily="Comic Sans MS" FontSize="16" Foreground="Orange"/>
                                 <TextBlock Text="{Binding Path=Id, Mode=OneWay, StringFormat='Id: {0}'}"/>
                                 <TextBlock Text="{Binding Path=CreationTime, Mode=OneWay, StringFormat='Creation Time: {0}'}"/>
-                                <TextBlock Text="{Binding Path=Title, Mode=OneWay, StringFormat='Title: {0}'}"/>
                                 <TextBlock Text="{Binding Path=Description, Mode=OneWay, StringFormat='Description: {0}'}"/>
                                 <TextBlock Text="{Binding Path=DueDate, Mode=OneWay, StringFormat='Due Date: {0}'}"/>
                             </StackPanel>
@@ -59,18 +59,18 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="266,0,0,0" Grid.RowSpan="2">
-            <TextBlock HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="266,0,0,0">
+            <TextBlock FontFamily="Comic Sans MS" FontSize="18" HorizontalAlignment="Center" Background="#80FFFFFF">
                 Done
             </TextBlock>
             <ListBox ItemsSource="{Binding Path=Board.DoneTasks}" SelectedItem="{Binding Path=SelectedBoard}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Aqua" BorderThickness="1">
+                        <Border>
                             <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=Title, Mode=OneWay}" HorizontalAlignment="Center" FontFamily="Comic Sans MS" FontSize="16" Foreground="Orange"/>
                                 <TextBlock Text="{Binding Path=Id, Mode=OneWay, StringFormat='Id: {0}'}"/>
                                 <TextBlock Text="{Binding Path=CreationTime, Mode=OneWay, StringFormat='Creation Time: {0}'}"/>
-                                <TextBlock Text="{Binding Path=Title, Mode=OneWay, StringFormat='Title: {0}'}"/>
                                 <TextBlock Text="{Binding Path=Description, Mode=OneWay, StringFormat='Description: {0}'}"/>
                                 <TextBlock Text="{Binding Path=DueDate, Mode=OneWay, StringFormat='Due Date: {0}'}"/>
                             </StackPanel>
@@ -79,6 +79,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <Button Content="Back" Click="Back_Click" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,266,0" Grid.RowSpan="1"/>
+        <Button Content="Back" Click="Back_Click" Grid.Column="1" VerticalAlignment="Center" Height="44" Grid.Row="1"/>
     </Grid>
 </Window>
